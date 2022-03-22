@@ -1,1 +1,78 @@
 /* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+
+/* FUENTES */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cookie&family=Dancing+Script:wght@700&display=swap");
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+.card-heading {
+  font-family: "Cookie", cursive;
+}
+
+/* GUÍA DE COLORES */
+
+.colorGreenP {
+  background-color: #a9dfbf;
+}
+
+.colorPurpleP {
+  background-color: #c39bd3;
+}
+
+.colorPinkP {
+  background-color: #ffcc99;
+}
+
+.colorYellowP {
+  background-color: #f7dc6f;
+}
+
+.colorYellowLightP {
+  background-color: #f9e79f;
+}
+
+/* ALTURAS */
+
+.hComponent100 {
+  height: 100%;
+  min-height: 100vh;
+}
+
+/* PARA PERSONALIZAR LAS ALERTAS DEL SWEET ALERT */
+.swal2-styled.swal2-confirm {
+  background-color: #c39bd3 !important;
+  color: black !important;
+  font-weight: bold !important;
+}
+
+.swal2-popup {
+  background-color: #f9e79f !important;
+}
+
+/* PARA LA IMAGEN DE ERROR SI NO EXISTEN RECETAS */
+
+/*  en móviles  */
+@media screen and (max-width: 480px) {
+  #notFound {
+    width: 30%;
+  }
+}
+/* en tablet  */
+@media screen and (min-width: 481px) and (max-width: 846px) {
+  #notFound {
+    width: 25%;
+  }
+}
+/*  en pc  */
+@media screen and (min-width: 847px) and (max-width: 2100px) {
+  #notFound {
+    width: 20%;
+  }
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

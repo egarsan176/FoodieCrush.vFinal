@@ -1,0 +1,18 @@
+/*  imagen en móviles  */
+@media screen and (max-width: 480px) {
+  .imgLogin {
+    width: 50%;
+  }
+}
+/*  imagen en tablet --> dispositivos con anchura mínima de 481 y máxima de 846 */
+@media screen and (min-width: 481px) and (max-width: 810px) {
+  .imgLogin {
+    width: 45%;
+  }
+}
+/*  imagen  en pc --> dispositivos con anchura mínima de 811 y máxima de 2100 */
+@media screen and (min-width: 811px) and (max-width: 2100px) {
+  .imgLogin {
+    width: 40%;
+  }
+}

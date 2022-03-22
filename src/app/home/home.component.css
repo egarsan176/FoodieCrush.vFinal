@@ -1,0 +1,22 @@
+/*tamaño del carousel del 100% en móvil*/
+@media screen and (max-width: 480px) {
+  #carouselExampleIndicators {
+    width: 90%;
+    text-align: center;
+  }
+}
+
+/* tamaño de carousel del 90% en tablets*/
+@media screen and (min-width: 481px) and (max-width: 846px) {
+  #carouselExampleIndicators {
+    width: 80%;
+    text-align: center;
+  }
+}
+/* tamaño de carousel del 60% en pc*/
+@media screen and (min-width: 847px) and (max-width: 2200px) {
+  #carouselExampleIndicators {
+    width: 50%;
+    text-align: center;
+  }
+}

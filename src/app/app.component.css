@@ -1,0 +1,18 @@
+/*  imagen inicio en móviles  */
+@media screen and (max-width: 480px) {
+  .imagenInicio {
+    width: 25%;
+  }
+}
+/*  imagen inicio en tablet  */
+@media screen and (min-width: 481px) and (max-width: 846px) {
+  .imagenInicio {
+    width: 20%;
+  }
+}
+/*  imagen inicio en pc  */
+@media screen and (min-width: 847px) and (max-width: 2100px) {
+  .imagenInicio {
+    width: 15%;
+  }
+}

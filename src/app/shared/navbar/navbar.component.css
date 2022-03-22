@@ -1,0 +1,11 @@
+.logo {
+  width: 40%;
+}
+.navbar-brand {
+  margin-right: 0 !important;
+}
+
+.active {
+  font-weight: bold;
+  background-color: #a9dfbf;
+}
