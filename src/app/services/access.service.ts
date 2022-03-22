@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { environment } from "src/environments/environment";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthResponse, User } from "../interfaces/interface";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -38,11 +38,18 @@ export class AccessService {
   //   return this._usuario$;
   // }
 
+ 
+  //PRUEBA4
+  //private user$: Subject<User>;
+
 
   constructor(private httpClient: HttpClient, public router: Router){
     //PRUEBA1
       this.userSubject = new BehaviorSubject<User | null>(JSON.parse(localStorage.getItem('user') || '{}'));
       this.user = this.userSubject.asObservable();
+
+      //PRUEBA4
+      //this.user$ = new Subject();
   }
 
   // setCurrentUser(currentUser: User): void { //PRUEBA2
@@ -50,9 +57,9 @@ export class AccessService {
   // }
 
 
-  public get userValue(): User | null { //PRUEBA1
-    return this.userSubject.value;
-  }
+  // public get userValue(): User | null { //PRUEBA1
+  //   return this.userSubject.value;
+  // }
 
   //MÉTODO para hacer login que hace una petición POST a la url de la api con  el email y el password
   login(email:string, password:string){
@@ -92,9 +99,19 @@ export class AccessService {
     // .subscribe(user =>{
     //   this.setUsuarioSubject(user);
     // })
+      
+
 
 
   }
+
+  //PRUEBA4
+  // nextSubject(usuario: User){
+  //   this.user$.next(usuario);
+  // }
+  // getUser(){
+  //   return this.user$.asObservable();
+  // }
 
   //MÉTODO para cerrar sesion y borrar el token del local Storage
   logout(){
@@ -102,6 +119,7 @@ export class AccessService {
     localStorage.removeItem('user');
     this.userSubject.next(null);  //PRUEBA1
     //this._usuario.next(null);
+    
     this.router.navigate(['']);
   }
 

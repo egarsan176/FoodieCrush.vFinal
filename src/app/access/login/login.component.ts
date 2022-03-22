@@ -30,20 +30,31 @@ export class LoginComponent implements OnInit {
       next: (data => {
 
         localStorage.setItem('token', data.access_token); 
-         this.accessService.getUsuario(); //llamo a este método para almacenar el usuario en el localStorage
+        this.accessService.getUsuario();
+        //PRUEBA4
+        // .subscribe({
+        //   next: (user =>{
+        //     this.accessService.nextSubject(user);
+
+        //   })
+        //})
+    
+        //llamo a este método para almacenar el usuario en el localStorage
         //console.log(this.decodificarToken.decodeToken(data.access_token)) //este método sirve para decodificar la info del token
         this.userDetails = this.decodificarToken.decodeToken(data.access_token);
         console.log(this.userDetails)
-        Swal.fire({
-          title: 'Sesión Iniciada',
-          icon: 'success',
-          confirmButtonText: 'Acceder',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.router.navigateByUrl('recipes');
-            //this.router.navigate(['/publicar' ], {queryParams: {ocultar: true}}); PRUEBAS OCULTAR LOG OUT
-          } 
-        })
+
+              Swal.fire({
+              title: 'Sesión Iniciada',
+              icon: 'success',
+              confirmButtonText: 'Acceder',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.router.navigateByUrl('recipes');
+                //this.router.navigate(['/publicar' ], {queryParams: {ocultar: true}}); PRUEBAS OCULTAR LOG OUT
+              } 
+            })
+
         
         
       }),

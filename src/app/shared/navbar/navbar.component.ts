@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
   //private userServiceSubscription: Subscription | undefined;  //PRUEBA2
 
   constructor(private accessService: AccessService) { 
-    this.accessService.user.subscribe(x => this.user = x);  //PRUEBA1
+    //this.accessService.user.subscribe(x => this.user = x);  //PRUEBA1
   }
 
   ngOnInit(): void {
@@ -36,6 +36,14 @@ export class NavbarComponent implements OnInit {
     // this.accessService.getUsuariosubject().subscribe((userSubject) => {
     //   this.user = userSubject;
     // })
+
+    //PRUEBA4
+    // this.accessService.getUsuario().subscribe( (data) => {
+    //   this.user = data;
+    // })
+
+    this.accessService.user.subscribe(x => this.user = x);  //PRUEBA1
+    
   }
 
 
