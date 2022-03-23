@@ -9,28 +9,22 @@ import { EmailValidatorService } from '../services/email-validator.service';
 import { ValidatorService } from '../services/validator.service';
 import { RegisterComponent } from './register/register.component';
 import { AccessService } from '../services/access.service';
-
+import { UsernameValidatorService } from '../services/username-validator.service';
 
 @NgModule({
-  declarations: [
-    AccessComponent,
-    LoginComponent,
-    RegisterComponent
-  ],
+  declarations: [AccessComponent, LoginComponent, RegisterComponent],
   imports: [
     CommonModule,
     AccessRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     AccessService,
     EmailValidatorService,
-    ValidatorService
+    ValidatorService,
+    UsernameValidatorService,
   ],
-  exports: [
-    LoginComponent,
-    RegisterComponent
-  ]
+  exports: [LoginComponent, RegisterComponent],
 })
-export class AccessModule { }
+export class AccessModule {}

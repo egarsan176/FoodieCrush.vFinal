@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/interfaces/interface';
 import { AccessService } from 'src/app/services/access.service';
 import { EmailValidatorService } from 'src/app/services/email-validator.service';
+import { UsernameValidatorService } from 'src/app/services/username-validator.service';
 import { ValidatorService } from 'src/app/services/validator.service';
 import Swal from 'sweetalert2';
 /**
@@ -51,7 +52,11 @@ export class RegisterComponent implements OnInit {
       ],
 
       /** username mínimo 5 caracteres */
-      username: ['', [Validators.required, Validators.min(5)]],
+      username: [
+        '',
+        [Validators.required, Validators.min(5)],
+        [this.usernameValidator],
+      ],
 
       /** tiene que cumplir con el patrón indicado en el validator-service */
       password: [
@@ -78,6 +83,7 @@ export class RegisterComponent implements OnInit {
     private accessService: AccessService,
     private validatorService: ValidatorService,
     private emailValidator: EmailValidatorService,
+    private usernameValidator: UsernameValidatorService,
     public router: Router
   ) {}
 
@@ -117,6 +123,8 @@ export class RegisterComponent implements OnInit {
     } else if (errors['min']) {
       //si no concuerda con el patrón del validator.service
       return 'Debe tener como mínimo 5 caracteres';
+    } else if (errors['usernameTomado']) {
+      return 'Este username ya está registrado en el sistema';
     }
     return '';
   }
@@ -140,7 +148,7 @@ export class RegisterComponent implements OnInit {
       return 'Este campo es obligatorio';
     } else if (errors['pattern']) {
       //si no concuerda con el patrón del validator.service
-      return 'Mínimo 6 caracteres, una letra y un número';
+      return 'Longitud mínima de 6 caracteres. Al menos una letra y un número. No símbolos.';
     }
     return '';
   }
