@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './guards/Auth.guard';
 import { AccessModule } from './access/access.module';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt'; //npm install @auth0/angular-jwt
+import { AccessService } from './services/access.service';
+import { UserSubjectNavBarService } from './services/UserSubjectNavBar.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,7 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt'; //npm instal
     HttpClientModule,
     AccessModule
   ],
-  providers: [AuthGuard, { provide: JWT_OPTIONS, useValue: JWT_OPTIONS }, JwtHelperService],
+  providers: [AuthGuard, { provide: JWT_OPTIONS, useValue: JWT_OPTIONS }, JwtHelperService, UserSubjectNavBarService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

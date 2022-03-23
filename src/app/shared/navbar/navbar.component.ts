@@ -1,59 +1,57 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { User } from 'src/app/interfaces/interface';
+import { UserDetails } from 'src/app/interfaces/interface';
 import { AccessService } from 'src/app/services/access.service';
+import { UserSubjectNavBarService } from 'src/app/services/UserSubjectNavBar.service';
+import Swal from 'sweetalert2';
 
+/** Componente Navbar*/
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
+  /**
+   * PROPIEDADES
+   */
+  userDetails!: UserDetails | null;
 
-  // PRUEBAS BehaviorSubject:
-  //   PRUEBA1: (muestra de joaquín) https://jasonwatmore.com/post/2020/05/15/angular-9-role-based-authorization-tutorial-with-example
-  //   PRUEBA2: https://rneto.es/blog/gestionar-estado-angular-rxjs-behaviorsubject-servicios-datos-observables/
-  //   PRUEBA3: https://dev.to/dipteekhd/angular-behaviorsubject-p1
-
-
-  user!: User | null;
-
-  //private userServiceSubscription: Subscription | undefined;  //PRUEBA2
-
-  constructor(private accessService: AccessService) { 
-    //this.accessService.user.subscribe(x => this.user = x);  //PRUEBA1
+  constructor(
+    private accessService: AccessService,
+    private userSubject: UserSubjectNavBarService
+  ) {
+    /**
+     * Me suscribo a los cambios del observable que identifica qué tipo de usuario es el que está en la sesión en ese momento.
+     * De este modo puedo mostrar diferentes opciones en la barra de navegación según el usuario
+     */
+    this.userSubject.userDetails$.subscribe((data) => {
+      this.userDetails = data;
+    });
   }
 
-  ngOnInit(): void {
-    //PRUEBA2
-    // this.userServiceSubscription = this.accessService.currentUser.subscribe(  
-    //   currentUser => {
-    //     this.user = currentUser;
-    //   }
-    // );
+  ngOnInit(): void {}
 
-    //PRUEBA3
-    // this.accessService.getUsuariosubject().subscribe((userSubject) => {
-    //   this.user = userSubject;
-    // })
-
-    //PRUEBA4
-    // this.accessService.getUsuario().subscribe( (data) => {
-    //   this.user = data;
-    // })
-
-    this.accessService.user.subscribe(x => this.user = x);  //PRUEBA1
-    
+  /**
+   * Método que sirve para que un usuario cierre su sesión
+   * Llama al cerrar sesión del servicio AccessService y modifica el estado del observable que identifica al usuario
+   */
+  onlogout() {
+    Swal.fire({
+      title: 'Cierre de sesión',
+      icon: 'warning',
+      text:
+        'Vaya ' +
+        this.userDetails?.username +
+        ', ¿seguro que quieres cerrar sesión?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        Swal.fire('Has cerrado sesión. <br> ¡Vuelve pronto!', '', 'success');
+        this.accessService.logout();
+        this.userSubject.changeNavBarNull();
+      }
+    });
   }
-
-
-   //MÉTODO que llama al logout() del servicio para cerrar la sesión del usuario
-   onlogout() {
-    this.accessService.logout();
-  }
-
-  // ngOnDestroy(): void {
-  //   this.userServiceSubscription?.unsubscribe();    //PRUEBA2
-  // }
-
 }

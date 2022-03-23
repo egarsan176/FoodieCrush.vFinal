@@ -1,66 +1,119 @@
-
-
 <div class="row p-1 my-3 justify-content-center">
-
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item active" aria-current="page">Home</li>
     </ol>
   </nav>
 
-    <div class="text-center mb-2 size">
-      <h4>Un blog de cocina real, con recetas que siempre salen. ¡Garantizado!</h4>
+  <div class="text-center mb-2 size">
+    <h4>
+      Un blog de cocina real, con recetas que siempre salen. ¡Garantizado!
+    </h4>
+  </div>
+
+  <!-- CAROUSEL -->
+  <div
+    id="carouselExampleIndicators"
+    class="carousel slide"
+    data-bs-ride="carousel"
+  >
+    <div class="carousel-indicators">
+      <button
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide-to="0"
+        class="active"
+        aria-current="true"
+        aria-label="Slide 1"
+      ></button>
+      <button
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide-to="1"
+        aria-label="Slide 2"
+      ></button>
+      <button
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide-to="2"
+        aria-label="Slide 3"
+      ></button>
+      <button
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide-to="3"
+        aria-label="Slide 4"
+      ></button>
     </div>
-
-     <!-- CAROUSEL -->
-     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
-        </div>
-        <div class="carousel-inner" >
-          <div class="carousel-item active" data-bs-interval="3000" >
-            <img src="assets/img/c1.jpg" class="img-fluid w-100" alt="Pasta cremosa con champiñones" >
-          </div>
-
-          <div class="carousel-item" data-bs-interval="3000">
-            <img src="assets/img/c2.jpg" class="img-fluid w-100" alt="Muslos de pollo al horno">
-
-          </div>
-          <div class="carousel-item" data-bs-interval="3000">
-            <img src="assets/img/c3.jpg" class="img-fluid w-100" alt="Quiché de calabacín">
-          </div>
-          <div class="carousel-item" data-bs-interval="3000">
-            <img src="assets/img/c4.jpg" class="img-fluid w-100" alt="Berenjenas gratinadas">
-          </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="3000">
+        <img
+          src="assets/img/c1.jpg"
+          class="img-fluid w-100"
+          alt="Pasta cremosa con champiñones"
+        />
       </div>
 
+      <div class="carousel-item" data-bs-interval="3000">
+        <img
+          src="assets/img/c2.jpg"
+          class="img-fluid w-100"
+          alt="Muslos de pollo al horno"
+        />
+      </div>
+      <div class="carousel-item" data-bs-interval="3000">
+        <img
+          src="assets/img/c3.jpg"
+          class="img-fluid w-100"
+          alt="Quiché de calabacín"
+        />
+      </div>
+      <div class="carousel-item" data-bs-interval="3000">
+        <img
+          src="assets/img/c4.jpg"
+          class="img-fluid w-100"
+          alt="Berenjenas gratinadas"
+        />
+      </div>
+    </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#carouselExampleIndicators"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#carouselExampleIndicators"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
 </div>
 
-<div class= "row justify-content-center m-2 py-2">
-
+<div class="row justify-content-center m-2 py-2">
   <div class="card quote size">
-    <div class="card-header colorGreenP mt-2 size">
-      Cita célebre
-    </div>
+    <div class="card-header colorGreenP mt-2 size">Cita célebre</div>
     <div class="card-body size">
       <blockquote class="blockquote mb-0 size">
-        <p>El descubrimiento de un nuevo plato es de más provecho para la humanidad que el descubrimiento de una estrella.</p>
-        <footer class="blockquote-footer size">Jean Anthelme Brillat-Savarin, <cite title="Source Title">jurista francés, autor del primer tratado de gastronomía (Fisiología del gusto, 1825)</cite></footer>
+        <p>
+          El descubrimiento de un nuevo plato es de más provecho para la
+          humanidad que el descubrimiento de una estrella.
+        </p>
+        <footer class="blockquote-footer size">
+          Jean Anthelme Brillat-Savarin,
+          <cite title="Source Title"
+            >jurista francés, autor del primer tratado de gastronomía
+            (Fisiología del gusto, 1825)</cite
+          >
+        </footer>
       </blockquote>
     </div>
   </div>
-
-  
 </div>
