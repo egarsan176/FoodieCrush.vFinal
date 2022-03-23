@@ -1,6 +1,8 @@
-<div class="row p-1 mt-2 justify-content-center">
-  <div class="text-center">
-    <h4>Bienvenid@ {{ user.fullName }}</h4>
-    <p>Aquí puedes gestionar tus tareas como administrador</p>
+<div *ngIf="mostrar">
+  <div class="row p-1 mt-2 justify-content-center">
+    <div class="text-center">
+      <h4>Bienvenid@ {{ user.fullName }}</h4>
+      <p>Aquí puedes gestionar tus tareas como administrador</p>
+    </div>
   </div>
 </div>

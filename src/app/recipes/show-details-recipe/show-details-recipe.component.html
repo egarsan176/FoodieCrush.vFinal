@@ -1,1 +1,103 @@
-<p>show-details-recipe works!</p>
+<div *ngIf="mostrar == true">
+  <div
+    class="card mb-3 mt-4 mx-auto border-0 text-center colorPinkP"
+    style="width: 70%"
+    *ngIf="recipe != null && user != null"
+  >
+    <div class="row g-0">
+      <div class="col-md-5">
+        <img src="{{ img }}" class="img-fluid img-responsive h-100" alt="..." />
+      </div>
+      <div class="col-md-7 my-auto">
+        <div class="card-body px-auto">
+          <p class="card-text">
+            <strong>Nombre:</strong> {{ recipe.recipeName.toUpperCase() }}
+          </p>
+          <p class="card-text">
+            <strong>Categoría:</strong> {{ recipe.category.name.toUpperCase() }}
+          </p>
+          <p class="card-text">
+            <strong>Fecha de publicación:</strong> {{ recipe.fechaBonita }}
+          </p>
+          <p class="card-text">
+            <strong>Publicada por:</strong> {{ user.username }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="container mt-4 col-lg-12 col-md-12 col-sm-12 col-xs-12"
+    *ngIf="recipe != null"
+  >
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="home-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#ingredientes"
+          type="button"
+          role="tab"
+          aria-controls="home"
+          aria-selected="true"
+        >
+          Ingredientes
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="profile-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#elaboracion"
+          type="button"
+          role="tab"
+          aria-controls="profile"
+          aria-selected="true"
+        >
+          Elaboración
+        </button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div
+        class="tab-pane fade show active"
+        id="ingredientes"
+        role="tabpanel"
+        aria-labelledby="home-tab"
+      >
+        <ul
+          *ngFor="let ingredient of recipe.ingredientLine; let indice = index"
+          class="mt-3"
+        >
+          <li>
+            {{ ingredient.amount }} GRAMOS DE
+            {{ ingredient.ingredient.name.toUpperCase() }}
+          </li>
+        </ul>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="elaboracion"
+        role="tabpanel"
+        aria-labelledby="profile-tab"
+      >
+        <ul
+          *ngFor="let ingredient of recipe.method; let indice = index"
+          class="mt-3"
+        >
+          <li>{{ indice + 1 }}. {{ ingredient.step.toUpperCase() }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row p-1 my-3 justify-content-center">
+      <div class="text-center mb-2">
+        <!-- PARA GESTIONAR QUE EL VOLVER SEA DIFERENTE DEPENDIENDO DE LA RUTA QUE SE HAYA SEGUIDO PARA LLEGAR HASTA AQUÍ -->
+        <button class="btn colorPurpleP" (click)="back()">VOLVER</button>
+      </div>
+    </div>
+  </div>
+</div>

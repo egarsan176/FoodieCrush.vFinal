@@ -16,6 +16,7 @@ export class OptionsADMINComponent implements OnInit {
    */
 
   user!: User;
+  mostrar: boolean = false;
 
   constructor(private accessService: AccessService) {}
 
@@ -30,6 +31,7 @@ export class OptionsADMINComponent implements OnInit {
     this.accessService.getUsuario().subscribe({
       next: (data) => {
         this.user = data;
+        this.mostrar = true;
       },
       error: (e) => {
         Swal.fire('Error', e.error.mensaje, 'error');

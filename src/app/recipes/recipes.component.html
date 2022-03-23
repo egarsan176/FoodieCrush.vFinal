@@ -1,1 +1,124 @@
-<p>recipes works!</p>
+<div class="row p-1 my-3 justify-content-center">
+  <div class="text-center mb-2">
+    <h4>
+      Aquí tienes las distintas categorías culinarias que tenemos en
+      FoodieCrush. <br />Tan solo tienes que entrar en la que más te interese.
+    </h4>
+  </div>
+</div>
+
+<div class="row m-3">
+  <div class="col-md-4 col-lg-4 col-xl-4 col-sm-6 col-xs-12">
+    <div class="card text-center mt-2">
+      <!-- con mt-2 añado a la card un margin-top de un 2% -->
+      <img
+        src="assets/img/pasta.jpg"
+        class="card-img-top"
+        data-bs-toggle="tooltip"
+        title="Imagen de distintos tipos de pasta cruda sobre una mesa y una cuchara de madera"
+      />
+      <div class="card-body">
+        <h5 class="card-title">Pastas</h5>
+        <p class="card-text">¿Amante de la pasta en todas sus versiones?</p>
+        <a [routerLink]="['/recipes/categories', 1]" class="btn colorGreenP"
+          >Ver más</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 col-lg-4 col-xl-4 col-sm-6 col-xs-12">
+    <div class="card text-center mt-2">
+      <!-- con mt-2 añado a la card un margin-top de un 2% -->
+      <img
+        src="assets/img/rice.jpg"
+        class="card-img-top"
+        data-bs-toggle="tooltip"
+        title="Imagen de arroz crudo sobre tres cucharas de madera."
+      />
+      <div class="card-body">
+        <h5 class="card-title">Arroces</h5>
+        <p class="card-text">¿Cuántas formas de preparlo conoces?</p>
+        <a [routerLink]="['/recipes/categories', 2]" class="btn colorGreenP"
+          >Ver más</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 col-lg-4 col-xl-4 col-sm-6 col-xs-12">
+    <div class="card text-center mt-2">
+      <!-- con mt-2 añado a la card un margin-top de un 2% -->
+      <img
+        src="assets/img/carne.jpg"
+        class="card-img-top"
+        data-bs-toggle="tooltip"
+        title="Chuletón de cerdo sobre tabla de madera y rodeada de romero, ajo, sal y pimienta."
+        alt="Chuletón de cerdo sobre tabla de madera y rodeada de romero, ajo, sal y pimienta."
+      />
+      <div class="card-body">
+        <h5 class="card-title">Carnes</h5>
+        <p class="card-text">¿Lechu... qué? Carnívoro por encima de todo.</p>
+        <a [routerLink]="['/recipes/categories', 3]" class="btn colorGreenP"
+          >Ver más</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 col-lg-4 col-xl-4 col-sm-6 col-xs-12">
+    <div class="card text-center mt-2 mb-2">
+      <!-- con mt-2 > margin-top de 2% y con mb-2 > margin-bottom de 2% -->
+      <img
+        src="assets/img/fish.jpg"
+        class="card-img-top"
+        data-bs-toggle="tooltip"
+        title="Pescados crudos sobre hielo"
+        alt="Pescados crudos sobre hielo"
+      />
+      <div class="card-body">
+        <h5 class="card-title">Pescados</h5>
+        <p class="card-text">Del mar a la mesa. Y no solo a la plancha.</p>
+        <a [routerLink]="['/recipes/categories', 4]" class="btn colorGreenP"
+          >Ver más</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 col-lg-4 col-xl-4 col-sm-6 col-xs-12">
+    <div class="card text-center mt-2 mb-2">
+      <!-- con mt-2 > margin-top de 2% y con mb-2 > margin-bottom de 2% -->
+      <img
+        src="assets/img/postres.jpg"
+        class="card-img-top"
+        alt="Logo Bootstrap"
+      />
+      <div class="card-body">
+        <h5 class="card-title">Postres</h5>
+        <p class="card-text">¿Quién se resiste a endulzar el paladar?</p>
+        <a [routerLink]="['/recipes/categories', 5]" class="btn colorGreenP"
+          >Ver más</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 col-lg-4 col-xl-4 col-sm-6 col-xs-12">
+    <div class="card text-center mt-2 mb-2">
+      <!-- con mt-2 > margin-top de 2% y con mb-2 > margin-bottom de 2% -->
+      <img
+        src="assets/img/otros.jpg"
+        class="card-img-top"
+        alt="Logo Bootstrap"
+      />
+      <div class="card-body">
+        <h5 class="card-title">Otros</h5>
+        <p class="card-text">Entrantes, salsas, un variadito por aquí.</p>
+        <a [routerLink]="['/recipes/categories', 6]" class="btn colorGreenP"
+          >Ver más</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,15 +3,16 @@ import { CommonModule } from '@angular/common';
 
 import { UploadRecipeFormRoutingModule } from './upload-recipe-form-routing.module';
 import { UploadRecipeFormComponent } from './upload-recipe-form.component';
-
+import { UploadRecipeFileModule } from '../upload-recipe-file/upload-recipe-file.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    UploadRecipeFormComponent
-  ],
+  declarations: [UploadRecipeFormComponent],
   imports: [
     CommonModule,
-    UploadRecipeFormRoutingModule
-  ]
+    UploadRecipeFormRoutingModule,
+    UploadRecipeFileModule,
+    FormsModule,
+  ],
 })
-export class UploadRecipeFormModule { }
+export class UploadRecipeFormModule {}
