@@ -25,6 +25,7 @@ export interface Recipe {
   category: number;
   ingredientLine: IngredientLine[];
   file: FileDB;
+  comments: string[];
 }
 
 export interface IngredientLine {

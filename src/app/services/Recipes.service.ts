@@ -4,13 +4,16 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { FileDB, Recipe, User } from '../interfaces/interface';
 import { AccessService } from './access.service';
-
+/**
+ * RecipesService
+ * Este servicio gestiona todas las tareas que tienen que ver con las recetas.
+ * Todas las peticiones a /recipes, necesitan tener el token
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class RecipesService {
-  //url a la que hacer la petición
-  private urlBase: string = environment.urlBase;
+  private urlBase: string = environment.urlBase; //url a la que hacer las peticiones
 
   constructor(
     private httpClient: HttpClient,
@@ -18,15 +21,19 @@ export class RecipesService {
     private accessService: AccessService
   ) {}
 
-  //MÉTODO que hace una petición POST a /recipes, pasándole el token y el objeto recipe y alamacena la receta en la bbdd
+  /**
+   * A este método se accede cuando se quiere publicar una receta.
+   * Se hace una petición POST a /recipes pasandole la receta del formulario
+   * @param recipe que hemos obtenido en el formulario
+   * @returns la receta que acabamos de almacenar en la bbdd
+   */
   publicar(recipe: Recipe) {
-    let token = this.accessService.getToken(); //localStorage.getItem('token');  recupero el token
+    let token = this.accessService.getToken();
 
     const url = `${this.urlBase}/recipes`;
-    const body = recipe; //es la receta que se obtiene al rellenar el formulario de /publicar
+    const body = recipe;
 
     const headers = new HttpHeaders({
-      //cabeceras necesarias para hacer la petición de tipo get y pasarle el token
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     });
@@ -34,17 +41,19 @@ export class RecipesService {
     return this.httpClient.post<Recipe>(url, body, { headers });
   }
 
-  //MÉTODO que hace una petción GET a /recipes, pasándole por parámetros el usuario que está logueado en ese momento
-  //te devuelve todas las recetas de ese usuario
-  //http://localhost:9000/recipes?userID=1
-  getRecipes() {
-    let token = localStorage.getItem('token'); //recupero el token
-    let user = JSON.parse(<string>localStorage.getItem('user'));
+  /**
+   * Este método sirve para que un usuario pueda conocer todas las recetas
+   * que ha publicado en la bbdd. Se hace una petición GET a /recipes pasando por
+   * parámetros el usuario que está logueado en ese momento
+   * http://localhost:9000/recipes?userID=1
+   * @param user que se encuentra en la sesión en el momento de la petición
+   * @returns lista con todas las recetas del usuario
+   */
+  getRecipesFromUser(user: any) {
+    let token = localStorage.getItem('token');
 
     const params = new HttpParams().set('userID', user.id);
-
     const headers = new HttpHeaders({
-      //cabeceras necesarias para hacer la petición de tipo get y pasarle el token
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     });
@@ -54,8 +63,14 @@ export class RecipesService {
     return this.httpClient.get<any[]>(url, { headers });
   }
 
-  //MÉTODO que hace una petición GET a /mostrar y le pasa por parámetros el id de la categoría que quieres consultar
-  //devuelve una lista con todas las recetas que pertenecen a la categoría que coincide con ese id
+  /**
+   * A este método se accede para conocer las recetas que se incluyen en
+   * una categoría determinada y que ya han sido aprobadas por el administrador.
+   * A través de una petición GET a /mostrar.
+   * @param id de la categoría cuyas recetas quieres obtener
+   * @returns listado de todas las recetas que pertenecen a la categoría que
+   * coincide el id pasado por parámetro
+   */
   getRecipesByCategory(id: number) {
     const params = new HttpParams().set('categoryID', id);
     const url = `${this.urlBase}/mostrar?${params}`;
@@ -63,26 +78,46 @@ export class RecipesService {
     return this.httpClient.get<any[]>(url);
   }
 
-  //MÉTODO que hace una petición GET a /mostrar/{id} y te devuelve una receta en concreto a través de su id
+  /**
+   * A este método se accede cuando se quiere conocer una receta en concreto.
+   * A través de una petición GET a /mostrar/{id}
+   * @param id de la receta que queremos obtener
+   * @returns receta que coincide con ese id o exception si no existe
+   */
   showRecipe(id: number) {
     const url = `${this.urlBase}/mostrar/${id}`;
 
     return this.httpClient.get<any>(url);
   }
 
-  //MÉTODO que hace una petición GET a /mostrar/recipe/{id} y te devuelve el usuario que está asociado a la receta cuyo id es el que se le pasa
+  /**
+   * A este método se accede para conocer al autor de una receta.
+   * A través de una petición GET a /mostrar/recipe/{id}
+   * @param id de la receta de la que quieres saber su autor
+   * @returns el usuario que está asociado a esa receta
+   */
   getUserByRecipe(id: number) {
     const url = `${this.urlBase}/mostrar/recipe/${id}`;
     return this.httpClient.get<User>(url);
   }
 
-  //MÉTODO que hace una petición GET a /category/{id} y te da el nombre de la categoría que corresponde con el id que se le pasa
+  /**
+   * A este método se accede para conocer el nombre de una categoría
+   * A través de una petición GET a /category/{id}
+   * @param id de la categoría de la que queremos saber su nombre
+   * @returns nombre de la categoría que coincide con ese id
+   */
   getCategory(id: number) {
     const url = `${this.urlBase}/category/${id}`;
     return this.httpClient.get<string>(url);
   }
 
-  //MÉTODO que recibe un fichero y transforma su array de bits para poder visualizar la imagen
+  /**
+   * A este método se accede para mostrar una imagen en la vista,
+   * transformando el array de bits del fichero que recibe
+   * @param file
+   * @returns vista del fichero que queremos mostrar
+   */
   obtenerImagen(file: FileDB) {
     const base64String = btoa(
       String.fromCharCode(...new Uint8Array(file.data))

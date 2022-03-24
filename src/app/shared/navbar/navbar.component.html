@@ -43,7 +43,11 @@
               ><i class="fas fa-folder-open"></i> Recetario</a
             >
           </li>
-          <li class="nav-item" routerLinkActive="active">
+          <li
+            class="nav-item"
+            routerLinkActive="active"
+            *ngIf="!userDetails || userDetails?.role === 'USER'"
+          >
             <a
               class="nav-link"
               routerLink="/optionsUser"
@@ -67,13 +71,17 @@
               ><i class="fas fa-user-alt"></i> Acceder</a
             >
           </li>
-          <li routerLinkActive="active" *ngIf="userDetails?.role === 'ADMIN'">
+          <li
+            routerLinkActive="active"
+            *ngIf="userDetails?.role === 'ADMIN'"
+            class="nav-item dropdown"
+          >
             <a
-              class="nav-link"
+              class="nav-link dropdown"
               routerLink="optionsADMIN"
               data-bs-toggle="collapse"
               data-bs-target="#collapsibleNavbar"
-              ><i class="fas fa-user-alt"></i> Gestión</a
+              ><i class="fas fa-cog"></i> Gestión</a
             >
           </li>
           <li

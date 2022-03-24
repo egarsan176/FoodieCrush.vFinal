@@ -9,6 +9,7 @@ import { ValidatorService } from 'src/app/services/validator.service';
 import Swal from 'sweetalert2';
 /**
  * Componente Register
+ * Este componente sirve para que el cliente pueda registrarse como usuario de la aplicación
  */
 @Component({
   selector: 'app-register',

@@ -4,14 +4,19 @@ import { FileDB, User } from 'src/app/interfaces/interface';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
-
+/**
+ * Componente ShowDetailsComponent
+ * Este componente nos sirve para mostrar una receta en sí (sus detalles)
+ */
 @Component({
   selector: 'app-show-details-recipe',
   templateUrl: './show-details-recipe.component.html',
   styleUrls: ['./show-details-recipe.component.css'],
 })
 export class ShowDetailsRecipeComponent implements OnInit {
-  //PROPIEDADES
+  /**
+   * PROPIEDADES
+   */
   recipe: any;
   ruta: string = '';
   user!: User;
@@ -29,9 +34,11 @@ export class ShowDetailsRecipeComponent implements OnInit {
     this.showRecipeDetails(); //para que la receta se muestre al cargar la página
   }
 
-  //MÉTODO que se suscribe al showRecipe() del servicio
-  // si la suscripción tiene éxito nos devuelve los detalles de la receta que coincide con el id que indicamos
-  // si no es correcta nos devuelve el mensaje de error de la API
+  /**
+   * Este método sirve para obtener una receta completa a través del servicio recipeService, al cual se suscribe
+   * si la suscripción tiene éxito nos devuelve los detalles de la receta que coincide con el id que indicamos
+   * si no es correcta nos devuelve el mensaje de error de la API
+   */
   showRecipeDetails() {
     this.recipeService
       .showRecipe(this.activeRoute.snapshot.params['id'])
@@ -48,9 +55,13 @@ export class ShowDetailsRecipeComponent implements OnInit {
       });
   }
 
-  //MÉTODO que se suscribe al getUserByRecipe() del servicio
-  // si la suscripción tiene éxito nos devuelve el usuario de la receta que coincide con el id que le pasamos
-  // si no es correcta nos devuelve error
+  /**
+   * Este método nos sirve para obtener el autor que ha publicado una receta
+   * A través del servicio recipeService, si la suscripción tiene éxito nos
+   * devuelve el usuario asociado a la receta que coincide con el id que le pasamos,
+   * si no es correcta, error
+   * @param id de la receta de la que queremos saber su autor
+   */
   getUserByRecipe(id: number) {
     this.recipeService.getUserByRecipe(id).subscribe({
       next: (data) => {
@@ -62,9 +73,13 @@ export class ShowDetailsRecipeComponent implements OnInit {
     });
   }
 
-  //MÉTODO que se suscribe al getFileByRecipe() del servicio
-  // si la suscripción es correcta, nos devuelve el fichero asociado a la receta que coincide con el id que le pasamos
-  // si no es correcta nos devuelve error
+  /**
+   * Este método nos sirve para obtener el fichero asociado a una receta
+   * A través del servicio recipeService, si la suscripción tiene éxito nos
+   * devuelve el fichero asociado a la receta que coincide con el id que le pasamos,
+   * si no, devuelve error
+   * @param id de la receta de la que queremos obtener su fichero
+   */
   getFileByRecipe(id: number) {
     this.fileService.getFileByRecipeID(id).subscribe({
       next: (data) => {
@@ -76,9 +91,10 @@ export class ShowDetailsRecipeComponent implements OnInit {
     });
   }
 
-  //MÉTODO que sirve para volver a la página anterior
-  //PARA GESTIONAR QUE EL VOLVER SEA DIFERENTE DEPENDIENDO DE LA RUTA QUE SE HAYA SEGUIDO PARA LLEGAR HASTA AQUÍ
-  // (componente reutilizable)
+  /**
+   * Este método sirve para volver a la página anterior de la vista
+   * Se hace de esta forma y no con un router-link en la vista porque este componente es reutilizable
+   */
   back() {
     history.back();
   }

@@ -4,14 +4,19 @@ import { FileDB, IngredientLine, Recipe } from 'src/app/interfaces/interface';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
-
+/**
+ * Componente UploadRecipeForm
+ * Este componente contiene el formulario para poder publicar una receta
+ */
 @Component({
   selector: 'app-upload-recipe-form',
   templateUrl: './upload-recipe-form.component.html',
   styleUrls: ['./upload-recipe-form.component.css'],
 })
 export class UploadRecipeFormComponent implements OnInit {
-  //PROPIEDADES
+  /**
+   * PROPIEDADES
+   */
   ingrediente: string = '';
   cantidad!: number;
   paso: string = '';
@@ -28,6 +33,7 @@ export class UploadRecipeFormComponent implements OnInit {
     category: 0,
     ingredientLine: [],
     file: this.file,
+    comments: [],
   };
 
   constructor(
@@ -40,22 +46,32 @@ export class UploadRecipeFormComponent implements OnInit {
 
   ///////////////////////////GESTIÓN DE LA LÍNEA DE INGREDIENTES
 
-  //MÉTODO que agrega un ingrediente al auxiliar de ingredientes[] si éste no lo incluye todavía
+  /**
+   * Este método sirve para agregar un ingrediente al auxiliar ingredientes[]
+   * del componente siempre que éste ingrediente no se encuentre ya en el []
+   */
   agregarIngrediente() {
     if (!this.ingredientes.includes(this.ingrediente)) {
       this.ingredientes.push(this.ingrediente);
     }
   }
 
-  //MÉTODO que agrega la cantidad de ingrediente al auxiliar de cantidades[]
-  //una vez añadida la cantidad se resetea el ingrediente y la cantidad
+  /**
+   * Este método sirve para agregar la cantidad de ingrediente necesaria al auxiliar
+   * de cantidades[] del componente. Una vez que la añade, resetea los campos
+   * ingrediente y cantidad del formulario
+   */
   agregarCantidad() {
     this.cantidades.push(this.cantidad);
     this.ingrediente = '';
     this.cantidad = 0;
   }
 
-  //MÉTODO que elimina un ingrediente y su cantidad correspondiente de los auxiliares ingredientes[] y cantidades[]
+  /**
+   * Este método sirve para eliminar un ingrediente y su correspondiente cantidad
+   * de los auxilares ingredientes[] y cantidades[] del componente
+   * @param index del ingrediente y cantidad que se quiere eliminar
+   */
   eliminar(index: number) {
     this.ingredientes.splice(index, 1);
     this.cantidades.splice(index, 1);
@@ -63,6 +79,12 @@ export class UploadRecipeFormComponent implements OnInit {
 
   //MÉTODO para crear la línea de ingredientes de la receta a través de los auxiliares ingredientes[] y cantidades[]
   //creando el recipe.ingredientLine[] cuando confirmamos los ingredientes
+  /**
+   * Este método sirve para crear la línea de ingredientes de una receta a través
+   * de los auxiliares ingredientes[] y cantidades[] del componente.
+   * Cuando se confirman los ingredientes en el formulario, se crea
+   * el recipe.ingredientLine[] del objeto recipe del componente
+   */
   crearLinea() {
     if (this.ingredientes.length == this.cantidades.length) {
       for (let index = 0; index < this.ingredientes.length; index++) {
@@ -85,27 +107,42 @@ export class UploadRecipeFormComponent implements OnInit {
 
   ///////////////////////////GESTIÓN DE LOS PASOS DE LA RECETA
 
-  //MÉTODO para agregar un nuevo paso de la receta al auxiliar de pasos[]
+  /**
+   * Este método sirve para agregar un nuevo paso de la receta al auxiliar
+   * de pasos[] del componente
+   */
   agregarPaso() {
     if (!this.pasos.includes(this.paso)) {
       this.pasos.push(this.paso);
     }
   }
-  //MÉTODO para eliminar un paso de la receta del auxiliar de pasos[]
+
+  /**
+   * Este método sirve para eliminar un paso que ha sido añadido al auxiliar
+   * de pasos[] del componente
+   * @param index del paso que se quiere eliminar
+   */
   eliminarPaso(index: number) {
     this.pasos.splice(index, 1);
   }
 
-  //MÉTODO para confirmar los pasos de la receta e iguala el auxiliar de pasos[] al recipe.method[]
+  /**
+   * Este método sirve para confirmar en el formulario los pasos de la receta
+   * y cuando se confirma se iguala el auxiliar de pasos[] del componente
+   * al recipe.method del objeto recipe del componente
+   */
   confirmarPasos() {
     this.recipe.method = this.pasos;
   }
 
-  //MÉTODO para publicar la receta en la base de datos
-  //se suscribe al getFileByName() para obtener el fichero que corresponde a la receta que se va a publicar
-  //una vez que consigue el fichero, se suscribe al método publicar() del servicio pasando el obtejo receta que se crea en el formulario
-  //si la suscripción tiene éxito obtenemos un mensaje de éxito
-  //si no tiene éxito nos devuelve error
+  /**
+   * Este método sirve para publciar una receta en la base de datos
+   * Primero, se suscribe al servicio uploadService para obtener el fichero que
+   * corresponde a la receta que se va a publicar, si la respuesta tiene éxito,
+   * se iguala al recipe.file del objeto recipe del componente.
+   * A través del servicio recipeService, se suscribe para publicar el objeto
+   * recipe del componente en la base de datos.
+   */
   publicar() {
     this.uploadService.getFileByName().subscribe({
       next: (data) => {
@@ -150,12 +187,14 @@ export class UploadRecipeFormComponent implements OnInit {
         }
       },
       error: (e) => {
-        console.log(e);
+        Swal.fire('Error', e.error.mensaje, 'error');
       },
     });
   }
 
-  //MÉTODO para volver a la página anterior
+  /**
+   * Este método sirve para volver a la página anterior en la vista
+   */
   back() {
     history.back();
   }

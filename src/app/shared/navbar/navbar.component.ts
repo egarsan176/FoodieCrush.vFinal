@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserDetails } from 'src/app/interfaces/interface';
 import { AccessService } from 'src/app/services/access.service';
 import { UserSubjectNavBarService } from 'src/app/services/UserSubjectNavBar.service';
 import Swal from 'sweetalert2';
 
-/** Componente Navbar*/
+/**
+ * Componente Navbar
+ * Este componente sirve para mostrar y gestionar la barra de navegación de la aplicación
+ */
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -18,18 +22,31 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private accessService: AccessService,
-    private userSubject: UserSubjectNavBarService
+    private userSubject: UserSubjectNavBarService,
+    private decodificarToken: JwtHelperService
   ) {
     /**
      * Me suscribo a los cambios del observable que identifica qué tipo de usuario es el que está en la sesión en ese momento.
-     * De este modo puedo mostrar diferentes opciones en la barra de navegación según el usuario
+     * De este modo puedo mostrar diferentes opciones en la barra de navegación según el usuario logueado
      */
     this.userSubject.userDetails$.subscribe((data) => {
       this.userDetails = data;
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    /**
+     * Compruebo si hay algún usuario con sesión iniciada al cargar el componente
+     * por si la aplicación se cerró y el usuario no había cerrado la sesión
+     */
+    let token = this.accessService.getToken();
+    if (token != null) {
+      this.userDetails = this.decodificarToken.decodeToken(
+        JSON.stringify(token)
+      );
+      this.userSubject.changeNavBar(this.userDetails);
+    }
+  }
 
   /**
    * Método que sirve para que un usuario cierre su sesión
@@ -46,7 +63,6 @@ export class NavbarComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Sí',
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         Swal.fire('Has cerrado sesión. <br> ¡Vuelve pronto!', '', 'success');
         this.accessService.logout();

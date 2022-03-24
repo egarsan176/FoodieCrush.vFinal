@@ -3,14 +3,19 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import Swal from 'sweetalert2';
-
+/**
+ * Componente AppUploadRecipeFile
+ * Este componente sirve para poder subir una imagen cuando estamos en el formulario que publica una receta
+ */
 @Component({
   selector: 'app-upload-recipe-file',
   templateUrl: './upload-recipe-file.component.html',
   styleUrls: ['./upload-recipe-file.component.css'],
 })
 export class UploadRecipeFileComponent implements OnInit {
-  //PROPIEDADES
+  /**
+   * PROPIEDADES
+   */
   selectedFiles?: FileList;
   currentFile?: File;
   progress = 0;
@@ -21,15 +26,25 @@ export class UploadRecipeFileComponent implements OnInit {
   constructor(private uploadService: FileUploadService) {}
 
   ngOnInit(): void {
-    this.fileInfos = this.uploadService.getFiles(); //cargo en el init los ficheros ya almacenados
+    //this.fileInfos = this.uploadService.getFiles(); //cargo en el init los ficheros ya almacenados
   }
 
-  //MÉTODO para obtener los archivos seleccionados.
+  /**
+   * Este método sirve para obtener los archivos seleccionados
+   * @param event
+   */
   selectFile(event: any): void {
     this.selectedFiles = event.target.files;
   }
 
   //MÉTODO que se suscribe al upload() del servicio para subir una imagen
+  /**
+   * Este método se encarga de subir una imagen a la base de datos a través
+   * de una suscripción al servicio uploadService
+   * Si la respuesta de la petición tiene éxito, nos devuelve un mensaje indicando
+   * que se ha subido correctamente y almacena en el localStorage el nombre de la imagen.
+   * Si la respuesta no tiene éxito, mensaje de error indicando que no se ha podido subir
+   */
   upload(): void {
     this.progress = 0;
     if (this.selectedFiles) {
@@ -41,8 +56,10 @@ export class UploadRecipeFileComponent implements OnInit {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round((100 * event.loaded) / event.total);
             } else if (event instanceof HttpResponse) {
-              localStorage.setItem('imgNAME', file.name);
               this.message = event.body.message;
+              let index = this.message.lastIndexOf(':') + 2;
+              localStorage.setItem('imgNAME', this.message.substring(index));
+              console.log(this.message);
               this.fileInfos = this.uploadService.getFiles();
               this.mostrar = true;
               //console.log(this.currentFile)
@@ -65,8 +82,11 @@ export class UploadRecipeFileComponent implements OnInit {
     }
   }
 
-  //MÉTODO que se suscribe al deleteFile() del servicio para elminar una imagen
-  //no se usa todavía
+  /**
+   * Este método sirve para eliminar una imagen a través de una suscripción al
+   * servicio uploadService con el fichero que queremos eliminar
+   * @param file
+   */
   deleteFile(file: File) {
     this.uploadService.deleteFile(file).subscribe;
     this.fileInfos = this.uploadService.getFiles();

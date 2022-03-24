@@ -5,15 +5,15 @@ import { UserDetails } from 'src/app/interfaces/interface';
 import { AccessService } from 'src/app/services/access.service';
 import { UserSubjectNavBarService } from 'src/app/services/UserSubjectNavBar.service';
 import Swal from 'sweetalert2';
-
+/**
+ * Componente de login
+ * Este componente sirve para que un usuario pueda iniciar sesión
+ */
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-/**
- * Componente de login
- */
 export class LoginComponent implements OnInit {
   /**
    *  //PROPIEDADES

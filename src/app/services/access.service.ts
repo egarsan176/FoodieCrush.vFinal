@@ -69,7 +69,7 @@ export class AccessService {
       headers: headers,
     };
 
-    return this.httpClient.get<User>(url, options); //hago una petición al GetMapping /user del UserController que me devuelve un usuario
+    return this.httpClient.get<any>(url, options); //hago una petición al GetMapping /user del UserController que me devuelve un usuario
   }
 
   /**

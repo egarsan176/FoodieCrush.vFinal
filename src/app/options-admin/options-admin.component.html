@@ -2,7 +2,72 @@
   <div class="row p-1 mt-2 justify-content-center">
     <div class="text-center">
       <h4>Bienvenid@ {{ user.fullName }}</h4>
-      <p>Aquí puedes gestionar tus tareas como administrador</p>
+      <p>Este es tu panel de gestión como ADMIN</p>
+      <p>¿Por dónde empezamos?</p>
+    </div>
+  </div>
+  <div class="row m-2">
+    <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-xs-12">
+      <div class="card mb-4">
+        <div class="card-header colorYellowP m-2"></div>
+        <div class="card-body text-center">
+          <i class="fas fa-users-cog"></i>
+          <h5 class="mb-2">Usuarios</h5>
+
+          <a [routerLink]="['/optionsADMIN/usersConf']" class="btn colorGreenP"
+            >GESTIONAR</a
+          >
+        </div>
+        <div class="card-footer colorYellowP m-2"></div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-xs-12">
+      <div class="card mb-4">
+        <div class="card-header colorYellowP m-2"></div>
+        <div class="card-body text-center">
+          <i class="fas fa-receipt"></i>
+          <h5 class="mb-2">Recetas</h5>
+
+          <a
+            [routerLink]="['/optionsADMIN/recipesConf']"
+            class="btn colorGreenP"
+            >GESTIONAR</a
+          >
+        </div>
+        <div class="card-footer colorYellowP m-2"></div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-xs-12">
+      <div class="card mb-4">
+        <div class="card-header colorYellowP m-2"></div>
+        <div class="card-body text-center">
+          <i class="fas fa-shopping-basket"></i>
+          <h5 class="mb-2">Ingredientes</h5>
+
+          <a
+            [routerLink]="['/optionsADMIN/ingredientsConf']"
+            class="btn colorGreenP"
+            >GESTIONAR</a
+          >
+        </div>
+        <div class="card-footer colorYellowP m-2"></div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-xs-12">
+      <div class="card mb-4">
+        <div class="card-header colorYellowP m-2"></div>
+        <div class="card-body text-center">
+          <i class="fas fa-comments"></i>
+          <h5 class="mb-2">Comentarios</h5>
+
+          <a
+            [routerLink]="['/optionsADMIN/commentsConf']"
+            class="btn colorGreenP"
+            >GESTIONAR</a
+          >
+        </div>
+        <div class="card-footer colorYellowP m-2"></div>
+      </div>
     </div>
   </div>
 </div>
