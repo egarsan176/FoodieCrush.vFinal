@@ -1,0 +1,38 @@
+<div class="row my-2 justify-content-center">
+  <div class="col-12 m-1">
+    <div class="m-3">
+      <div class="card">
+        <div class="card-header colorYellowP m-2">
+          <div class="card-heading text-center">Foodie Crush</div>
+        </div>
+
+        <div class="card-body">
+          <h5 class="mb-2">
+            En primer lugar, muchas gracias por compartir tu receta 😊
+          </h5>
+          <p class="text-muted text-sm mb-3 d-none d-md-block d-sm-block">
+            Es muy sencillo. Tan solo tienes que rellenar los siguientes campos
+            con la información que se detalla en cada uno de ellos.
+          </p>
+
+          <app-upload-recipe-file></app-upload-recipe-file>
+
+          <app-recipe-form-template></app-recipe-form-template>
+
+          <div class="card-footer colorYellowP m-2 text-center">
+            <div class="text-sm text-muted">¡Gracias!</div>
+          </div>
+        </div>
+        <!-- cierra el card-body-->
+      </div>
+      <!-- cierra la card -->
+    </div>
+  </div>
+</div>
+
+<div class="row p-1 my-3 justify-content-center">
+  <div class="text-center mb-2">
+    <!-- PARA GESTIONAR QUE EL VOLVER SEA DIFERENTE DEPENDIENDO DE LA RUTA QUE SE HAYA SEGUIDO PARA LLEGAR HASTA AQUÍ -->
+    <button class="btn colorPurpleP" (click)="back()">VOLVER</button>
+  </div>
+</div>

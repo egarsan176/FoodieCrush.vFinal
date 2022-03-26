@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FileDB, User } from 'src/app/interfaces/interface';
+import { FileDB, Recipe, User } from 'src/app/interfaces/interface';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
@@ -17,7 +17,7 @@ export class ShowDetailsRecipeComponent implements OnInit {
   /**
    * PROPIEDADES
    */
-  recipe: any;
+  recipe: any; //dejo tipo any porque al no estar la categoría definida en receta como una interfaz aparte no me deja obtener el nombre
   ruta: string = '';
   user!: User;
   file!: FileDB;
@@ -46,6 +46,7 @@ export class ShowDetailsRecipeComponent implements OnInit {
         next: (data) => {
           this.getUserByRecipe(data.id); //para obtener al usuario asociado a esa receta
           this.getFileByRecipe(data.id); //para obtener la imagen asociada a esa receta
+
           this.recipe = data;
           this.mostrar = true;
         },
@@ -83,7 +84,9 @@ export class ShowDetailsRecipeComponent implements OnInit {
   getFileByRecipe(id: number) {
     this.fileService.getFileByRecipeID(id).subscribe({
       next: (data) => {
-        this.img = this.recipeService.obtenerImagen(data);
+        if (data != null) {
+          this.img = this.recipeService.getImage(data);
+        }
       },
       error: (e) => {
         Swal.fire('Error', e.error.message, 'error');

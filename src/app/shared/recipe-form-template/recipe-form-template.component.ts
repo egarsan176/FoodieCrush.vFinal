@@ -1,19 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FileDB, IngredientLine, Recipe } from 'src/app/interfaces/interface';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import {
+  FileDB,
+  IngredientLine,
+  Recipe,
+  UserDetails,
+} from 'src/app/interfaces/interface';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
-/**
- * Componente UploadRecipeForm
- * Este componente contiene el formulario para poder publicar una receta
- */
+
 @Component({
-  selector: 'app-upload-recipe-form',
-  templateUrl: './upload-recipe-form.component.html',
-  styleUrls: ['./upload-recipe-form.component.css'],
+  selector: 'app-recipe-form-template',
+  templateUrl: './recipe-form-template.component.html',
+  styleUrls: ['./recipe-form-template.component.css'],
 })
-export class UploadRecipeFormComponent implements OnInit {
+export class RecipeFormTemplateComponent implements OnInit {
   /**
    * PROPIEDADES
    */
@@ -24,22 +27,26 @@ export class UploadRecipeFormComponent implements OnInit {
   ingredientes: string[] = [];
   cantidades: number[] = [];
   category: number = 0;
+  userDetails!: UserDetails | null;
 
   file!: FileDB;
 
   recipe: Recipe = {
+    id: 0,
     recipeName: '',
     method: [],
     category: 0,
     ingredientLine: [],
     file: this.file,
     comments: [],
+    pending: true,
   };
 
   constructor(
     private recipeService: RecipesService,
     private uploadService: FileUploadService,
-    private route: Router
+    private route: Router,
+    private decodificarToken: JwtHelperService
   ) {}
 
   ngOnInit(): void {}
@@ -144,6 +151,8 @@ export class UploadRecipeFormComponent implements OnInit {
    * recipe del componente en la base de datos.
    */
   publicar() {
+    let token = JSON.stringify(localStorage.getItem('token'));
+    this.userDetails = this.decodificarToken.decodeToken(token);
     this.uploadService.getFileByName().subscribe({
       next: (data) => {
         this.file = data;
@@ -157,6 +166,12 @@ export class UploadRecipeFormComponent implements OnInit {
           this.recipe.file = this.file;
           //console.log(this.recipe.file)
 
+          if (this.userDetails?.role === 'ADMIN') {
+            this.recipe.pending = false;
+          } else {
+            this.recipe.pending = true;
+          }
+
           this.recipeService.publicar(this.recipe).subscribe({
             next: (data) => {
               Swal.fire({
@@ -166,7 +181,11 @@ export class UploadRecipeFormComponent implements OnInit {
                 confirmButtonText: 'Aceptar',
               }).then((result) => {
                 if (result.isConfirmed) {
-                  this.route.navigateByUrl('optionsUser');
+                  if (this.userDetails?.role === 'ADMIN')
+                    this.route.navigateByUrl('optionsADMIN');
+                  else {
+                    this.route.navigateByUrl('optionsUser');
+                  }
                 }
               });
             },
@@ -190,12 +209,5 @@ export class UploadRecipeFormComponent implements OnInit {
         Swal.fire('Error', e.error.mensaje, 'error');
       },
     });
-  }
-
-  /**
-   * Este método sirve para volver a la página anterior en la vista
-   */
-  back() {
-    history.back();
   }
 }

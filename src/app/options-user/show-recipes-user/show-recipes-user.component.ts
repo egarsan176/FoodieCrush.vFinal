@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/interfaces/interface';
+import { Recipe, User } from 'src/app/interfaces/interface';
 import { AccessService } from 'src/app/services/access.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
@@ -16,12 +16,11 @@ export class ShowRecipesUserComponent implements OnInit {
   /**
    * PROPIEDADES
    */
-  user!: any;
-  mostrar: boolean = false;
-  recetario: any[] = [];
-  loading: boolean = true;
+  user!: User;
+  recetario: Recipe[] = [];
   first = 0;
   rows = 10;
+  status: string = '';
 
   constructor(
     private recipesService: RecipesService,
@@ -56,8 +55,8 @@ export class ShowRecipesUserComponent implements OnInit {
    * del usuario, si no lo tiene, error
    * @param user del que queremos conocer sus recetas
    */
-  getRecetario(user: any) {
-    this.recipesService.getRecipesFromUser(this.user).subscribe({
+  getRecetario(user: User) {
+    this.recipesService.getRecipesFromUser(user).subscribe({
       next: (data) => {
         this.recetario = data;
       },
@@ -68,31 +67,20 @@ export class ShowRecipesUserComponent implements OnInit {
   }
 
   /**
+   * Este método sirve para obtener el estado de una receta (aprobada por el admin o no)
+   * Si la propiedad recipe.pending = true, la receta está pendiente de aprobación,
+   * si es false, está aprobada por el admin
+   * @param recipe
+   * @returns estado de la receta (pendiente/aprobada)
+   */
+  getStatus(recipe: Recipe) {
+    return recipe.pending ? 'pendiente' : 'aprobada';
+  }
+
+  /**
    * Este método sirve para volver atrás en la vista
    */
   back() {
     history.back();
-  }
-
-  next() {
-    this.first = this.first + this.rows;
-  }
-
-  prev() {
-    this.first = this.first - this.rows;
-  }
-
-  reset() {
-    this.first = 0;
-  }
-
-  isLastPage(): boolean {
-    return this.recetario
-      ? this.first === this.recetario.length - this.rows
-      : true;
-  }
-
-  isFirstPage(): boolean {
-    return this.recetario ? this.first === 0 : true;
   }
 }

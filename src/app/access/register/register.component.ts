@@ -22,6 +22,7 @@ export class RegisterComponent implements OnInit {
    */
 
   user: User = {
+    id: 0,
     fullName: '',
     username: '',
     email: '',
@@ -220,7 +221,7 @@ export class RegisterComponent implements OnInit {
               condiciones: false,
             });
             Swal.fire({
-              title: 'Bienvenid@ a FoodieCrush.',
+              title: 'Bienvenid@ a FoodieCrush',
               text: 'Inicie sesión para comenzar.',
               icon: 'success',
               confirmButtonText: 'Acceder',

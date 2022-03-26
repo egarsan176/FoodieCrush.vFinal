@@ -4,6 +4,17 @@
 <div class="container-fluid">
   <div class="row">
     <div
+      *ngIf="recetario == null"
+      class="justify-content-center text-center mt-3"
+    >
+      <h4>Aún no tenemos recetas en la categoría de {{ categoria.name }}.</h4>
+      <img
+        src="assets/img/404-error.png"
+        alt="No se encuentran resultados"
+        id="notFound"
+      />
+    </div>
+    <div
       class="col-md-4 col-lg-4 col-xl-4 col-sm-6 col-xs-12"
       *ngIf="recetario != null"
     >
@@ -12,7 +23,22 @@
         *ngFor="let item of recetario; let i = index"
       >
         <!-- con mt-2 añado a la card un margin-top de un 2% -->
-        <img src="{{ obtenerImagenReceta(item.file) }}" class="card-img-top" />
+        <div *ngIf="item.file == null">
+          <img
+            src="assets/img/logo.svg"
+            class="card-img-top"
+            id="fileNotFound"
+            alt="Imagen no encontrada"
+          />
+        </div>
+        <div *ngIf="item.file != null">
+          <img
+            src="{{ obtenerImagenReceta(item.file) }}"
+            class="card-img-top"
+            alt="{{ item.recipeName }}"
+          />
+        </div>
+
         <div class="card-body">
           <h5 class="card-title">{{ item.recipeName.toUpperCase() }}</h5>
           <a
@@ -22,15 +48,6 @@
           >
         </div>
       </div>
-    </div>
-
-    <div *ngIf="recetario == null" class="justify-content-center text-center">
-      <img
-        src="assets/img/404-error.png"
-        alt="No se encuentran resultados"
-        id="notFound"
-      />
-      <h4>Aún no tenemos recetas en la categoría de {{ categoria.name }}.</h4>
     </div>
   </div>
 </div>

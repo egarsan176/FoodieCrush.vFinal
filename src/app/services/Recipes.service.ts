@@ -8,6 +8,7 @@ import { AccessService } from './access.service';
  * RecipesService
  * Este servicio gestiona todas las tareas que tienen que ver con las recetas.
  * Todas las peticiones a /recipes, necesitan tener el token
+ * Todas las peticiones a /admin, necesitan token y rol de administrador
  */
 @Injectable({
   providedIn: 'root',
@@ -49,8 +50,8 @@ export class RecipesService {
    * @param user que se encuentra en la sesión en el momento de la petición
    * @returns lista con todas las recetas del usuario
    */
-  getRecipesFromUser(user: any) {
-    let token = localStorage.getItem('token');
+  getRecipesFromUser(user: User) {
+    let token = this.accessService.getToken();
 
     const params = new HttpParams().set('userID', user.id);
     const headers = new HttpHeaders({
@@ -60,7 +61,7 @@ export class RecipesService {
 
     const url = `${this.urlBase}/recipes?${params}`;
 
-    return this.httpClient.get<any[]>(url, { headers });
+    return this.httpClient.get<Recipe[]>(url, { headers });
   }
 
   /**
@@ -75,7 +76,7 @@ export class RecipesService {
     const params = new HttpParams().set('categoryID', id);
     const url = `${this.urlBase}/mostrar?${params}`;
 
-    return this.httpClient.get<any[]>(url);
+    return this.httpClient.get<Recipe[]>(url);
   }
 
   /**
@@ -87,7 +88,7 @@ export class RecipesService {
   showRecipe(id: number) {
     const url = `${this.urlBase}/mostrar/${id}`;
 
-    return this.httpClient.get<any>(url);
+    return this.httpClient.get<Recipe>(url);
   }
 
   /**
@@ -118,11 +119,81 @@ export class RecipesService {
    * @param file
    * @returns vista del fichero que queremos mostrar
    */
-  obtenerImagen(file: FileDB) {
+  getImage(file: FileDB) {
     const base64String = btoa(
       String.fromCharCode(...new Uint8Array(file.data))
     );
     const source = `data:image/png;base64,${base64String}` + file.data;
     return source;
+  }
+
+  /**
+   * El administrador accede a este método para obtener todas las recetas que
+   * están pendientes de aprobación
+   * A través de una petición GET a /admin/recipes?isPending=true
+   * @returns listado de recetas pendientes de aprobación
+   */
+  getAllRecipesPending() {
+    let token = this.accessService.getToken();
+
+    const params = new HttpParams().set('isPending', true);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    const url = `${this.urlBase}/admin/recipes?${params}`;
+
+    return this.httpClient.get<Recipe[]>(url, { headers });
+  }
+
+  /**
+   * El administrador accede a este método para obtener todas las recetas que
+   * que ya han sido aprobadas
+   * A través de una petición GET a /admin/recipes?isPending=false
+   * @returns listado de recetas que ya han sido aprobadas
+   */
+  getAllRecipesApproved() {
+    let token = this.accessService.getToken();
+
+    const params = new HttpParams().set('isPending', false);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    const url = `${this.urlBase}/admin/recipes?${params}`;
+
+    return this.httpClient.get<Recipe[]>(url, { headers });
+  }
+
+  /**
+   * Se accede a este método para obtener todas las recetas de la bbdd,
+   * independientemente de su estado
+   * A través de una petición GET, que necesita de token
+   * @returns lista con todas las recetas almacenadas
+   */
+  getAllRecipes() {
+    let token = this.accessService.getToken();
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    const url = `${this.urlBase}/recipes`;
+
+    return this.httpClient.get<Recipe[]>(url, { headers });
+  }
+
+  changeStatusRecipe(id: number) {
+    let token = this.accessService.getToken();
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.urlBase}/admin/recipes/${id}`;
+    return this.httpClient.get<Recipe>(url, { headers });
   }
 }

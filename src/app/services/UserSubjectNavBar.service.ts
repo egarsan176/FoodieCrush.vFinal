@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserDetails } from '../interfaces/interface';
-
-@Injectable({
-  providedIn: 'root',
-})
 /**
  * UserSubjectNavBarService
  * Se encarga de gestionar el observable que controla qué tipo de usuario es el que inicia sesión para
  * mostrar distintas partes de la barra de navegación
  */
+@Injectable({
+  providedIn: 'root',
+})
 export class UserSubjectNavBarService {
   /**
    * Se hace uso de la librería RxJs, para programación reactiva

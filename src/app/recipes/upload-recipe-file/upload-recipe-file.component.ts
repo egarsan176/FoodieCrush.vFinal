@@ -59,7 +59,7 @@ export class UploadRecipeFileComponent implements OnInit {
               this.message = event.body.message;
               let index = this.message.lastIndexOf(':') + 2;
               localStorage.setItem('imgNAME', this.message.substring(index));
-              console.log(this.message);
+              //console.log(this.message);
               this.fileInfos = this.uploadService.getFiles();
               this.mostrar = true;
               //console.log(this.currentFile)

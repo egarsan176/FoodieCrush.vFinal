@@ -5,8 +5,19 @@
     *ngIf="recipe != null && user != null"
   >
     <div class="row g-0">
-      <div class="col-md-5">
-        <img src="{{ img }}" class="img-fluid img-responsive h-100" alt="..." />
+      <div class="col-md-5" *ngIf="recipe.file == null">
+        <img
+          src="assets/img/logo.svg"
+          class="img-fluid img-responsive h-100"
+          alt="Imagen no encontrada"
+        />
+      </div>
+      <div class="col-md-5" *ngIf="recipe.file != null">
+        <img
+          src="{{ img }}"
+          class="img-fluid img-responsive h-100"
+          alt="{{ recipe.recipeName }}"
+        />
       </div>
       <div class="col-md-7 my-auto">
         <div class="card-body px-auto">

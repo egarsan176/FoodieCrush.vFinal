@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 
 import { UploadRecipeFormRoutingModule } from './upload-recipe-form-routing.module';
 import { UploadRecipeFormComponent } from './upload-recipe-form.component';
-import { UploadRecipeFileModule } from '../upload-recipe-file/upload-recipe-file.module';
+import { UploadRecipeFileModule } from '../../recipes/upload-recipe-file/upload-recipe-file.module';
 import { FormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [UploadRecipeFormComponent],
@@ -13,6 +14,8 @@ import { FormsModule } from '@angular/forms';
     UploadRecipeFormRoutingModule,
     UploadRecipeFileModule,
     FormsModule,
+    SharedModule,
   ],
+  exports: [],
 })
 export class UploadRecipeFormModule {}

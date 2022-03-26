@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FileDB } from 'src/app/interfaces/interface';
+import { FileDB, Recipe } from 'src/app/interfaces/interface';
 import { RecipesService } from 'src/app/services/Recipes.service';
 /**
  * Componente ShowCategories
@@ -15,7 +15,7 @@ export class ShowCategoriesComponent implements OnInit {
   /**
    * PROPIEDADES
    */
-  recetario: any[] = [];
+  recetario: Recipe[] = [];
   categoria: any = '';
 
   constructor(
@@ -70,6 +70,6 @@ export class ShowCategoriesComponent implements OnInit {
    * @returns la imagen de una receta que se proporciona en la vista
    */
   obtenerImagenReceta(file: FileDB) {
-    return this.recipeService.obtenerImagen(file);
+    return this.recipeService.getImage(file);
   }
 }

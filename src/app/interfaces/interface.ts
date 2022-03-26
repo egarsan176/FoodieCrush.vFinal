@@ -7,6 +7,7 @@ export interface AuthResponse {
 }
 
 export interface User {
+  id: number;
   fullName: string;
   username: string;
   email: string;
@@ -20,12 +21,14 @@ export interface ErrorResponse {
 }
 
 export interface Recipe {
+  id: number;
   recipeName: string;
   method: string[];
   category: number;
   ingredientLine: IngredientLine[];
   file: FileDB;
   comments: string[];
+  pending: boolean;
 }
 
 export interface IngredientLine {

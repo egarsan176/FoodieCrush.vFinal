@@ -74,8 +74,9 @@ export class LoginComponent implements OnInit {
             if (result.isConfirmed) {
               if (this.userDetails?.role === 'ADMIN')
                 this.router.navigateByUrl('optionsADMIN');
-            } else {
-              this.router.navigateByUrl('optionsUser');
+              else {
+                this.router.navigateByUrl('optionsUser');
+              }
             }
           });
         },

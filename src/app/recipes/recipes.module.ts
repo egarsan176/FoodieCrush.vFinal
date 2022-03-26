@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { RecipesRoutingModule } from './recipes-routing.module';
 import { RecipesComponent } from './recipes.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [RecipesComponent],
-  imports: [CommonModule, RecipesRoutingModule],
+  imports: [CommonModule, RecipesRoutingModule, SharedModule],
 })
 export class RecipesModule {}

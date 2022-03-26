@@ -5,6 +5,7 @@ import { ShowRecipesUserRoutingModule } from './show-recipes-user-routing.module
 import { ShowRecipesUserComponent } from './show-recipes-user.component';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
   declarations: [ShowRecipesUserComponent],
@@ -13,6 +14,7 @@ import { ButtonModule } from 'primeng/button';
     ShowRecipesUserRoutingModule,
     TableModule,
     ButtonModule,
+    PaginatorModule,
   ],
 })
 export class ShowRecipesUserModule {}

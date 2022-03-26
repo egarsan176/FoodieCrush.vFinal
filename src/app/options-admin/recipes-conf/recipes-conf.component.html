@@ -1,6 +1,313 @@
-<p>recipes-conf works!</p>
+<div class="row p-1 mt-2 justify-content-center">
+  <div class="text-center">
+    <p>En esta sección puedes gestionar todo lo relacionado con las recetas.</p>
+    <p>¡Manos a la obra!</p>
+  </div>
+</div>
+<div class="row m-2">
+  <div class="col-lg-3 col-xl-3 col-md-6 col-sm-6 col-xs-12">
+    <div class="card mb-4">
+      <div class="card-header colorYellowP"></div>
+      <div class="card-body text-center">
+        <img src="assets/img/icons/question.png" alt="" />
+        <h5 class="my-2">PENDIENTES</h5>
+        <button class="btn colorGreenP" (click)="getRecipesPending()">
+          MÁS
+        </button>
+      </div>
+      <div class="card-footer colorYellowP"></div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-xl-3 col-md-6 col-sm-6 col-xs-12">
+    <div class="card mb-4">
+      <div class="card-header colorYellowP"></div>
+      <div class="card-body text-center">
+        <img src="assets/img/icons/stamp.png" alt="" />
+        <h5 class="my-2">APROBADAS</h5>
+        <button class="btn colorGreenP" (click)="getRecipesApproved()">
+          MÁS
+        </button>
+      </div>
+      <div class="card-footer colorYellowP"></div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-xl-3 col-md-6 col-sm-6 col-xs-12">
+    <div class="card mb-4">
+      <div class="card-header colorYellowP"></div>
+      <div class="card-body text-center">
+        <img src="assets/img/icons/notebook.png" alt="" />
+        <h5 class="my-2">NUEVA</h5>
+        <button class="btn colorGreenP" (click)="loadUploadForm()">MÁS</button>
+      </div>
+      <div class="card-footer colorYellowP"></div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-xl-3 col-md-6 col-sm-6 col-xs-12">
+    <div class="card mb-4">
+      <div class="card-header colorYellowP"></div>
+      <div class="card-body text-center">
+        <img src="assets/img/icons/recipe-book.png" alt="" />
+        <h5 class="my-2">TODAS</h5>
+        <button class="btn colorGreenP" (click)="getAllRecipesFromBD()">
+          MÁS
+        </button>
+      </div>
+      <div class="card-footer colorYellowP"></div>
+    </div>
+  </div>
+</div>
+<!-- end row-->
+
+<div class="row m-2">
+  <!-- RECETAS PENDIENTES -->
+  <div class="col-12 text-center">
+    <div *ngIf="showRecipesPending">
+      <div *ngIf="recipesPending == null">
+        <p>¡Buen trabajo no hay ninguna receta pendiente de aprobar!</p>
+      </div>
+
+      <div *ngIf="recipesPending != null">
+        <div *ngIf="recipesPending.length >= 1">
+          <p *ngIf="recipesPending.length == 1">
+            Solo existe 1 receta que todavía no has aprobado y por lo tanto no
+            se muestra en el Foodie recetario. Tenemos trabajo por hacer,
+            ¡adelante!
+          </p>
+          <p *ngIf="recipesPending.length > 1">
+            Existen un total de {{ recipesPending.length }} recetas que todavía
+            no has aprobado y por lo tanto no se muestran en el Foodie
+            recetario. Tenemos trabajo por hacer, ¡adelante!
+          </p>
+          <p-table
+            [value]="recipesPending"
+            [paginator]="true"
+            [rows]="10"
+            [showCurrentPageReport]="true"
+            styleClass="p-datatable-striped"
+            responsiveLayout="scroll"
+            currentPageReportTemplate="Mostrando {first} de {last} de un total de {totalRecords} entradas"
+            [rowsPerPageOptions]="[10, 25, 50]"
+          >
+            <ng-template pTemplate="header" let-columns>
+              <tr class="colorGreenP text-center">
+                <th pSortableColumn="id">
+                  ID <p-sortIcon field="id"></p-sortIcon>
+                </th>
+                <th pSortableColumn="recipeName">
+                  NOMBRE <p-sortIcon field="recipeName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="category.name">
+                  CATEGORÍA <p-sortIcon field="category.name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="fechaBonita">
+                  FECHA PUBLICACIÓN
+                  <p-sortIcon field="fechaBonita"></p-sortIcon>
+                </th>
+                <th>VER</th>
+                <th>APROBAR</th>
+                <th>ELIMINAR</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-recipe let-columns="recipe">
+              <tr class="text-center">
+                <td>{{ recipe.id }}</td>
+                <td>{{ recipe.recipeName }}</td>
+                <td>{{ recipe.category.name }}</td>
+                <td>{{ recipe.fechaBonita }}</td>
+                <td>
+                  <button
+                    class="btn colorYellowP"
+                    [routerLink]="['/recipes/details', recipe.id]"
+                  >
+                    <i class="fa fa-search"></i>
+                  </button>
+                </td>
+                <td>
+                  <button
+                    class="btn colorPinkP"
+                    (click)="changeStatusRecipe(recipe.id)"
+                  >
+                    <i class="fas fa-check-circle"></i>
+                  </button>
+                </td>
+                <td>
+                  <button class="btn colorPurpleP">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- FIN RECETAS PENDIENTES -->
+
+  <!-- RECETAS APROBADAS -->
+
+  <div class="col-12 text-center">
+    <div *ngIf="showRecipesApproved">
+      <p *ngIf="recipesApproved.length == 0">
+        ¡Vaya! Aún no has aprobado ninguna receta. !Date prisa que el recetario
+        Foodie está vacío!
+      </p>
+      <div *ngIf="recipesApproved != null">
+        <div *ngIf="recipesApproved.length >= 1">
+          <p *ngIf="recipesApproved.length == 1">
+            De momento nuestro Foodie recetario solo cuenta con una única receta
+            aprobada.
+          </p>
+          <p *ngIf="recipesApproved.length > 1">
+            Nuestro Foodie Recetario cuenta ya con un total de
+            {{ recipesApproved.length }} recetas aprobadas.
+          </p>
+          <p-table
+            [value]="recipesApproved"
+            [paginator]="true"
+            [rows]="10"
+            [showCurrentPageReport]="true"
+            styleClass="p-datatable-striped"
+            responsiveLayout="scroll"
+            currentPageReportTemplate="Mostrando {first} de {last} de un total de {totalRecords} entradas"
+            [rowsPerPageOptions]="[10, 25, 50]"
+          >
+            <ng-template pTemplate="header" let-columns>
+              <tr class="colorGreenP text-center">
+                <th pSortableColumn="id">
+                  ID <p-sortIcon field="id"></p-sortIcon>
+                </th>
+                <th pSortableColumn="recipeName">
+                  NOMBRE <p-sortIcon field="recipeName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="category.name">
+                  CATEGORÍA <p-sortIcon field="category.name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="fechaBonita">
+                  FECHA PUBLICACIÓN
+                  <p-sortIcon field="fechaBonita"></p-sortIcon>
+                </th>
+                <th>VER</th>
+                <th>ELIMINAR</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-recipe let-columns="recipe">
+              <tr class="text-center">
+                <td>{{ recipe.id }}</td>
+                <td>{{ recipe.recipeName }}</td>
+                <td>{{ recipe.category.name }}</td>
+                <td>{{ recipe.fechaBonita }}</td>
+                <td>
+                  <button
+                    class="btn colorYellowP"
+                    [routerLink]="['/recipes/details', recipe.id]"
+                  >
+                    <i class="fa fa-search"></i>
+                  </button>
+                </td>
+
+                <td>
+                  <button class="btn colorPurpleP">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- FIN RECETAS APROBADAS -->
+
+  <!-- PUBLICAR RECETA NUEVA-->
+  <div class="col-12">
+    <div *ngIf="addNewRecipe">
+      <app-upload-recipe-file></app-upload-recipe-file>
+      <app-recipe-form-template></app-recipe-form-template>
+    </div>
+  </div>
+  <!-- FIN PUBLICAR RECETA -->
+
+  <!-- TODAS LAS RECETAS -->
+
+  <div class="col-12 text-center">
+    <div *ngIf="showRecipes">
+      <p *ngIf="allRecipesBD.length == 0">
+        ¡Vaya! Todavía no existe ninguna receta en nuestro Foodie recetario.
+      </p>
+      <div *ngIf="allRecipesBD != null">
+        <div *ngIf="allRecipesBD.length >= 1">
+          <p *ngIf="allRecipesBD.length == 1">
+            De momento nuestro Foodie recetario solo tiene una única receta.
+          </p>
+          <p *ngIf="allRecipesBD.length > 1">
+            Nuestro Foodie Recetario cuenta ya con un total de
+            {{ allRecipesBD.length }} recetas almacenadas en la base de datos.
+          </p>
+          <p-table
+            [value]="allRecipesBD"
+            [paginator]="true"
+            [rows]="10"
+            [showCurrentPageReport]="true"
+            styleClass="p-datatable-striped"
+            responsiveLayout="scroll"
+            currentPageReportTemplate="Mostrando {first} de {last} de un total de {totalRecords} entradas"
+            [rowsPerPageOptions]="[10, 25, 50]"
+          >
+            <ng-template pTemplate="header" let-columns>
+              <tr class="colorGreenP text-center">
+                <th pSortableColumn="id">
+                  ID <p-sortIcon field="id"></p-sortIcon>
+                </th>
+                <th pSortableColumn="recipeName">
+                  NOMBRE <p-sortIcon field="recipeName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="category.name">
+                  CATEGORÍA <p-sortIcon field="category.name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="fechaBonita">
+                  FECHA PUBLICACIÓN
+                  <p-sortIcon field="fechaBonita"></p-sortIcon>
+                </th>
+                <th>VER</th>
+                <th>ELIMINAR</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-recipe let-columns="recipe">
+              <tr class="text-center">
+                <td>{{ recipe.id }}</td>
+                <td>{{ recipe.recipeName }}</td>
+                <td>{{ recipe.category.name }}</td>
+                <td>{{ recipe.fechaBonita }}</td>
+                <td>
+                  <button
+                    class="btn colorYellowP"
+                    [routerLink]="['/recipes/details', recipe.id]"
+                  >
+                    <i class="fa fa-search"></i>
+                  </button>
+                </td>
+
+                <td>
+                  <button class="btn colorPurpleP">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- FIN TODAS RECETAS -->
+</div>
+
 <div class="row p-1 my-3 justify-content-center">
   <div class="text-center mb-2">
-    <button class="btn colorPurpleP" (click)="back()">VOLVER</button>
+    <button class="btn colorPurpleP" (click)="back()">
+      VOLVER AL PANEL DE GESTIÓN
+    </button>
   </div>
 </div>
