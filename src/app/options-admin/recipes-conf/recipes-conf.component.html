@@ -131,7 +131,10 @@
                   </button>
                 </td>
                 <td>
-                  <button class="btn colorPurpleP">
+                  <button
+                    class="btn colorPurpleP"
+                    (click)="deleteRecipe(recipe.id)"
+                  >
                     <i class="fa fa-trash" aria-hidden="true"></i>
                   </button>
                 </td>
@@ -148,7 +151,7 @@
 
   <div class="col-12 text-center">
     <div *ngIf="showRecipesApproved">
-      <p *ngIf="recipesApproved.length == 0">
+      <p *ngIf="recipesApproved == null">
         ¡Vaya! Aún no has aprobado ninguna receta. !Date prisa que el recetario
         Foodie está vacío!
       </p>
@@ -207,7 +210,10 @@
                 </td>
 
                 <td>
-                  <button class="btn colorPurpleP">
+                  <button
+                    class="btn colorPurpleP"
+                    (click)="deleteRecipe(recipe.id)"
+                  >
                     <i class="fa fa-trash" aria-hidden="true"></i>
                   </button>
                 </td>
@@ -233,7 +239,7 @@
 
   <div class="col-12 text-center">
     <div *ngIf="showRecipes">
-      <p *ngIf="allRecipesBD.length == 0">
+      <p *ngIf="allRecipesBD == null">
         ¡Vaya! Todavía no existe ninguna receta en nuestro Foodie recetario.
       </p>
       <div *ngIf="allRecipesBD != null">
@@ -290,7 +296,10 @@
                 </td>
 
                 <td>
-                  <button class="btn colorPurpleP">
+                  <button
+                    class="btn colorPurpleP"
+                    (click)="deleteRecipe(recipe.id)"
+                  >
                     <i class="fa fa-trash" aria-hidden="true"></i>
                   </button>
                 </td>

@@ -21,6 +21,8 @@ export class ShowRecipesUserComponent implements OnInit {
   recetario: Recipe[] = [];
   status: string = '';
   cols!: any[];
+  first = 0;
+  rows = 10;
   @ViewChild('dt1') dt1!: Table | undefined;
 
   constructor(
@@ -99,5 +101,48 @@ export class ShowRecipesUserComponent implements OnInit {
    */
   getEventValue($event: any): string {
     return $event.target.value;
+  }
+  /**
+   * Este método sirve para eliminar una receta de la base de datos. Para ello
+   * se suscribe al método deleteFiles(id) del servicio RecipesService
+   * @param id  de la receta que queremos borrar
+   */
+  deleteRecipe(id: number) {
+    Swal.fire({
+      title: 'Eliminación de receta',
+      text: 'A continuación vas a eliminar esta receta del Foodie recetario. ¿Seguro que deseas eliminar esta receta?',
+      icon: 'warning',
+      showDenyButton: true,
+      confirmButtonText: 'Sí, quiero borrar mi receta.',
+      denyButtonText: `No.`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.recipesService.deleteRecipe(id).subscribe({
+          next: (data) => {
+            this.getRecetario(this.user);
+            if (data == null) {
+              Swal.fire({
+                title: 'Receta Eliminada',
+                text:
+                  'Tu receta con id  ' +
+                  id +
+                  ' ha sido eliminada del Foodie recetario.',
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+              });
+            }
+          },
+          error: (e) => {
+            Swal.fire('Error', e.error.mensaje, 'error');
+          },
+        });
+      } else if (result.isDenied) {
+        Swal.fire(
+          'Receta no eliminada',
+          'Tu receta sigue disponible en el Foodie Recetario. ¡Gracias!',
+          'info'
+        );
+      }
+    });
   }
 }

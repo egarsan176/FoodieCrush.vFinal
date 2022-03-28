@@ -14,6 +14,7 @@
       #dt1
       [columns]="cols"
       [value]="recetario"
+      [showCurrentPageReport]="true"
       currentPageReportTemplate="Mostrando {first} de {last} de un total de {totalRecords} recetas"
       styleClass="p-datatable-stripped"
       [paginator]="true"
@@ -84,10 +85,7 @@
             </button>
           </td>
           <td>
-            <button
-              class="btn colorPurpleP"
-              [routerLink]="['/recipes/details', recipe.id]"
-            >
+            <button class="btn colorPurpleP" (click)="deleteRecipe(recipe.id)">
               <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
           </td>
@@ -106,7 +104,8 @@
       id="notFound"
     />
     <h4>
-      Upss {{ user.fullName }}, todavía no has publicado ninguna receta.<br />¿Vamos?
+      Upss {{ user.fullName }}, todavía no has publicado ninguna receta.<br />
+      <a routerLink="/optionsUser/uploadRecipe">¿Empezamos?</a>
     </h4>
   </div>
 </div>

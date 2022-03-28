@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { catchError, map, of } from 'rxjs';
 import { Recipe } from 'src/app/interfaces/interface';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
@@ -52,7 +53,10 @@ export class RecipesConfComponent implements OnInit {
       },
     });
   }
-
+  /**
+   * El administrador accede a este método para cambiar el estado de una receta
+   * @param id
+   */
   changeStatusRecipe(id: number) {
     this.recipesService.changeStatusRecipe(id).subscribe({
       next: (data) => {
@@ -126,6 +130,11 @@ export class RecipesConfComponent implements OnInit {
     return recipe.pending ? 'pendiente' : 'aprobada';
   }
 
+  /**
+   * A este método accede el administrador cuando quiere publicar
+   * una nueva receta y se cambian el valor de las propiedades del componente
+   * para que se muestre el formulario de publicar la receta
+   */
   loadUploadForm() {
     this.showRecipes = false;
     this.showRecipesApproved = false;
@@ -138,5 +147,51 @@ export class RecipesConfComponent implements OnInit {
    */
   back() {
     history.back();
+  }
+
+  /**
+   * Este método sirve para eliminar una receta de la base de datos. Para ello
+   * se suscribe al método deleteFiles(id) del servicio RecipesService
+   * @param id  de la receta que queremos borrar
+   */
+  deleteRecipe(id: number) {
+    Swal.fire({
+      title: 'Eliminación de receta',
+      text: 'A continuación vas a eliminar esta receta del Foodie recetario. ¿Seguro que deseas eliminar esta receta?',
+      icon: 'warning',
+      showDenyButton: true,
+      confirmButtonText: 'Sí, quiero borrar la receta.',
+      denyButtonText: `No.`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.recipesService.deleteRecipe(id).subscribe({
+          next: (data) => {
+            this.getAllRecipesFromBD();
+            this.getRecipesApproved();
+            this.getRecipesApproved();
+            if (data == null) {
+              Swal.fire({
+                title: 'Receta Eliminada',
+                text:
+                  'La receta con id  ' +
+                  id +
+                  ' ha sido eliminada del Foodie recetario.',
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+              });
+            }
+          },
+          error: (e) => {
+            Swal.fire('Error', e.error.mensaje, 'error');
+          },
+        });
+      } else if (result.isDenied) {
+        Swal.fire(
+          'Receta no eliminada',
+          'Esta receta sigue disponible en el Foodie Recetario.',
+          'info'
+        );
+      }
+    });
   }
 }

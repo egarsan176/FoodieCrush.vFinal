@@ -186,6 +186,12 @@ export class RecipesService {
     return this.httpClient.get<Recipe[]>(url, { headers });
   }
 
+  /**
+   * Se accede a este método cuando un administrador quiere
+   * cambiar el estado de una receta de pendiente a no pendiente
+   * @param id  de la receta
+   * @returns receta con el estado cambiado
+   */
   changeStatusRecipe(id: number) {
     let token = this.accessService.getToken();
 
@@ -195,5 +201,20 @@ export class RecipesService {
     });
     const url = `${this.urlBase}/admin/recipes/${id}`;
     return this.httpClient.get<Recipe>(url, { headers });
+  }
+
+  /**
+   * A este método se accede cuando se quiere eliminar una receta de la bd
+   * @param id
+   * @returns noContent
+   */
+  deleteRecipe(id: number) {
+    let token = this.accessService.getToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.urlBase}/recipes/${id}`;
+    return this.httpClient.delete<any>(url, { headers });
   }
 }
