@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Table } from 'primeng/table';
 import { Recipe, User } from 'src/app/interfaces/interface';
 import { AccessService } from 'src/app/services/access.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
@@ -18,9 +19,9 @@ export class ShowRecipesUserComponent implements OnInit {
    */
   user!: User;
   recetario: Recipe[] = [];
-  first = 0;
-  rows = 10;
   status: string = '';
+  cols!: any[];
+  @ViewChild('dt1') dt1!: Table | undefined;
 
   constructor(
     private recipesService: RecipesService,
@@ -28,6 +29,13 @@ export class ShowRecipesUserComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.cols = [
+      { field: 'id', header: 'ORDEN' },
+      { field: 'recipeName', header: 'NOMBRE' },
+      { field: 'category.name', header: 'CATEGORÍA' },
+      { field: 'fechaBonita', header: 'FECHA DE PUBLICACIÓN' },
+      { field: 'pending', header: 'ESTADO' },
+    ];
     this.getUser(); //para obtener al usuario al cargar el componente
   }
 
@@ -82,5 +90,14 @@ export class ShowRecipesUserComponent implements OnInit {
    */
   back() {
     history.back();
+  }
+
+  /**
+   * Este método se usa para retornar al filtro de la tabla la propiedad event.target.value
+   * @param $event
+   * @returns
+   */
+  getEventValue($event: any): string {
+    return $event.target.value;
   }
 }

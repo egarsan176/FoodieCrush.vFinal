@@ -23,3 +23,4 @@ export class ShowRecipesUserModule {}
 // VirtualScrolling depends on @angular/cdk's ScrollingModule so begin with installing CDK if not already installed.
 // npm install @angular/cdk --save
 // npm install primeicons --save
+// npm install @angular/animations --save

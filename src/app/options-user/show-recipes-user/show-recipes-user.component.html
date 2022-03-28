@@ -11,37 +11,55 @@
 <div class="container">
   <div *ngIf="recetario != null">
     <p-table
+      #dt1
+      [columns]="cols"
       [value]="recetario"
+      currentPageReportTemplate="Mostrando {first} de {last} de un total de {totalRecords} recetas"
+      styleClass="p-datatable-stripped"
       [paginator]="true"
-      [rows]="10"
-      [showCurrentPageReport]="true"
-      styleClass="p-datatable-striped"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10, 20]"
       responsiveLayout="scroll"
-      currentPageReportTemplate="Mostrando {first} de {last} de un total de {totalRecords} entradas"
-      [rowsPerPageOptions]="[10, 25, 50]"
+      [globalFilterFields]="[
+        'id',
+        'recipeName',
+        'category.name',
+        'pending',
+        'fechaBonita'
+      ]"
     >
+      <ng-template pTemplate="caption">
+        <div class="flex">
+          <span>
+            <i class="pi pi-search"></i>
+            <input
+              class="mx-1"
+              pInputText
+              type="text"
+              placeholder="Buscar palabra"
+              style="width: auto"
+              (input)="dt1.filterGlobal(getEventValue($event), 'contains')"
+            />
+          </span>
+        </div>
+      </ng-template>
+
       <ng-template pTemplate="header" let-columns>
-        <tr class="colorGreenP text-center">
-          <th pSortableColumn="id">
-            ORDEN <p-sortIcon field="id"></p-sortIcon>
+        <tr>
+          <th
+            class="encab"
+            *ngFor="let col of columns; let i = index"
+            [pSortableColumn]="col.field"
+          >
+            {{ col.header }}
+            <p-sortIcon [field]="col.field"></p-sortIcon>
           </th>
-          <th pSortableColumn="recipeName">
-            NOMBRE <p-sortIcon field="recipeName"></p-sortIcon>
-          </th>
-          <th pSortableColumn="category.name">
-            CATEGORÍA <p-sortIcon field="category.name"></p-sortIcon>
-          </th>
-          <th pSortableColumn="fechaBonita">
-            FECHA PUBLICACIÓN <p-sortIcon field="fechaBonita"></p-sortIcon>
-          </th>
-          <th pSortableColumn="pending">
-            ESTADO <p-sortIcon field="pending"></p-sortIcon>
-          </th>
-          <th>VER</th>
-          <th>EDITAR</th>
-          <th>BORRAR</th>
+          <th class="encab">VER</th>
+          <th class="encab">EDITAR</th>
+          <th class="encab">BORRAR</th>
         </tr>
       </ng-template>
+
       <ng-template pTemplate="body" let-recipe let-columns="recipe">
         <tr class="text-center">
           <td>{{ recipe.id }}</td>
