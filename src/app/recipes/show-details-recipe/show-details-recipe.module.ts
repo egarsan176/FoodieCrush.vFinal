@@ -4,14 +4,9 @@ import { CommonModule } from '@angular/common';
 import { ShowDetailsRecipeRoutingModule } from './show-details-recipe-routing.module';
 import { ShowDetailsRecipeComponent } from './show-details-recipe.component';
 
-
 @NgModule({
-  declarations: [
-    ShowDetailsRecipeComponent
-  ],
-  imports: [
-    CommonModule,
-    ShowDetailsRecipeRoutingModule
-  ]
+  declarations: [ShowDetailsRecipeComponent],
+  imports: [CommonModule, ShowDetailsRecipeRoutingModule],
+  exports: [ShowDetailsRecipeComponent],
 })
-export class ShowDetailsRecipeModule { }
+export class ShowDetailsRecipeModule {}

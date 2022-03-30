@@ -71,7 +71,8 @@
           <td>
             <button
               class="btn colorYellowP"
-              [routerLink]="['/recipes/details', recipe.id]"
+              (click)="setID(recipe.id)"
+              [routerLink]="['recipeDetails', recipe.id]"
             >
               <i class="fa fa-search"></i>
             </button>
@@ -79,7 +80,7 @@
           <td>
             <button
               class="btn colorPinkP"
-              [routerLink]="['/recipes/details', recipe.id]"
+              [routerLink]="['/detailsRecipe', recipe.id]"
             >
               <i class="fas fa-edit"></i>
             </button>

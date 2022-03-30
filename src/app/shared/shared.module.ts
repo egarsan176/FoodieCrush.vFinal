@@ -6,9 +6,15 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { RecipeFormTemplateComponent } from './recipe-form-template/recipe-form-template.component';
 import { FormsModule } from '@angular/forms';
+import { RecipeDetailsTemplateComponent } from './recipe-details-template/recipe-details-template.component';
 
 @NgModule({
-  declarations: [NavbarComponent, FooterComponent, RecipeFormTemplateComponent],
+  declarations: [
+    NavbarComponent,
+    FooterComponent,
+    RecipeFormTemplateComponent,
+    RecipeDetailsTemplateComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule, //para que funcione routerLink de la navbar
@@ -19,6 +25,7 @@ import { FormsModule } from '@angular/forms';
     NavbarComponent,
     FooterComponent,
     RecipeFormTemplateComponent,
+    RecipeDetailsTemplateComponent,
   ],
 })
 export class SharedModule {}

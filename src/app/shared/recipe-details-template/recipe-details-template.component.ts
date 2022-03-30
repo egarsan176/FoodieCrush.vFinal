@@ -1,23 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FileDB, Recipe, User } from 'src/app/interfaces/interface';
+import { FileDB, User } from 'src/app/interfaces/interface';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
-/**
- * Componente ShowDetailsComponent
- * Este componente nos sirve para mostrar una receta en sí (sus detalles)
- */
+
 @Component({
-  selector: 'app-show-details-recipe',
-  templateUrl: './show-details-recipe.component.html',
-  styleUrls: ['./show-details-recipe.component.css'],
+  selector: 'app-recipe-details-template',
+  templateUrl: './recipe-details-template.component.html',
+  styleUrls: ['./recipe-details-template.component.css'],
 })
-export class ShowDetailsRecipeComponent implements OnInit {
+export class RecipeDetailsTemplateComponent implements OnInit {
   /**
    * PROPIEDADES
    */
-  @Input() id: number = 0;
   recipe: any; //dejo tipo any porque al no estar la categoría definida en receta como una interfaz aparte no me deja obtener el nombre
   ruta: string = '';
   user!: User;
@@ -50,7 +46,6 @@ export class ShowDetailsRecipeComponent implements OnInit {
 
           this.recipe = data;
           this.mostrar = true;
-          //console.log(this.recipe);
         },
         error: (e) => {
           Swal.fire('Error', e.error.message, 'error');
@@ -94,13 +89,5 @@ export class ShowDetailsRecipeComponent implements OnInit {
         Swal.fire('Error', e.error.message, 'error');
       },
     });
-  }
-
-  /**
-   * Este método sirve para volver a la página anterior de la vista
-   * Se hace de esta forma y no con un router-link en la vista porque este componente es reutilizable
-   */
-  back() {
-    history.back();
   }
 }

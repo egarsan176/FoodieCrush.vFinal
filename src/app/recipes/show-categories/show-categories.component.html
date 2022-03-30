@@ -1,3 +1,13 @@
+<div class="row p-1 my-3 justify-content-center" *ngIf="recetario != null">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/recipes">Recetario</a></li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ categoria.name }}
+      </li>
+    </ol>
+  </nav>
+</div>
 <div class="text-center mt-4" *ngIf="recetario != null">
   <h4>Estas son las recetas de la categoría {{ categoria.name }}</h4>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { Table } from 'primeng/table';
 import { Recipe, User } from 'src/app/interfaces/interface';
 import { AccessService } from 'src/app/services/access.service';
@@ -27,7 +28,8 @@ export class ShowRecipesUserComponent implements OnInit {
 
   constructor(
     private recipesService: RecipesService,
-    private accessService: AccessService
+    private accessService: AccessService,
+    private route: Router
   ) {}
 
   ngOnInit(): void {
@@ -144,5 +146,9 @@ export class ShowRecipesUserComponent implements OnInit {
         );
       }
     });
+  }
+
+  setID(id: any) {
+    localStorage.setItem('id', id);
   }
 }

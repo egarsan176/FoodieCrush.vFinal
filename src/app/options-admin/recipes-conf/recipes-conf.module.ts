@@ -6,9 +6,8 @@ import { RecipesConfComponent } from './recipes-conf.component';
 import { ButtonModule } from 'primeng/button';
 import { PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
-import { UploadRecipeFormModule } from 'src/app/options-user/upload-recipe-form/upload-recipe-form.module';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { UploadRecipeFileModule } from 'src/app/recipes/upload-recipe-file/upload-recipe-file.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [RecipesConfComponent],

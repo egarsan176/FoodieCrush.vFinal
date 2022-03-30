@@ -1,0 +1,23 @@
+<div class="row p-1 my-3 justify-content-center">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/optionsADMIN">Gestión</a></li>
+      <li class="breadcrumb-item active">
+        <a routerLink="/optionsADMIN/recipesConf"> Recetas </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Nueva</li>
+    </ol>
+  </nav>
+</div>
+<div class="m-3">
+  <div class="card p-2">
+    <app-upload-recipe-file></app-upload-recipe-file>
+    <app-recipe-form-template></app-recipe-form-template>
+  </div>
+</div>
+
+<div class="row p-1 my-3 justify-content-center">
+  <div class="text-center mb-2">
+    <button class="btn colorPurpleP" (click)="back()">ATRÁS</button>
+  </div>
+</div>

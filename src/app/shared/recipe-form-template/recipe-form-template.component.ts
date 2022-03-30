@@ -182,7 +182,7 @@ export class RecipeFormTemplateComponent implements OnInit {
               }).then((result) => {
                 if (result.isConfirmed) {
                   if (this.userDetails?.role === 'ADMIN')
-                    this.route.navigateByUrl('optionsADMIN');
+                    this.route.navigateByUrl('optionsADMIN/recipesConf');
                   else {
                     this.route.navigateByUrl('optionsUser');
                   }
