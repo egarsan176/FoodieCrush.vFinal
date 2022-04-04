@@ -1,9 +1,9 @@
-<div class="row p-1 my-3 justify-content-center" *ngIf="recetario != null">
+<div class="row p-1 my-3 justify-content-center" *ngIf="categoria.name != null">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a routerLink="/recipes">Recetario</a></li>
+      <li class="breadcrumb-item"><a routerLink="/recipes">RECETARIO</a></li>
       <li class="breadcrumb-item active" aria-current="page">
-        {{ categoria.name }}
+        {{ categoria.name.toUpperCase() }}
       </li>
     </ol>
   </nav>

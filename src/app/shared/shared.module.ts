@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { FormsModule } from '@angular/forms';
+
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { RecipeFormTemplateComponent } from './recipe-form-template/recipe-form-template.component';
-import { FormsModule } from '@angular/forms';
 import { RecipeDetailsTemplateComponent } from './recipe-details-template/recipe-details-template.component';
 
 @NgModule({

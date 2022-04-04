@@ -1,16 +1,16 @@
 <div class="row p-1 my-3 justify-content-center">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a routerLink="/optionsADMIN">Gestión</a></li>
+      <li class="breadcrumb-item"><a routerLink="/optionsADMIN">GESTIÓN</a></li>
       <li class="breadcrumb-item active">
-        <a routerLink="/optionsADMIN/recipesConf"> Recetas </a>
+        <a routerLink="/optionsADMIN/recipesConf"> RECETAS </a>
       </li>
-      <li class="breadcrumb-item active" aria-current="page">Todas</li>
+      <li class="breadcrumb-item active" aria-current="page">TODAS</li>
     </ol>
   </nav>
 </div>
 
-<div class="container text-center my-3">
+<div class="p-3 text-center my-3">
   <p *ngIf="allRecipesBD == null">
     ¡Vaya! Todavía no existe ninguna receta en nuestro Foodie recetario.
   </p>
@@ -34,22 +34,22 @@
         [rowsPerPageOptions]="[10, 25, 50]"
       >
         <ng-template pTemplate="header" let-columns>
-          <tr class="colorGreenP text-center">
-            <th pSortableColumn="id">
+          <tr>
+            <th pSortableColumn="id" class="encab">
               ID <p-sortIcon field="id"></p-sortIcon>
             </th>
-            <th pSortableColumn="recipeName">
+            <th pSortableColumn="recipeName" class="encab">
               NOMBRE <p-sortIcon field="recipeName"></p-sortIcon>
             </th>
-            <th pSortableColumn="category.name">
+            <th pSortableColumn="category.name" class="encab">
               CATEGORÍA <p-sortIcon field="category.name"></p-sortIcon>
             </th>
-            <th pSortableColumn="fechaBonita">
+            <th pSortableColumn="fechaBonita" class="encab">
               FECHA PUBLICACIÓN
               <p-sortIcon field="fechaBonita"></p-sortIcon>
             </th>
-            <th>VER</th>
-            <th>ELIMINAR</th>
+            <th class="encab">VER</th>
+            <th class="encab">ELIMINAR</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-recipe let-columns="recipe">
@@ -64,6 +64,7 @@
                 (click)="setID(recipe.id)"
                 [routerLink]="[
                   '/optionsADMIN/recipesConf/recipeDetail',
+                  'all',
                   recipe.id
                 ]"
               >

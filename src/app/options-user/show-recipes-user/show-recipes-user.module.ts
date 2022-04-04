@@ -6,15 +6,18 @@ import { ShowRecipesUserComponent } from './show-recipes-user.component';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { PaginatorModule } from 'primeng/paginator';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { DetailsRecipeFromUserComponent } from './details-recipe-from-user/details-recipe-from-user.component';
 
 @NgModule({
-  declarations: [ShowRecipesUserComponent],
+  declarations: [ShowRecipesUserComponent, DetailsRecipeFromUserComponent],
   imports: [
     CommonModule,
     ShowRecipesUserRoutingModule,
     TableModule,
     ButtonModule,
     PaginatorModule,
+    SharedModule,
   ],
 })
 export class ShowRecipesUserModule {}

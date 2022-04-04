@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DetailsRecipeFromAdminComponent } from './details-recipe-from-admin/details-recipe-from-admin.component';
 import { RecipesConfComponent } from './recipes-conf.component';
 
 const routes: Routes = [
   { path: '', component: RecipesConfComponent },
   {
-    path: 'recipeDetail',
-    loadChildren: () =>
-      import(
-        './details-recipe-from-admin/details-recipe-from-admin.module'
-      ).then((m) => m.DetailsRecipeFromAdminModule),
+    path: 'recipeDetail/:origin/:id',
+    component: DetailsRecipeFromAdminComponent,
   },
   {
     path: 'pendingRecipes',
@@ -32,7 +30,11 @@ const routes: Routes = [
         (m) => m.AllRecipesModule
       ),
   },
-  { path: 'newRecipe', loadChildren: () => import('./new-recipe/new-recipe.module').then(m => m.NewRecipeModule) },
+  {
+    path: 'newRecipe',
+    loadChildren: () =>
+      import('./new-recipe/new-recipe.module').then((m) => m.NewRecipeModule),
+  },
 ];
 
 @NgModule({

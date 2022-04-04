@@ -1,3 +1,13 @@
+<div class="row p-1 my-3 justify-content-center">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/optionsUser">ÁREA DE FOODIES</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">MIS RECETAS</li>
+    </ol>
+  </nav>
+</div>
 <div
   class="row p-1 my-3 justify-content-center"
   *ngIf="user != null && recetario != null"
@@ -8,7 +18,7 @@
     </h4>
   </div>
 </div>
-<div class="container">
+<div class="p-3">
   <div *ngIf="recetario != null">
     <p-table
       #dt1
@@ -78,10 +88,7 @@
             </button>
           </td>
           <td>
-            <button
-              class="btn colorPinkP"
-              [routerLink]="['/detailsRecipe', recipe.id]"
-            >
+            <button class="btn colorPinkP">
               <i class="fas fa-edit"></i>
             </button>
           </td>

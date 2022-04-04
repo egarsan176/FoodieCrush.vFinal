@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/guards/Auth.guard';
+import { DetailsRecipeFromUserComponent } from './details-recipe-from-user/details-recipe-from-user.component';
 
 import { ShowRecipesUserComponent } from './show-recipes-user.component';
 
 const routes: Routes = [
   { path: '', component: ShowRecipesUserComponent, canActivate: [AuthGuard] },
-  { path: 'recipeDetails', loadChildren: () => import('./details-recipe-from-user/details-recipe-from-user.module').then(m => m.DetailsRecipeFromUserModule) },
+  { path: 'recipeDetails/:id', component: DetailsRecipeFromUserComponent },
 ];
 
 @NgModule({

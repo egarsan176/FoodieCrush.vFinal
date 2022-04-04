@@ -74,10 +74,10 @@ export class AccessService {
 
   /**
    * Este método es al que se llama para cerrar la sesión del usuario.
-   * Elimina el token del localStorage y te devuelve a la página de inicio
+   * Elimina el token  y todo lo almacenado del localStorage y te devuelve a la página de inicio
    */
   logout() {
-    localStorage.removeItem('token');
+    localStorage.clear();
     this.router.navigate(['']);
   }
 

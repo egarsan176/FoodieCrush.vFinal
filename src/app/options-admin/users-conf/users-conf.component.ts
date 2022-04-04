@@ -9,8 +9,4 @@ export class UsersConfComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-
-  back() {
-    history.back();
-  }
 }

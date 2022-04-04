@@ -9,8 +9,4 @@ export class CommentsConfComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-
-  back() {
-    history.back();
-  }
 }

@@ -1,8 +1,8 @@
 <div class="row p-1 my-3 justify-content-center">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a routerLink="/optionsADMIN">Gestión</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Recetas</li>
+      <li class="breadcrumb-item"><a routerLink="/optionsADMIN">GESTIÓN</a></li>
+      <li class="breadcrumb-item active" aria-current="page">RECETAS</li>
     </ol>
   </nav>
 </div>
@@ -62,33 +62,10 @@
 </div>
 <!-- end row-->
 
-<div class="row m-2">
-  <!-- RECETAS PENDIENTES -->
-
-  <!-- FIN RECETAS PENDIENTES -->
-
-  <!-- RECETAS APROBADAS -->
-
-  <div class="col-12 text-center"></div>
-  <!-- FIN RECETAS APROBADAS -->
-
-  <!-- PUBLICAR RECETA NUEVA-->
-  <div class="col-12">
-    <div *ngIf="addNewRecipe"></div>
-  </div>
-  <!-- FIN PUBLICAR RECETA -->
-
-  <!-- TODAS LAS RECETAS -->
-
-  <div class="col-12 text-center">
-    <!-- FIN TODAS RECETAS -->
-  </div>
-
-  <div class="row p-1 my-3 justify-content-center">
-    <div class="text-center mb-2">
-      <button class="btn colorPurpleP" (click)="back()">
-        VOLVER AL PANEL DE GESTIÓN
-      </button>
-    </div>
+<div class="row p-1 my-3 justify-content-center">
+  <div class="text-center mb-2">
+    <button class="btn colorPurpleP" routerLink="/optionsADMIN">
+      VOLVER AL PANEL DE GESTIÓN
+    </button>
   </div>
 </div>

@@ -9,8 +9,4 @@ export class IngredientsConfComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-
-  back() {
-    history.back();
-  }
 }

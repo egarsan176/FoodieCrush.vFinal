@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FileDB, User } from 'src/app/interfaces/interface';
 import { FileUploadService } from 'src/app/services/file-upload.service';
@@ -14,6 +14,7 @@ export class RecipeDetailsTemplateComponent implements OnInit {
   /**
    * PROPIEDADES
    */
+  @Input() id: number = 0;
   recipe: any; //dejo tipo any porque al no estar la categoría definida en receta como una interfaz aparte no me deja obtener el nombre
   ruta: string = '';
   user!: User;
@@ -89,5 +90,13 @@ export class RecipeDetailsTemplateComponent implements OnInit {
         Swal.fire('Error', e.error.message, 'error');
       },
     });
+  }
+
+  /**
+   * Este método sirve para volver a la página anterior de la vista
+   * Se hace de esta forma y no con un router-link en la vista porque este componente es reutilizable
+   */
+  back() {
+    history.back();
   }
 }

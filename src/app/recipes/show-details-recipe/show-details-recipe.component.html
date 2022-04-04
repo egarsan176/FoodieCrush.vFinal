@@ -2,14 +2,14 @@
   <div class="row p-1 my-3 justify-content-center">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="/recipes">Recetario</a></li>
+        <li class="breadcrumb-item"><a routerLink="/recipes">RECETARIO</a></li>
         <li class="breadcrumb-item active">
           <a [routerLink]="['/recipes/categories/' + recipe.category.id]">{{
-            recipe.category.name
+            recipe.category.name.toUpperCase()
           }}</a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">
-          {{ recipe.recipeName }}
+          {{ recipe.recipeName.toUpperCase() }}
         </li>
       </ol>
     </nav>
