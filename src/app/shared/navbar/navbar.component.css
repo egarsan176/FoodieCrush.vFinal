@@ -9,3 +9,7 @@
   font-weight: bold;
   background-color: #a9dfbf;
 }
+
+#logOut a:active {
+  background-color: #a9dfbf;
+}

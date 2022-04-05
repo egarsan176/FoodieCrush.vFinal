@@ -1,0 +1,18 @@
+<div *ngIf="recipe != null">
+  <div class="row p-1 my-3 justify-content-center">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/optionsUser">ÁREA DE FOODIES</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a routerLink="/optionsUser/myRecipes">MIS RECETAS</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ recipe.recipeName.toUpperCase() }}
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <app-recipe-details-template [id]="id"></app-recipe-details-template>
+</div>

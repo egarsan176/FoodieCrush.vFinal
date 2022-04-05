@@ -43,14 +43,38 @@
 }
 
 /* PARA PERSONALIZAR LAS ALERTAS DEL SWEET ALERT */
+
 .swal2-styled.swal2-confirm {
-  background-color: #c39bd3 !important;
+  background-color: #a9dfbf !important;
   color: black !important;
   font-weight: bold !important;
 }
 
 .swal2-popup {
-  background-color: #f9e79f !important;
+  background-image: url(assets/img/logo.svg) !important;
+  background-position: center !important;
+  backdrop-filter: rgba(0, 0, 123, 0.4) !important;
+}
+
+.swal2-title {
+  font-weight: bolder !important;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif !important;
+  color: black !important;
+}
+.swal2-icon {
+  background-color: white !important;
+}
+
+.swal2-success-circular-line-left,
+.swal2-success-circular-line-right,
+.swal2-success-fix {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+.swal2-html-container {
+  color: black !important;
+  font-weight: bold !important;
+  background-color: #f9e79f;
 }
 
 /* PARA LA IMAGEN DE ERROR SI NO EXISTEN RECETAS */
@@ -74,5 +98,7 @@
   }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/*  PARA EL COLOR DE LA CABECERAS DE LAS DATATABLES*/
+.encab {
+  background-color: #a9dfbf !important;
+}

@@ -1,1 +1,80 @@
-<p>options-admin works!</p>
+<div *ngIf="mostrar">
+  <div class="row p-1 my-3 justify-content-center">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">GESTIÓN</li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row p-1 mt-2 justify-content-center">
+    <div class="text-center">
+      <h4>Bienvenid@ {{ user.fullName }}</h4>
+      <p>Este es tu panel de gestión como ADMIN</p>
+      <p>¿Por dónde empezamos?</p>
+    </div>
+  </div>
+  <div class="row m-3">
+    <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-xs-12">
+      <div class="card mb-4">
+        <div class="card-header colorYellowP"></div>
+        <div class="card-body text-center">
+          <img src="assets/img/icons/gear.png" alt="" />
+          <h5 class="my-2">Usuarios</h5>
+
+          <a [routerLink]="['/optionsADMIN/usersConf']" class="btn colorGreenP"
+            >GESTIONAR</a
+          >
+        </div>
+        <div class="card-footer colorYellowP"></div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-xs-12">
+      <div class="card mb-4">
+        <div class="card-header colorYellowP"></div>
+        <div class="card-body text-center">
+          <img src="assets/img/icons/recipe-book.png" alt="" />
+          <h5 class="my-2">Recetas</h5>
+
+          <a
+            [routerLink]="['/optionsADMIN/recipesConf']"
+            class="btn colorGreenP"
+            >GESTIONAR</a
+          >
+        </div>
+        <div class="card-footer colorYellowP"></div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-xs-12">
+      <div class="card mb-4">
+        <div class="card-header colorYellowP"></div>
+        <div class="card-body text-center">
+          <img src="assets/img/icons/ingredients.png" alt="" />
+          <h5 class="my-2">Ingredientes</h5>
+
+          <a
+            [routerLink]="['/optionsADMIN/ingredientsConf']"
+            class="btn colorGreenP"
+            >GESTIONAR</a
+          >
+        </div>
+        <div class="card-footer colorYellowP"></div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-xs-12">
+      <div class="card mb-4">
+        <div class="card-header colorYellowP"></div>
+        <div class="card-body text-center">
+          <img src="assets/img/icons/positive-review.png" alt="" />
+          <h5 class="my-2">Comentarios</h5>
+
+          <a
+            [routerLink]="['/optionsADMIN/commentsConf']"
+            class="btn colorGreenP"
+            >GESTIONAR</a
+          >
+        </div>
+        <div class="card-footer colorYellowP"></div>
+      </div>
+    </div>
+  </div>
+</div>

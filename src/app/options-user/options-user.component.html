@@ -1,23 +1,40 @@
+<div class="row p-1 my-3 justify-content-center">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">
+        ÁREA DE FOODIES
+      </li>
+    </ol>
+  </nav>
+</div>
 <div class="row p-1 mt-2 justify-content-center">
-    <div class="text-center">
-        <h4>Aquí podrás publicar tu receta para compartirla con la comunidad Foodie y también consultar tus recetas ya publicadas</h4>
-    </div>
-    
+  <div class="text-center">
+    <h4>Hola {{ username }}, ¿qué quieres hacer?</h4>
+  </div>
 </div>
 
 <div class="row p-1 my-3 justify-content-center">
-    <div class="text-center mb-2">
-        <p>¿Quieres publicar una nueva receta? Haz click en el botón que aparece aquí abajo</p>
-        <button class="btn colorPurpleP" routerLink="/recipes/uploadRecipe">PUBLICAR RECETA</button> <!-- aquí se carga el formulario para publicar receta -->
-      </div>
-
+  <div class="text-center mb-2">
+    <p>
+      ¿Quieres publicar una nueva receta?<br />Haz click en el botón que aparece
+      aquí abajo
+    </p>
+    <button class="btn colorPurpleP" routerLink="/optionsUser/uploadRecipe">
+      PUBLICAR RECETA
+    </button>
+    <!-- aquí se carga el formulario para publicar receta -->
+  </div>
 </div>
- 
 
 <div class="row p-1 my-3 justify-content-center">
-    <div class="text-center mb-2">
-        <p>¿Quieres ver tus recetas ya publicadas? Haz click en el botón que aparece aquí abajo</p>
-        <button class="btn colorPurpleP" routerLink="/recipes/myRecipes">VER MIS RECETAS</button> <!-- aquí se carga la datatable -->
-      </div>
-
+  <div class="text-center mb-2">
+    <p>
+      ¿Quieres ver tus recetas ya publicadas?<br />Haz click en el botón que
+      aparece aquí abajo
+    </p>
+    <button class="btn colorPurpleP" routerLink="/optionsUser/myRecipes">
+      VER MIS RECETAS
+    </button>
+    <!-- aquí se carga la datatable -->
+  </div>
 </div>

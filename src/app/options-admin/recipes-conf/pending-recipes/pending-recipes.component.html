@@ -1,0 +1,103 @@
+<div class="row p-1 my-3 justify-content-center">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/optionsADMIN">GESTIÓN</a></li>
+      <li class="breadcrumb-item active">
+        <a routerLink="/optionsADMIN/recipesConf"> RECETAS </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">PENDIENTES</li>
+    </ol>
+  </nav>
+</div>
+<div class="p-3 text-center my-3">
+  <div *ngIf="recipesPending == null">
+    <p>¡Buen trabajo no hay ninguna receta pendiente de aprobar!</p>
+  </div>
+
+  <div *ngIf="recipesPending != null">
+    <div *ngIf="recipesPending.length >= 1">
+      <p *ngIf="recipesPending.length == 1">
+        Solo existe 1 receta que todavía no has aprobado y por lo tanto no se
+        muestra en el Foodie recetario. Tenemos trabajo por hacer, ¡adelante!
+      </p>
+      <p *ngIf="recipesPending.length > 1">
+        Existen un total de {{ recipesPending.length }} recetas que todavía no
+        has aprobado y por lo tanto no se muestran en el Foodie recetario.
+        Tenemos trabajo por hacer, ¡adelante!
+      </p>
+      <p-table
+        [value]="recipesPending"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        styleClass="p-datatable-striped"
+        responsiveLayout="scroll"
+        currentPageReportTemplate="Mostrando {first} de {last} de un total de {totalRecords} entradas"
+        [rowsPerPageOptions]="[10, 25, 50]"
+      >
+        <ng-template pTemplate="header" let-columns>
+          <tr class="colorGreenP text-center">
+            <th pSortableColumn="id" class="encab">
+              ID <p-sortIcon field="id"></p-sortIcon>
+            </th>
+            <th pSortableColumn="recipeName" class="encab">
+              NOMBRE <p-sortIcon field="recipeName"></p-sortIcon>
+            </th>
+            <th pSortableColumn="category.name" class="encab">
+              CATEGORÍA <p-sortIcon field="category.name"></p-sortIcon>
+            </th>
+            <th pSortableColumn="fechaBonita" class="encab">
+              FECHA PUBLICACIÓN
+              <p-sortIcon field="fechaBonita"></p-sortIcon>
+            </th>
+            <th class="encab">VER</th>
+            <th class="encab">APROBAR</th>
+            <th class="encab">ELIMINAR</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-recipe let-columns="recipe">
+          <tr class="text-center">
+            <td>{{ recipe.id }}</td>
+            <td>{{ recipe.recipeName }}</td>
+            <td>{{ recipe.category.name }}</td>
+            <td>{{ recipe.fechaBonita }}</td>
+            <td>
+              <button
+                class="btn colorYellowP"
+                (click)="setID(recipe.id)"
+                [routerLink]="[
+                  '/optionsADMIN/recipesConf/recipeDetail',
+                  'pending',
+                  recipe.id
+                ]"
+              >
+                <i class="fa fa-search"></i>
+              </button>
+            </td>
+            <td>
+              <button
+                class="btn colorPinkP"
+                (click)="changeStatusRecipe(recipe.id)"
+              >
+                <i class="fas fa-check-circle"></i>
+              </button>
+            </td>
+            <td>
+              <button
+                class="btn colorPurpleP"
+                (click)="deleteRecipe(recipe.id)"
+              >
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="row p-1 my-3 justify-content-center">
+    <div class="text-center mb-2">
+      <button class="btn colorPurpleP" (click)="back()">ATRÁS</button>
+    </div>
+  </div>
+</div>
