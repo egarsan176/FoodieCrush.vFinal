@@ -1,5 +1,25 @@
 # FoodieCrushFINAL
 
+**_FoodieCrush_** is my final project of the **CFGS Web Application Development**.
+This project consists of a recipe blog where we find the following roles:
+
+- User: can only see the recipes published on the blog.
+- Logged in user: can do the same as a user and can also publish their own recipes and consult them to edit or delete them.
+- Administrator user: can do the same as a logged-in user and also manages the blog's recipes, as well as comments, ingredients and users.
+
+![FoodieCrush Logo](/src/assets/img/logo_small.png "FoodieCrush Logo")
+
+Several _frameworks_ have been used for the development of this project, such as:
+
+- **SpringBoot**
+- **Angular**
+- **Bootstrap5**
+- **PrimeNG**
+
+The programming language used was **JavaScript** _(TypeScript for Angular)_ on the front end and **Java** on the back end.
+
+---
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.1.
 
 ## Development server
