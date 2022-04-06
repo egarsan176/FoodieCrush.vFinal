@@ -25,11 +25,11 @@ export class ShowRecipesUserComponent implements OnInit {
   first = 0;
   rows = 10;
   @ViewChild('dt1') dt1!: Table | undefined;
+  pending: boolean = true;
 
   constructor(
     private recipesService: RecipesService,
-    private accessService: AccessService,
-    private route: Router
+    private accessService: AccessService
   ) {}
 
   ngOnInit(): void {

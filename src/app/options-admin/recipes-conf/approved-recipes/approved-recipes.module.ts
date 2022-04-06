@@ -6,6 +6,7 @@ import { ApprovedRecipesComponent } from './approved-recipes.component';
 import { ButtonModule } from 'primeng/button';
 import { PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [ApprovedRecipesComponent],
@@ -15,6 +16,7 @@ import { TableModule } from 'primeng/table';
     TableModule,
     ButtonModule,
     PaginatorModule,
+    SharedModule,
   ],
 })
 export class ApprovedRecipesModule {}

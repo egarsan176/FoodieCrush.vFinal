@@ -15,6 +15,7 @@ export class PendingRecipesComponent implements OnInit {
   first = 0;
   rows = 10;
   recipesPending: Recipe[] = [];
+  pending: boolean = true;
 
   constructor(private recipesService: RecipesService) {}
 
@@ -32,6 +33,7 @@ export class PendingRecipesComponent implements OnInit {
     this.recipesService.getAllRecipesPending().subscribe({
       next: (data) => {
         this.recipesPending = data;
+        this.pending = false;
       },
       error: (e) => {
         Swal.fire('Error', e.error.mensaje, 'error');

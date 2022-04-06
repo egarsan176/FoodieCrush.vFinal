@@ -13,6 +13,7 @@ export class AllRecipesComponent implements OnInit {
    * PROPIEDADES
    */
   allRecipesBD: Recipe[] = [];
+  pending: boolean = true;
 
   constructor(private recipesService: RecipesService) {}
 
@@ -31,6 +32,7 @@ export class AllRecipesComponent implements OnInit {
     this.recipesService.getAllRecipes().subscribe({
       next: (data) => {
         this.allRecipesBD = data;
+        this.pending = false;
       },
       error: (e) => {
         Swal.fire('Error', e.error.mensaje, 'error');

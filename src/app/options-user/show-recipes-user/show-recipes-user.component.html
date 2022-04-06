@@ -8,18 +8,20 @@
     </ol>
   </nav>
 </div>
-<div
-  class="row p-1 my-3 justify-content-center"
-  *ngIf="user != null && recetario != null"
->
+<div *ngIf="pending">
+  <app-spinner></app-spinner>
+</div>
+
+<div class="row p-1 my-3 justify-content-center" *ngIf="user != null">
   <div class="text-center mb-2">
     <h4>
       {{ user.fullName }}, aquí tienes todas las recetas que has publicado
     </h4>
   </div>
 </div>
-<div class="p-3">
-  <div *ngIf="recetario != null">
+
+<div class="p-3" *ngIf="!pending">
+  <div>
     <p-table
       #dt1
       [columns]="cols"

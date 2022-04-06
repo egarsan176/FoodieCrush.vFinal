@@ -16,6 +16,7 @@ export class ApprovedRecipesComponent implements OnInit {
   recipesApproved: Recipe[] = [];
   first = 0;
   rows = 10;
+  pending: boolean = true;
 
   constructor(private recipesService: RecipesService) {}
 
@@ -33,6 +34,7 @@ export class ApprovedRecipesComponent implements OnInit {
     this.recipesService.getAllRecipesApproved().subscribe({
       next: (data) => {
         this.recipesApproved = data;
+        this.pending = false;
       },
       error: (e) => {
         Swal.fire('Error', e.error.mensaje, 'error');
