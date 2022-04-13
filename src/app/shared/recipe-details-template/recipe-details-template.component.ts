@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FileDB, User } from 'src/app/interfaces/interface';
+import { FileDB, RecipeComment, User } from 'src/app/interfaces/interface';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
@@ -21,6 +21,8 @@ export class RecipeDetailsTemplateComponent implements OnInit {
   file!: FileDB;
   img: string = '';
   mostrar: boolean = false;
+  comments!: any[]; //dejo any porque la clase comment del back es diferente a la del front y no puedo recuperar el usuario que en el front no existe
+  showComments: boolean = false;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -44,9 +46,10 @@ export class RecipeDetailsTemplateComponent implements OnInit {
         next: (data) => {
           this.getUserByRecipe(data.id); //para obtener al usuario asociado a esa receta
           this.getFileByRecipe(data.id); //para obtener la imagen asociada a esa receta
-
+          this.getCommentsFromRecipe(data.id); //para obtener los comentarios de la receta
           this.recipe = data;
           this.mostrar = true;
+          console.log(this.recipe);
         },
         error: (e) => {
           Swal.fire('Error', e.error.message, 'error');
@@ -92,6 +95,22 @@ export class RecipeDetailsTemplateComponent implements OnInit {
     });
   }
 
+  getCommentsFromRecipe(id: number) {
+    //se muestran los comentarios que ya han sido aprobados por el admin
+    this.recipeService.getCommentsNotPendingFromRecipe(id).subscribe({
+      next: (data) => {
+        this.comments = data;
+        this.showComments = true;
+        console.log(data);
+        console.log(this.comments);
+      },
+      error: (e) => {
+        Swal.fire('Error', e.error.message, 'error');
+      },
+    });
+  }
+
+  addComment(id: number) {}
   /**
    * Este método sirve para volver a la página anterior de la vista
    * Se hace de esta forma y no con un router-link en la vista porque este componente es reutilizable

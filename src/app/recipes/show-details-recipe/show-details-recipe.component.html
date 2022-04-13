@@ -137,23 +137,38 @@
         role="tabpanel"
         aria-labelledby="profile-tab"
       >
-        <label>¿Quieres comentar algo sobre esta receta? Hazlo aquí</label>
+        <div *ngIf="showComments" class="mt-3">
+          <ul *ngFor="let comment of comments; let indice = index" class="mt-3">
+            <label for=""
+              >Comentado por: {{ comment.username }}, el
+              {{ comment.fechaBonita }}:</label
+            >
+            <li>
+              {{ comment.message }}
+            </li>
+          </ul>
+        </div>
+        <div *ngIf="!showComments" class="text-center mt-3">
+          <p>¡Vaya! Esta receta aún no tiene comentarios.</p>
+        </div>
+        <hr />
+        <label>¿Quieres comentar algo sobre esta receta? Hazlo aquí </label>
         <br />
-        <textarea></textarea>
-        <ul
-          *ngFor="let comment of recipe.comment; let indice = index"
-          class="mt-3"
-        >
-          <li>{{ indice + 1 }}. {{ comment.message.toUpperCase() }}</li>
-        </ul>
+        <textarea class="m-2" [(ngModel)]="texto"></textarea>
+        <br />
+        <button class="btn colorGreenP" (click)="addComment(recipe.id)">
+          ENVIAR
+        </button>
       </div>
-    </div>
 
-    <div class="row p-1 my-3 justify-content-center">
-      <div class="text-center mb-2">
-        <!-- PARA GESTIONAR QUE EL VOLVER SEA DIFERENTE DEPENDIENDO DE LA RUTA QUE SE HAYA SEGUIDO PARA LLEGAR HASTA AQUÍ -->
-        <button class="btn colorPurpleP" (click)="back()">VOLVER</button>
+      <div class="row p-1 my-3 justify-content-center">
+        <div class="text-center mb-2">
+          <!-- PARA GESTIONAR QUE EL VOLVER SEA DIFERENTE DEPENDIENDO DE LA RUTA QUE SE HAYA SEGUIDO PARA LLEGAR HASTA AQUÍ -->
+          <button class="btn colorPurpleP" (click)="back()">VOLVER</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<p>Se muestra esta show-details-recipe</p>

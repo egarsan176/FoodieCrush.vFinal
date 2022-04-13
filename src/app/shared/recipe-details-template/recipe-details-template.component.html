@@ -85,6 +85,8 @@
       </button>
     </li>
   </ul>
+
+  <!-- PESTAÑA INGREDIENTES-->
   <div class="tab-content" id="myTabContent">
     <div
       class="tab-pane fade show active"
@@ -102,34 +104,48 @@
         </li>
       </ul>
     </div>
+
+    <!-- PESTAÑA ELABORACIÓN RECETA-->
     <div
       class="tab-pane fade"
       id="elaboracion"
       role="tabpanel"
       aria-labelledby="profile-tab"
     >
-      <ul
-        *ngFor="let ingredient of recipe.method; let indice = index"
-        class="mt-3"
-      >
-        <li>{{ indice + 1 }}. {{ ingredient.step.toUpperCase() }}</li>
+      <ul *ngFor="let step of recipe.method; let indice = index" class="mt-3">
+        <li>{{ indice + 1 }}. {{ step.step.toUpperCase() }}</li>
       </ul>
     </div>
+
+    <!-- PESTAÑA COMENTARIOS-->
     <div
       class="tab-pane fade"
       id="comentarios"
       role="tabpanel"
       aria-labelledby="profile-tab"
     >
-      <label>¿Quieres comentar algo sobre esta receta? Hazlo aquí</label>
+      <div *ngIf="showComments" class="mt-3">
+        <ul *ngFor="let comment of comments; let indice = index" class="mt-3">
+          <label for=""
+            >Comentado por: {{ comment.username }}, el
+            {{ comment.fechaBonita }}:</label
+          >
+          <li>
+            {{ comment.message }}
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="!showComments" class="text-center mt-3">
+        <p>¡Vaya! Esta receta aún no tiene comentarios.</p>
+      </div>
+      <hr />
+      <label>¿Quieres comentar algo sobre esta receta? Hazlo aquí </label>
       <br />
-      <textarea></textarea>
-      <ul
-        *ngFor="let comment of recipe.comment; let indice = index"
-        class="mt-3"
-      >
-        <li>{{ indice + 1 }}. {{ comment.message.toUpperCase() }}</li>
-      </ul>
+      <textarea class="m-2"></textarea>
+      <br />
+      <button class="btn colorGreenP" (click)="addComment(recipe.id)">
+        ENVIAR
+      </button>
     </div>
   </div>
 

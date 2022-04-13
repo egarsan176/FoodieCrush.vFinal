@@ -1,6 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FileDB, Recipe, User } from 'src/app/interfaces/interface';
+import {
+  FileDB,
+  Recipe,
+  RecipeComment,
+  User,
+} from 'src/app/interfaces/interface';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
@@ -24,6 +29,12 @@ export class ShowDetailsRecipeComponent implements OnInit {
   file!: FileDB;
   img: string = '';
   mostrar: boolean = false;
+  comments!: any[]; //dejo any porque la clase comment del back es diferente a la del front y no puedo recuperar el usuario que en el front no existe
+  showComments: boolean = false;
+  texto: string = '';
+  commentRecipe: RecipeComment = {
+    message: '',
+  };
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -92,6 +103,28 @@ export class ShowDetailsRecipeComponent implements OnInit {
       },
       error: (e) => {
         Swal.fire('Error', e.error.message, 'error');
+      },
+    });
+  }
+
+  /**
+   * Este método sirve para publicar un comentario en la receta
+   * @param id
+   */
+  addComment(id: number) {
+    this.commentRecipe.message = this.texto;
+    this.recipeService.addCommentToRecipe(id, this.commentRecipe).subscribe({
+      next: (data) => {
+        Swal.fire({
+          title: 'Comentario publicado',
+          text: 'Su comentario se ha publicado con éxito. Estará visible cuando el administrador lo confirme.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+        });
+        this.texto = '';
+      },
+      error: (e) => {
+        Swal.fire('Error', e.error.mensaje, 'error');
       },
     });
   }

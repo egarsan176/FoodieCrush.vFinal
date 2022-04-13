@@ -51,3 +51,7 @@ export interface UserDetails {
   email: string;
   username: string;
 }
+
+export interface RecipeComment {
+  message: string;
+}

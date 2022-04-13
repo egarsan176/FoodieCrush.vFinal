@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { FileDB, Recipe, User } from '../interfaces/interface';
+import { FileDB, Recipe, RecipeComment, User } from '../interfaces/interface';
 import { AccessService } from './access.service';
 /**
  * RecipesService
@@ -216,5 +216,62 @@ export class RecipesService {
     });
     const url = `${this.urlBase}/recipes/${id}`;
     return this.httpClient.delete<any>(url, { headers });
+  }
+
+  /**
+   * A este método se accede para publicar un comentario en una receta
+   * @param id
+   * @param comment
+   * @returns texxto del mensaje del comentario
+   */
+  addCommentToRecipe(id: number, comment: RecipeComment) {
+    let token = this.accessService.getToken();
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const body = comment;
+
+    const url = `${this.urlBase}/recipes/${id}/comments`;
+    return this.httpClient.post<any>(url, body, { headers });
+  }
+
+  getCommentsNotPendingFromRecipe(id: number) {
+    let token = this.accessService.getToken();
+    const params = new HttpParams().set('isPending', 'false');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.urlBase}/recipes/${id}/comments?${params}`;
+    //pongo any porque la clase Comment del back me devuelve más cosas que la clase Comment del front
+    return this.httpClient.get<any[]>(url, { headers });
+  }
+
+  getCommentsPendingFromRecipe(id: number) {
+    let token = this.accessService.getToken();
+    const params = new HttpParams().set('isPending', 'true');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.urlBase}/recipes/${id}/comments?${params}`;
+    //pongo any porque la clase Comment del back me devuelve más cosas que la clase Comment del front
+    return this.httpClient.get<any[]>(url, { headers });
+  }
+
+  getAllCommentsFromRecipe(id: number) {
+    let token = this.accessService.getToken();
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.urlBase}/recipes/${id}/comments`;
+    //pongo any porque la clase Comment del back me devuelve más cosas que la clase Comment del front
+    return this.httpClient.get<any[]>(url, { headers });
   }
 }

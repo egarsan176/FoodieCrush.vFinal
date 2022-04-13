@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { Table } from 'primeng/table';
 import { Recipe, User } from 'src/app/interfaces/interface';
 import { AccessService } from 'src/app/services/access.service';
@@ -71,6 +70,7 @@ export class ShowRecipesUserComponent implements OnInit {
     this.recipesService.getRecipesFromUser(user).subscribe({
       next: (data) => {
         this.recetario = data;
+        this.pending = false;
       },
       error: (e) => {
         Swal.fire('Error', e.error.mensaje, 'error');
