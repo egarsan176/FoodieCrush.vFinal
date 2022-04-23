@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccessService } from '../services/access.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { UserDetails } from '../interfaces/interface';
+import { User, UserDetails } from '../interfaces/interface';
+import Swal from 'sweetalert2';
 /**
  * Componente de Opciones del Usuario
  */
@@ -15,20 +15,27 @@ export class OptionsUserComponent implements OnInit {
    * PROPIEDADES
    */
   userDetails!: UserDetails | null;
+  user!: User;
+  notifications: [] = [];
+  mostrar: boolean = false;
 
-  constructor(
-    private accessService: AccessService,
-    private decodificarToken: JwtHelperService
-  ) {}
+  constructor(private accessService: AccessService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getUser();
+  }
 
-  /**
-   * Método para obtener el nombre del usuario a través del token que se encuentra en el localStorage
-   */
-  get username() {
-    let token = this.accessService.getToken();
-    this.userDetails = this.decodificarToken.decodeToken(JSON.stringify(token));
-    return this.userDetails?.username;
+  /**Método para obtener el usuario que está en la sesión en ese momento */
+  getUser() {
+    this.accessService.getUsuario().subscribe({
+      next: (data) => {
+        this.user = data;
+        this.notifications = data.notifications;
+        this.mostrar = true;
+      },
+      error: (e) => {
+        Swal.fire('Error', e.error.mensaje, 'error');
+      },
+    });
   }
 }

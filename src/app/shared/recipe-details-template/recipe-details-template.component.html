@@ -135,13 +135,13 @@
           </li>
         </ul>
       </div>
-      <div *ngIf="!showComments" class="text-center mt-3">
+      <div *ngIf="!showComments || comments == null" class="text-center mt-3">
         <p>¡Vaya! Esta receta aún no tiene comentarios.</p>
       </div>
       <hr />
       <label>¿Quieres comentar algo sobre esta receta? Hazlo aquí </label>
       <br />
-      <textarea class="m-2"></textarea>
+      <textarea class="m-2" [(ngModel)]="texto"></textarea>
       <br />
       <button class="btn colorGreenP" (click)="addComment(recipe.id)">
         ENVIAR
@@ -156,3 +156,4 @@
     </div>
   </div>
 </div>
+<p>Se muestra esta recipe-details-template-component</p>

@@ -70,6 +70,7 @@ export class ShowRecipesUserComponent implements OnInit {
     this.recipesService.getRecipesFromUser(user).subscribe({
       next: (data) => {
         this.recetario = data;
+
         this.pending = false;
       },
       error: (e) => {
@@ -86,7 +87,7 @@ export class ShowRecipesUserComponent implements OnInit {
    * @returns estado de la receta (pendiente/aprobada)
    */
   getStatus(recipe: Recipe) {
-    return recipe.pending ? 'pendiente' : 'aprobada';
+    return recipe.isPending ? 'pendiente' : 'aprobada';
   }
 
   /**

@@ -1,0 +1,80 @@
+<div class="row p-1 my-3 justify-content-center">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/optionsADMIN">GESTIÓN</a></li>
+      <li class="breadcrumb-item active">
+        <a routerLink="/optionsADMIN/commentsConf"> COMENTARIOS </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">APROBADOS</li>
+    </ol>
+  </nav>
+</div>
+<div *ngIf="pending">
+  <app-spinner></app-spinner>
+</div>
+
+<div *ngIf="!pending">
+  <div class="p-3 text-center my-3">
+    <!-- SI NO HAY COMENTARIOS -->
+    <div *ngIf="commentsApproved == null">
+      <p>¡Vaya! Aún no has aprobado ningún comentario. !Date prisa!</p>
+    </div>
+    <!-- SI HAY COMENTARIOS -->
+    <div *ngIf="commentsApproved != null">
+      <p *ngIf="commentsApproved.length == 1">
+        Solo existe 1 comentario aprobado.
+      </p>
+      <p *ngIf="commentsApproved.length > 1">
+        Existen un total de {{ commentsApproved.length }} comentarios aprobados.
+      </p>
+
+      <p-table
+        [value]="commentsApproved"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        styleClass="p-datatable-striped"
+        responsiveLayout="scroll"
+        currentPageReportTemplate="Mostrando {first} de {last} de un total de {totalRecords} entradas"
+        [rowsPerPageOptions]="[10, 25, 50]"
+      >
+        <ng-template pTemplate="header" let-columns>
+          <tr class="colorGreenP text-center">
+            <th pSortableColumn="id" class="encab">
+              ID <p-sortIcon field="id"></p-sortIcon>
+            </th>
+            <th pSortableColumn="username" class="encab">
+              PUBLICADO POR <p-sortIcon field="username"></p-sortIcon>
+            </th>
+            <th pSortableColumn="category.name" class="encab">
+              RECETA <p-sortIcon field="category.name"></p-sortIcon>
+            </th>
+            <th pSortableColumn="fechaBonita" class="encab">
+              FECHA PUBLICACIÓN
+              <p-sortIcon field="fechaBonita"></p-sortIcon>
+            </th>
+            <th class="encab">VER</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-comment let-columns="comment">
+          <tr class="text-center">
+            <td>{{ comment.id }}</td>
+            <td>{{ comment.username.toUpperCase() }}</td>
+            <td>{{ comment.recipeName.toUpperCase() }}</td>
+            <td>{{ comment.fechaBonita }}</td>
+            <td>
+              <button class="btn colorYellowP" (click)="showComment(comment)">
+                <i class="fa fa-search"></i>
+              </button>
+            </td></tr
+        ></ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+
+<div class="row p-1 my-3 justify-content-center">
+  <div class="text-center mb-2">
+    <button class="btn colorPurpleP" (click)="back()">ATRÁS</button>
+  </div>
+</div>

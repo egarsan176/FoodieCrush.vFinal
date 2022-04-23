@@ -28,7 +28,7 @@ export interface Recipe {
   ingredientLine: IngredientLine[];
   file: FileDB;
   comments: string[];
-  pending: boolean;
+  isPending: boolean;
 }
 
 export interface IngredientLine {

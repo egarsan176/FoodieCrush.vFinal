@@ -6,10 +6,67 @@
     </ol>
   </nav>
 </div>
-<p>comments-conf works!</p>
+<!-- <p>comments-conf works!</p>
 <button (click)="option()">CLICK AQUÍ</button>
 <div class="row p-1 my-3 justify-content-center">
   <div class="text-center mb-2">
     <button class="btn colorPurpleP" routerLink="/optionsADMIN">VOLVER</button>
+  </div>
+</div> -->
+
+<div class="row p-1 mt-2 justify-content-center">
+  <div class="text-center">
+    <p>
+      En esta sección puedes gestionar todo lo relacionado con los comentarios.
+    </p>
+    <p>¡Manos a la obra!</p>
+  </div>
+</div>
+<div class="row m-2">
+  <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-xs-12">
+    <div class="card mb-4">
+      <div class="card-header colorYellowP"></div>
+      <div class="card-body text-center">
+        <img src="assets/img/icons/question.png" alt="" />
+        <h5 class="my-2">PENDIENTES</h5>
+        <button class="btn colorGreenP" routerLink="pendingComments">
+          MÁS
+        </button>
+      </div>
+      <div class="card-footer colorYellowP"></div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-xs-12">
+    <div class="card mb-4">
+      <div class="card-header colorYellowP"></div>
+      <div class="card-body text-center">
+        <img src="assets/img/icons/stamp.png" alt="" />
+        <h5 class="my-2">APROBADOS</h5>
+        <button class="btn colorGreenP" routerLink="approvedComments">
+          MÁS
+        </button>
+      </div>
+      <div class="card-footer colorYellowP"></div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-xs-12">
+    <div class="card mb-4">
+      <div class="card-header colorYellowP"></div>
+      <div class="card-body text-center">
+        <img src="assets/img/icons/recipe-book.png" alt="" />
+        <h5 class="my-2">TODOS</h5>
+        <button class="btn colorGreenP" routerLink="allComments">MÁS</button>
+      </div>
+      <div class="card-footer colorYellowP"></div>
+    </div>
+  </div>
+</div>
+<!-- end row-->
+
+<div class="row p-1 my-3 justify-content-center">
+  <div class="text-center mb-2">
+    <button class="btn colorPurpleP" routerLink="/optionsADMIN">
+      VOLVER AL PANEL DE GESTIÓN
+    </button>
   </div>
 </div>

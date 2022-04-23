@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FileDB, RecipeComment, User } from 'src/app/interfaces/interface';
+import { AccessService } from 'src/app/services/access.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
@@ -23,11 +24,17 @@ export class RecipeDetailsTemplateComponent implements OnInit {
   mostrar: boolean = false;
   comments!: any[]; //dejo any porque la clase comment del back es diferente a la del front y no puedo recuperar el usuario que en el front no existe
   showComments: boolean = false;
+  texto: string = '';
+  commentRecipe: RecipeComment = {
+    message: '',
+  };
 
   constructor(
     private activeRoute: ActivatedRoute,
     private recipeService: RecipesService,
-    private fileService: FileUploadService
+    private fileService: FileUploadService,
+    private router: Router,
+    private accessService: AccessService
   ) {}
 
   ngOnInit(): void {
@@ -46,13 +53,14 @@ export class RecipeDetailsTemplateComponent implements OnInit {
         next: (data) => {
           this.getUserByRecipe(data.id); //para obtener al usuario asociado a esa receta
           this.getFileByRecipe(data.id); //para obtener la imagen asociada a esa receta
-          this.getCommentsFromRecipe(data.id); //para obtener los comentarios de la receta
+
           this.recipe = data;
           this.mostrar = true;
-          console.log(this.recipe);
+          // console.log(this.recipe);
+          this.getCommentsFromRecipe(data.id); //para obtener los comentarios de la receta
         },
         error: (e) => {
-          Swal.fire('Error', e.error.message, 'error');
+          Swal.fire('Error', e.error.mensaje, 'error');
         },
       });
   }
@@ -70,7 +78,7 @@ export class RecipeDetailsTemplateComponent implements OnInit {
         this.user = data;
       },
       error: (e) => {
-        Swal.fire('Error', e.error.message, 'error');
+        Swal.fire('Error', e.error.mensaje, 'error');
       },
     });
   }
@@ -101,8 +109,7 @@ export class RecipeDetailsTemplateComponent implements OnInit {
       next: (data) => {
         this.comments = data;
         this.showComments = true;
-        console.log(data);
-        console.log(this.comments);
+        //console.log(data);
       },
       error: (e) => {
         Swal.fire('Error', e.error.message, 'error');
@@ -110,7 +117,42 @@ export class RecipeDetailsTemplateComponent implements OnInit {
     });
   }
 
-  addComment(id: number) {}
+  /**
+   * Este método sirve para publicar un comentario en la receta
+   * @param id
+   */
+  addComment(id: number) {
+    //primero hay que controlar que el usuario está logueado para publicar
+    let token = this.accessService.getToken();
+    if (token != null) {
+      this.commentRecipe.message = this.texto;
+      this.recipeService.addCommentToRecipe(id, this.commentRecipe).subscribe({
+        next: (data) => {
+          Swal.fire({
+            title: 'Comentario publicado',
+            text: 'Su comentario se ha publicado con éxito. Estará visible cuando el administrador lo confirme.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+          });
+          this.texto = '';
+        },
+        error: (e) => {
+          Swal.fire('Error', e.error.mensaje, 'error');
+        },
+      });
+    } else {
+      Swal.fire({
+        title: 'Inicia Sesión',
+        text: 'Recuerda que para publicar comentarios debes haber iniciado sesión.',
+        icon: 'error',
+        confirmButtonText: 'Acceder',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigateByUrl('login');
+        }
+      });
+    }
+  }
   /**
    * Este método sirve para volver a la página anterior de la vista
    * Se hace de esta forma y no con un router-link en la vista porque este componente es reutilizable

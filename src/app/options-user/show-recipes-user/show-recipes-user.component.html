@@ -12,7 +12,10 @@
   <app-spinner></app-spinner>
 </div>
 
-<div class="row p-1 my-3 justify-content-center" *ngIf="user != null">
+<div
+  class="row p-1 my-3 justify-content-center"
+  *ngIf="user != null && recetario != null"
+>
   <div class="text-center mb-2">
     <h4>
       {{ user.fullName }}, aquí tienes todas las recetas que has publicado
@@ -20,7 +23,7 @@
   </div>
 </div>
 
-<div class="p-3" *ngIf="!pending">
+<div class="p-3" *ngIf="!pending && recetario != null">
   <div>
     <p-table
       #dt1
@@ -103,23 +106,22 @@
       </ng-template>
     </p-table>
   </div>
-
-  <div
-    *ngIf="recetario == null && user != null"
-    class="justify-content-center text-center mt-3"
-  >
-    <img
-      src="assets/img/404-error.png"
-      alt="No se encuentran resultados"
-      id="notFound"
-    />
-    <h4>
-      Upss {{ user.fullName }}, todavía no has publicado ninguna receta.<br />
-      <a routerLink="/optionsUser/uploadRecipe">¿Empezamos?</a>
-    </h4>
-  </div>
 </div>
 
+<div
+  *ngIf="recetario == null && user != null"
+  class="justify-content-center text-center mt-3"
+>
+  <img
+    src="assets/img/404-error.png"
+    alt="No se encuentran resultados"
+    id="notFound"
+  />
+  <h4>
+    Upss {{ user.fullName }}, todavía no has publicado ninguna receta.<br />
+    <a routerLink="/optionsUser/uploadRecipe">¿Empezamos?</a>
+  </h4>
+</div>
 <div class="row p-1 my-3 justify-content-center">
   <div class="text-center mb-2">
     <!-- PARA GESTIONAR QUE EL VOLVER SEA DIFERENTE DEPENDIENDO DE LA RUTA QUE SE HAYA SEGUIDO PARA LLEGAR HASTA AQUÍ -->

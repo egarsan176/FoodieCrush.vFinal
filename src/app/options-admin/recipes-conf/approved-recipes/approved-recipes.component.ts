@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/interfaces/interface';
+import { AdminService } from 'src/app/services/admin.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
 
@@ -18,7 +19,10 @@ export class ApprovedRecipesComponent implements OnInit {
   rows = 10;
   pending: boolean = true;
 
-  constructor(private recipesService: RecipesService) {}
+  constructor(
+    private recipesService: RecipesService,
+    private adminService: AdminService
+  ) {}
 
   ngOnInit(): void {
     this.getRecipesApproved();
@@ -31,7 +35,7 @@ export class ApprovedRecipesComponent implements OnInit {
    * se iguala a la respuesta de la petición
    */
   getRecipesApproved() {
-    this.recipesService.getAllRecipesApproved().subscribe({
+    this.adminService.getRecipesNotPending().subscribe({
       next: (data) => {
         this.recipesApproved = data;
         this.pending = false;
@@ -49,7 +53,7 @@ export class ApprovedRecipesComponent implements OnInit {
    * @returns estado de la receta (pendiente/aprobada)
    */
   getStatus(recipe: Recipe) {
-    return recipe.pending ? 'pendiente' : 'aprobada';
+    return recipe.isPending ? 'pendiente' : 'aprobada';
   }
 
   /**

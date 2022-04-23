@@ -53,6 +53,10 @@
                 FECHA PUBLICACIÓN
                 <p-sortIcon field="fechaBonita"></p-sortIcon>
               </th>
+              <th pSortableColumn="isPending" class="encab">
+                ESTADO
+                <p-sortIcon field="isPending"></p-sortIcon>
+              </th>
               <th class="encab">VER</th>
               <th class="encab">ELIMINAR</th>
             </tr>
@@ -63,6 +67,7 @@
               <td>{{ recipe.recipeName }}</td>
               <td>{{ recipe.category.name }}</td>
               <td>{{ recipe.fechaBonita }}</td>
+              <td>{{ getStatus(recipe) }}</td>
               <td>
                 <button
                   class="btn colorYellowP"

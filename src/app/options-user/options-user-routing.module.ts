@@ -19,6 +19,7 @@ const routes: Routes = [
         '../options-user/upload-recipe-form/upload-recipe-form.module'
       ).then((m) => m.UploadRecipeFormModule),
   },
+  { path: 'notifUser', loadChildren: () => import('./show-notifications-user/show-notifications-user.module').then(m => m.ShowNotificationsUserModule) },
 ];
 
 @NgModule({

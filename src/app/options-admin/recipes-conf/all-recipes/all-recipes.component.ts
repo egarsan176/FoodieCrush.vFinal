@@ -33,6 +33,7 @@ export class AllRecipesComponent implements OnInit {
       next: (data) => {
         this.allRecipesBD = data;
         this.pending = false;
+        console.log(data);
       },
       error: (e) => {
         Swal.fire('Error', e.error.mensaje, 'error');
@@ -48,7 +49,7 @@ export class AllRecipesComponent implements OnInit {
    * @returns estado de la receta (pendiente/aprobada)
    */
   getStatus(recipe: Recipe) {
-    return recipe.pending ? 'pendiente' : 'aprobada';
+    return recipe.isPending ? 'pendiente' : 'aprobada';
   }
 
   /**

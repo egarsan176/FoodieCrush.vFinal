@@ -101,6 +101,7 @@
         </button>
       </li>
     </ul>
+    <!-- PESTAÑA INGREDIENTES-->
     <div class="tab-content" id="myTabContent">
       <div
         class="tab-pane fade show active"
@@ -118,6 +119,7 @@
           </li>
         </ul>
       </div>
+      <!-- PESTAÑA ELABORACIÓN RECETA-->
       <div
         class="tab-pane fade"
         id="elaboracion"
@@ -131,6 +133,7 @@
           <li>{{ indice + 1 }}. {{ ingredient.step.toUpperCase() }}</li>
         </ul>
       </div>
+      <!-- PESTAÑA COMENTARIOS-->
       <div
         class="tab-pane fade"
         id="comentarios"
@@ -148,7 +151,7 @@
             </li>
           </ul>
         </div>
-        <div *ngIf="!showComments" class="text-center mt-3">
+        <div *ngIf="!showComments || comments == null" class="text-center mt-3">
           <p>¡Vaya! Esta receta aún no tiene comentarios.</p>
         </div>
         <hr />
@@ -170,5 +173,3 @@
     </div>
   </div>
 </div>
-
-<p>Se muestra esta show-details-recipe</p>
