@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { Table } from 'primeng/table';
 import { Recipe, User } from 'src/app/interfaces/interface';
 import { AccessService } from 'src/app/services/access.service';
@@ -25,11 +24,11 @@ export class ShowRecipesUserComponent implements OnInit {
   first = 0;
   rows = 10;
   @ViewChild('dt1') dt1!: Table | undefined;
+  pending: boolean = true;
 
   constructor(
     private recipesService: RecipesService,
-    private accessService: AccessService,
-    private route: Router
+    private accessService: AccessService
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +70,8 @@ export class ShowRecipesUserComponent implements OnInit {
     this.recipesService.getRecipesFromUser(user).subscribe({
       next: (data) => {
         this.recetario = data;
+
+        this.pending = false;
       },
       error: (e) => {
         Swal.fire('Error', e.error.mensaje, 'error');
@@ -86,14 +87,7 @@ export class ShowRecipesUserComponent implements OnInit {
    * @returns estado de la receta (pendiente/aprobada)
    */
   getStatus(recipe: Recipe) {
-    return recipe.pending ? 'pendiente' : 'aprobada';
-  }
-
-  /**
-   * Este método sirve para volver atrás en la vista
-   */
-  back() {
-    history.back();
+    return recipe.isPending ? 'pendiente' : 'aprobada';
   }
 
   /**

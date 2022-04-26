@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { FileDB, Recipe, User } from '../interfaces/interface';
+import { FileDB, Recipe, RecipeComment, User } from '../interfaces/interface';
 import { AccessService } from './access.service';
 /**
  * RecipesService
@@ -21,6 +21,8 @@ export class RecipesService {
     public router: Router,
     private accessService: AccessService
   ) {}
+
+  /////////////////////RECETAS
 
   /**
    * A este método se accede cuando se quiere publicar una receta.
@@ -128,46 +130,6 @@ export class RecipesService {
   }
 
   /**
-   * El administrador accede a este método para obtener todas las recetas que
-   * están pendientes de aprobación
-   * A través de una petición GET a /admin/recipes?isPending=true
-   * @returns listado de recetas pendientes de aprobación
-   */
-  getAllRecipesPending() {
-    let token = this.accessService.getToken();
-
-    const params = new HttpParams().set('isPending', true);
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    });
-
-    const url = `${this.urlBase}/admin/recipes?${params}`;
-
-    return this.httpClient.get<Recipe[]>(url, { headers });
-  }
-
-  /**
-   * El administrador accede a este método para obtener todas las recetas que
-   * que ya han sido aprobadas
-   * A través de una petición GET a /admin/recipes?isPending=false
-   * @returns listado de recetas que ya han sido aprobadas
-   */
-  getAllRecipesApproved() {
-    let token = this.accessService.getToken();
-
-    const params = new HttpParams().set('isPending', false);
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    });
-
-    const url = `${this.urlBase}/admin/recipes?${params}`;
-
-    return this.httpClient.get<Recipe[]>(url, { headers });
-  }
-
-  /**
    * Se accede a este método para obtener todas las recetas de la bbdd,
    * independientemente de su estado
    * A través de una petición GET, que necesita de token
@@ -187,23 +149,6 @@ export class RecipesService {
   }
 
   /**
-   * Se accede a este método cuando un administrador quiere
-   * cambiar el estado de una receta de pendiente a no pendiente
-   * @param id  de la receta
-   * @returns receta con el estado cambiado
-   */
-  changeStatusRecipe(id: number) {
-    let token = this.accessService.getToken();
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    });
-    const url = `${this.urlBase}/admin/recipes/${id}`;
-    return this.httpClient.get<Recipe>(url, { headers });
-  }
-
-  /**
    * A este método se accede cuando se quiere eliminar una receta de la bd
    * @param id
    * @returns noContent
@@ -215,6 +160,53 @@ export class RecipesService {
       Authorization: `Bearer ${token}`,
     });
     const url = `${this.urlBase}/recipes/${id}`;
+    return this.httpClient.delete<any>(url, { headers });
+  }
+
+  /////////////////////COMENTARIOS
+
+  /**
+   * A este método se accede para publicar un comentario en una receta
+   * @param id
+   * @param comment
+   * @returns texxto del mensaje del comentario
+   */
+  addCommentToRecipe(id: number, comment: RecipeComment) {
+    let token = this.accessService.getToken();
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const body = comment;
+
+    const url = `${this.urlBase}/recipes/${id}/comments`;
+    return this.httpClient.post<any>(url, body, { headers });
+  }
+
+  /**
+   * Este método obtiene todos los comentarios aprobados de una receta en concreto
+   * @param id recipe
+   * @returns lista de comentarios que ya han sido aprobados por el admin
+   */
+  getCommentsNotPendingFromRecipe(id: number) {
+    const url = `${this.urlBase}/mostrar/recipe/${id}/comments`;
+    //pongo any porque la clase Comment del back me devuelve más cosas que la clase Comment del front
+    return this.httpClient.get<any[]>(url);
+  }
+
+  /**
+   * A este método se accede cuando se quiere eliminar un comentario de la bd
+   * @param id
+   * @returns noContent
+   */
+  deleteComment(id: number) {
+    let token = this.accessService.getToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.urlBase}/recipes/comments/${id}`;
     return this.httpClient.delete<any>(url, { headers });
   }
 }

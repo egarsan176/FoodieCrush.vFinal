@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FileDB, Recipe, User } from 'src/app/interfaces/interface';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FileDB, RecipeComment, User } from 'src/app/interfaces/interface';
+import { AccessService } from 'src/app/services/access.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
@@ -24,11 +25,19 @@ export class ShowDetailsRecipeComponent implements OnInit {
   file!: FileDB;
   img: string = '';
   mostrar: boolean = false;
+  comments!: any[]; //dejo any porque la clase comment del back es diferente a la del front y no puedo recuperar el usuario que en el front no existe
+  showComments: boolean = false;
+  texto: string = '';
+  commentRecipe: RecipeComment = {
+    message: '',
+  };
 
   constructor(
     private activeRoute: ActivatedRoute,
     private recipeService: RecipesService,
-    private fileService: FileUploadService
+    private fileService: FileUploadService,
+    private accessService: AccessService,
+    public router: Router
   ) {}
 
   ngOnInit(): void {
@@ -47,13 +56,14 @@ export class ShowDetailsRecipeComponent implements OnInit {
         next: (data) => {
           this.getUserByRecipe(data.id); //para obtener al usuario asociado a esa receta
           this.getFileByRecipe(data.id); //para obtener la imagen asociada a esa receta
+          this.getCommentsFromRecipe(data.id); //para obtener los comentarios de la receta
 
           this.recipe = data;
           this.mostrar = true;
           //console.log(this.recipe);
         },
         error: (e) => {
-          Swal.fire('Error', e.error.message, 'error');
+          Swal.fire('Error', e.error.mensaje, 'error');
         },
       });
   }
@@ -71,7 +81,7 @@ export class ShowDetailsRecipeComponent implements OnInit {
         this.user = data;
       },
       error: (e) => {
-        Swal.fire('Error', e.error.message, 'error');
+        Swal.fire('Error', e.error.mensaje, 'error');
       },
     });
   }
@@ -91,9 +101,63 @@ export class ShowDetailsRecipeComponent implements OnInit {
         }
       },
       error: (e) => {
-        Swal.fire('Error', e.error.message, 'error');
+        Swal.fire('Error', e.error.mensaje, 'error');
       },
     });
+  }
+
+  /**
+   * Este método sirve para obtener los comentarios de una receta y que se muestren en la pestaña comentarios de la receta
+   * @param id de la receta
+   */
+  getCommentsFromRecipe(id: number) {
+    //se muestran los comentarios que ya han sido aprobados por el admin
+    this.recipeService.getCommentsNotPendingFromRecipe(id).subscribe({
+      next: (data) => {
+        this.comments = data;
+        this.showComments = true;
+      },
+      error: (e) => {
+        Swal.fire('Error', e.error.mensaje, 'error');
+      },
+    });
+  }
+
+  /**
+   * Este método sirve para publicar un comentario en la receta
+   * @param id
+   */
+  addComment(id: number) {
+    //primero hay que controlar que el usuario está logueado para publicar
+    let token = this.accessService.getToken();
+    if (token != null) {
+      this.commentRecipe.message = this.texto;
+      this.recipeService.addCommentToRecipe(id, this.commentRecipe).subscribe({
+        next: (data) => {
+          Swal.fire({
+            title: 'Comentario publicado',
+            text: 'Su comentario se ha publicado con éxito. Estará visible cuando el administrador lo confirme.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+          });
+          this.texto = '';
+        },
+        error: (e) => {
+          Swal.fire('Error', e.error.mensaje, 'error');
+        },
+      });
+    } else {
+      Swal.fire({
+        title: 'Inicia Sesión',
+        text: 'Recuerda que para publicar comentarios debes haber iniciado sesión.',
+        icon: 'error',
+        confirmButtonText: 'Acceder',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigateByUrl('login');
+        }
+      });
+    }
   }
 
   /**

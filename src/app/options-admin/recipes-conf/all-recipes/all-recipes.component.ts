@@ -13,6 +13,7 @@ export class AllRecipesComponent implements OnInit {
    * PROPIEDADES
    */
   allRecipesBD: Recipe[] = [];
+  pending: boolean = true;
 
   constructor(private recipesService: RecipesService) {}
 
@@ -31,6 +32,7 @@ export class AllRecipesComponent implements OnInit {
     this.recipesService.getAllRecipes().subscribe({
       next: (data) => {
         this.allRecipesBD = data;
+        this.pending = false;
       },
       error: (e) => {
         Swal.fire('Error', e.error.mensaje, 'error');
@@ -46,7 +48,7 @@ export class AllRecipesComponent implements OnInit {
    * @returns estado de la receta (pendiente/aprobada)
    */
   getStatus(recipe: Recipe) {
-    return recipe.pending ? 'pendiente' : 'aprobada';
+    return recipe.isPending ? 'pendiente' : 'aprobada';
   }
 
   /**
@@ -95,12 +97,5 @@ export class AllRecipesComponent implements OnInit {
 
   setID(id: any) {
     localStorage.setItem('id', id);
-  }
-
-  /**
-   * Método para volver a la página anterior en la vista
-   */
-  back() {
-    history.back();
   }
 }

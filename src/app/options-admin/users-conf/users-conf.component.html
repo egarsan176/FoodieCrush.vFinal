@@ -6,7 +6,81 @@
     </ol>
   </nav>
 </div>
-<p>users-conf works!</p>
+<div *ngIf="pending">
+  <app-spinner></app-spinner>
+</div>
+
+<div *ngIf="!pending">
+  <div class="p-3 text-center my-3">
+    <!-- SI NO HAY COMENTARIOS -->
+    <p *ngIf="users == null">
+      ¡Vaya! Todavía no tenemos usuarios registrados en Foodie Crush.
+    </p>
+    <!-- SI HAY COMENTARIOS -->
+    <div *ngIf="users != null">
+      <div *ngIf="users.length >= 1">
+        <p *ngIf="users.length == 1">
+          De momento nuestro Foodie Crush blog solo tiene un único usuario.
+        </p>
+        <p *ngIf="users.length > 1">
+          Nuestro Foodie Crush blog cuenta ya con un total de
+          {{ users.length }} usuarios registrados.
+        </p>
+        <p-table
+          [value]="users"
+          [paginator]="true"
+          [rows]="10"
+          [showCurrentPageReport]="true"
+          styleClass="p-datatable-striped"
+          responsiveLayout="scroll"
+          currentPageReportTemplate="Mostrando {first} de {last} de un total de {totalRecords} entradas"
+          [rowsPerPageOptions]="[10, 25, 50]"
+        >
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th pSortableColumn="id" class="encab">
+                ID <p-sortIcon field="id"></p-sortIcon>
+              </th>
+              <th pSortableColumn="fullname" class="encab">
+                NOMBRE <p-sortIcon field="fullname"></p-sortIcon>
+              </th>
+              <th pSortableColumn="username" class="encab">
+                USUARIO <p-sortIcon field="username"></p-sortIcon>
+              </th>
+              <th pSortableColumn="email" class="encab">
+                EMAIL <p-sortIcon field="email"></p-sortIcon>
+              </th>
+              <th pSortableColumn="role" class="encab">
+                ROLE <p-sortIcon field="role"></p-sortIcon>
+              </th>
+              <th pSortableColumn="fechaBonita" class="encab">
+                ALTA EN EL SISTEMA
+                <p-sortIcon field="fechaBonita"></p-sortIcon>
+              </th>
+              <th class="encab">ELIMINAR</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-user let-columns="user">
+            <tr class="text-center">
+              <td>{{ user.id }}</td>
+              <td>{{ user.fullName }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.role }}</td>
+              <td>{{ user.fechaBonita }}</td>
+              <td>
+                <button class="btn colorPurpleP" (click)="deleteUser(user.id)">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row p-1 my-3 justify-content-center">
   <div class="text-center mb-2">
     <button class="btn colorPurpleP" routerLink="/optionsADMIN">VOLVER</button>

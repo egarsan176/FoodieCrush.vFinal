@@ -9,11 +9,4 @@ export class NewRecipeComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-
-  /**
-   * Método para volver a la página anterior en la vista
-   */
-  back() {
-    history.back();
-  }
 }

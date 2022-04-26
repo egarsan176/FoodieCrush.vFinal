@@ -8,6 +8,7 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { RecipeFormTemplateComponent } from './recipe-form-template/recipe-form-template.component';
 import { RecipeDetailsTemplateComponent } from './recipe-details-template/recipe-details-template.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { RecipeDetailsTemplateComponent } from './recipe-details-template/recipe
     FooterComponent,
     RecipeFormTemplateComponent,
     RecipeDetailsTemplateComponent,
+    SpinnerComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,7 @@ import { RecipeDetailsTemplateComponent } from './recipe-details-template/recipe
     FooterComponent,
     RecipeFormTemplateComponent,
     RecipeDetailsTemplateComponent,
+    SpinnerComponent,
   ],
 })
 export class SharedModule {}

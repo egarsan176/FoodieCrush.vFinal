@@ -17,11 +17,4 @@ export class UploadRecipeFormComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-
-  /**
-   * Este método sirve para volver a la página anterior en la vista
-   */
-  back() {
-    history.back();
-  }
 }

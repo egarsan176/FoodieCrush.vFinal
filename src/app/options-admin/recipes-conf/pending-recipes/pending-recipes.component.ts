@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/interfaces/interface';
+import { AdminService } from 'src/app/services/admin.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
 
@@ -15,8 +16,12 @@ export class PendingRecipesComponent implements OnInit {
   first = 0;
   rows = 10;
   recipesPending: Recipe[] = [];
+  pending: boolean = true;
 
-  constructor(private recipesService: RecipesService) {}
+  constructor(
+    private recipesService: RecipesService,
+    private adminService: AdminService
+  ) {}
 
   ngOnInit(): void {
     this.getRecipesPending();
@@ -25,13 +30,14 @@ export class PendingRecipesComponent implements OnInit {
   /**
    * El administrador accede a este método para conocer todas las recetas
    * pendientes de aprobación a través de una subcripción al servicio
-   * recipesService. Si la respuesta es éxitosa, la propiedad recipesPending del componente
+   * adminService. Si la respuesta es éxitosa, la propiedad recipesPending del componente
    * se iguala a la respuesta de la petición
    */
   getRecipesPending() {
-    this.recipesService.getAllRecipesPending().subscribe({
+    this.adminService.getRecipesPending().subscribe({
       next: (data) => {
         this.recipesPending = data;
+        this.pending = false;
       },
       error: (e) => {
         Swal.fire('Error', e.error.mensaje, 'error');
@@ -44,7 +50,7 @@ export class PendingRecipesComponent implements OnInit {
    * @param id
    */
   changeStatusRecipe(id: number) {
-    this.recipesService.changeStatusRecipe(id).subscribe({
+    this.adminService.changeStatusRecipe(id).subscribe({
       next: (data) => {
         this.getRecipesPending();
         Swal.fire({
@@ -58,17 +64,6 @@ export class PendingRecipesComponent implements OnInit {
         Swal.fire('Error', e.error.mensaje, 'error');
       },
     });
-  }
-
-  /**
-   * Este método sirve para obtener el estado de una receta (aprobada por el admin o no)
-   * Si la propiedad recipe.pending = true, la receta está pendiente de aprobación,
-   * si es false, está aprobada por el admin
-   * @param recipe
-   * @returns estado de la receta (pendiente/aprobada)
-   */
-  getStatus(recipe: Recipe) {
-    return recipe.pending ? 'pendiente' : 'aprobada';
   }
 
   /**
@@ -117,12 +112,5 @@ export class PendingRecipesComponent implements OnInit {
 
   setID(id: any) {
     localStorage.setItem('id', id);
-  }
-
-  /**
-   * Método para volver a la página anterior en la vista
-   */
-  back() {
-    history.back();
   }
 }

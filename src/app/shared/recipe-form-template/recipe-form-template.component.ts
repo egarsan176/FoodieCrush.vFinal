@@ -39,7 +39,7 @@ export class RecipeFormTemplateComponent implements OnInit {
     ingredientLine: [],
     file: this.file,
     comments: [],
-    pending: true,
+    isPending: true,
   };
 
   constructor(
@@ -165,12 +165,6 @@ export class RecipeFormTemplateComponent implements OnInit {
         ) {
           this.recipe.file = this.file;
           //console.log(this.recipe.file)
-
-          if (this.userDetails?.role === 'ADMIN') {
-            this.recipe.pending = false;
-          } else {
-            this.recipe.pending = true;
-          }
 
           this.recipeService.publicar(this.recipe).subscribe({
             next: (data) => {

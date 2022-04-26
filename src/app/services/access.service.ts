@@ -102,4 +102,14 @@ export class AccessService {
 
     return this.httpClient.get<AuthResponse>(url, { headers });
   }
+
+  deleteNotification(id: number) {
+    let token = this.getToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.urlBase}/users/notifications/${id}`;
+    return this.httpClient.delete<any>(url, { headers });
+  }
 }

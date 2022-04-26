@@ -15,6 +15,16 @@ export interface User {
   role: string;
 }
 
+export interface UserBACK {
+  id: number;
+  fullName: string;
+  username: string;
+  email: string;
+  password: string;
+  role: string;
+  fecha: Date;
+}
+
 export interface ErrorResponse {
   status: number;
   message: string;
@@ -28,7 +38,7 @@ export interface Recipe {
   ingredientLine: IngredientLine[];
   file: FileDB;
   comments: string[];
-  pending: boolean;
+  isPending: boolean;
 }
 
 export interface IngredientLine {
@@ -50,4 +60,8 @@ export interface UserDetails {
   iat: number;
   email: string;
   username: string;
+}
+
+export interface RecipeComment {
+  message: string;
 }
