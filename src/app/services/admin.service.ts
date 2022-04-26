@@ -159,6 +159,11 @@ export class AdminService {
     return this.httpClient.get<UserBACK[]>(url, { headers });
   }
 
+  /**
+   * Este método sirve para eliminar a un usuario de la base de datos
+   * @param id
+   * @returns  noContent
+   */
   deleteUser(id: number) {
     let token = this.accessService.getToken();
     const headers = new HttpHeaders({

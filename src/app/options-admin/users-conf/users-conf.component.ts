@@ -19,6 +19,10 @@ export class UsersConfComponent implements OnInit {
     this.getAllUsers();
   }
 
+  /**
+   * Este método sirve para cargar todos los usuarios registrados en el sistema y los alamacena en la
+   * propiedad users del componente
+   */
   getAllUsers() {
     this.adminService.getAllUsersFromBD().subscribe({
       next: (data) => {
@@ -31,6 +35,11 @@ export class UsersConfComponent implements OnInit {
     });
   }
 
+  /**
+   * Este método hace una petición al adminService para eliminar a un usuario
+   * de la base de datos
+   * @param id del usuario a borrar
+   */
   deleteUser(id: number) {
     Swal.fire({
       title: 'Eliminación de Usuario',
