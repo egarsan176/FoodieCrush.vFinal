@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { User, UserBACK } from '../interfaces/interface';
 import { AccessService } from './access.service';
 /**
  * AdminService
@@ -126,6 +127,10 @@ export class AdminService {
     return this.httpClient.get<any[]>(url, { headers });
   }
 
+  /**
+   * Este método obtiene todsos los comentarios almacenados en la base de datos
+   * @returns  lista de comentarios
+   */
   getAllCommentsFromBD() {
     let token = this.accessService.getToken();
     const headers = new HttpHeaders({
@@ -135,5 +140,32 @@ export class AdminService {
 
     const url = `${this.urlBase}/recipes/comments`;
     return this.httpClient.get<any[]>(url, { headers });
+  }
+
+  ////////////////////////////////////USUARIOS
+
+  /**
+   * Este método obtiene una lista de todos los usuarios almacenados en la base de datos
+   * @returns lista de usuarios
+   */
+  getAllUsersFromBD() {
+    let token = this.accessService.getToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    const url = `${this.urlBase}/admin/users`;
+    return this.httpClient.get<UserBACK[]>(url, { headers });
+  }
+
+  deleteUser(id: number) {
+    let token = this.accessService.getToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.urlBase}/admin/users/${id}`;
+    return this.httpClient.delete<any>(url, { headers });
   }
 }

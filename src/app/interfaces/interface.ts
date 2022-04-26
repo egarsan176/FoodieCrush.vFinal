@@ -15,6 +15,16 @@ export interface User {
   role: string;
 }
 
+export interface UserBACK {
+  id: number;
+  fullName: string;
+  username: string;
+  email: string;
+  password: string;
+  role: string;
+  fecha: Date;
+}
+
 export interface ErrorResponse {
   status: number;
   message: string;

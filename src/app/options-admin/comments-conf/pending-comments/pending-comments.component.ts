@@ -103,11 +103,4 @@ export class PendingCommentsComponent implements OnInit {
       }
     });
   }
-
-  /**
-   * Método para volver a la página anterior en la vista
-   */
-  back() {
-    history.back();
-  }
 }

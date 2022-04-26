@@ -91,13 +91,6 @@ export class ShowRecipesUserComponent implements OnInit {
   }
 
   /**
-   * Este método sirve para volver atrás en la vista
-   */
-  back() {
-    history.back();
-  }
-
-  /**
    * Este método se usa para retornar al filtro de la tabla la propiedad event.target.value
    * @param $event
    * @returns

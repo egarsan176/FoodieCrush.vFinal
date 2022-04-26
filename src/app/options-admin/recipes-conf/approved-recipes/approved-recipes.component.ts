@@ -103,11 +103,4 @@ export class ApprovedRecipesComponent implements OnInit {
   setID(id: any) {
     localStorage.setItem('id', id);
   }
-
-  /**
-   * Método para volver a la página anterior en la vista
-   */
-  back() {
-    history.back();
-  }
 }

@@ -56,11 +56,4 @@ export class ShowNotificationsUserComponent implements OnInit {
       },
     });
   }
-
-  /**
-   * Este método sirve para volver atrás en la vista
-   */
-  back() {
-    history.back();
-  }
 }

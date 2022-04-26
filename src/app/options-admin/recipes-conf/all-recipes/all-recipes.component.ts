@@ -33,7 +33,6 @@ export class AllRecipesComponent implements OnInit {
       next: (data) => {
         this.allRecipesBD = data;
         this.pending = false;
-        console.log(data);
       },
       error: (e) => {
         Swal.fire('Error', e.error.mensaje, 'error');
@@ -98,12 +97,5 @@ export class AllRecipesComponent implements OnInit {
 
   setID(id: any) {
     localStorage.setItem('id', id);
-  }
-
-  /**
-   * Método para volver a la página anterior en la vista
-   */
-  back() {
-    history.back();
   }
 }

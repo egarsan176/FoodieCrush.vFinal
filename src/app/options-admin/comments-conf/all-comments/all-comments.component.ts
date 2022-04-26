@@ -49,20 +49,13 @@ export class AllCommentsComponent implements OnInit {
   }
 
   /**
-   * Método para volver a la página anterior en la vista
-   */
-  back() {
-    history.back();
-  }
-
-  /**
-   * Este método sirve para obtener el estado de una receta (aprobada por el admin o no)
-   * Si la propiedad recipe.pending = true, la receta está pendiente de aprobación,
-   * si es false, está aprobada por el admin
+   * Este método sirve para obtener el estado de un comentario (aprobado por el admin o no)
+   * Si la propiedad comment.isPending = true, el comentario está pendiente de aprobación,
+   * si es false, está aprobado por el admin
    * @param recipe
-   * @returns estado de la receta (pendiente/aprobada)
+   * @returns estado del (pendiente/aprobado)
    */
   getStatus(comment: any) {
-    return comment.isPending ? 'pendiente' : 'aprobada';
+    return comment.isPending ? 'pendiente' : 'aprobado';
   }
 }
