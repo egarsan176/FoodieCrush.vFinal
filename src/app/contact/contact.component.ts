@@ -98,7 +98,7 @@ export class ContactComponent implements OnInit {
           this.miFormulario.reset();
           Swal.fire({
             title: 'Mensaje Enviado',
-            text: 'Su mensaje ha sido enviado. Intentaremos contestar pronto.',
+            text: 'Le contestaremos lo antes posible.',
             icon: 'success',
             confirmButtonText: 'Aceptar',
           });

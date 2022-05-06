@@ -122,36 +122,21 @@ export class RecipeDetailsTemplateComponent implements OnInit {
    * @param id
    */
   addComment(id: number) {
-    //primero hay que controlar que el usuario está logueado para publicar
-    let token = this.accessService.getToken();
-    if (token != null) {
-      this.commentRecipe.message = this.texto;
-      this.recipeService.addCommentToRecipe(id, this.commentRecipe).subscribe({
-        next: (data) => {
-          Swal.fire({
-            title: 'Comentario publicado',
-            text: 'Su comentario se ha publicado con éxito. Estará visible cuando el administrador lo confirme.',
-            icon: 'success',
-            confirmButtonText: 'Aceptar',
-          });
-          this.texto = '';
-        },
-        error: (e) => {
-          Swal.fire('Error', e.error.mensaje, 'error');
-        },
-      });
-    } else {
-      Swal.fire({
-        title: 'Inicia Sesión',
-        text: 'Recuerda que para publicar comentarios debes haber iniciado sesión.',
-        icon: 'error',
-        confirmButtonText: 'Acceder',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.router.navigateByUrl('login');
-        }
-      });
-    }
+    this.commentRecipe.message = this.texto;
+    this.recipeService.addCommentToRecipe(id, this.commentRecipe).subscribe({
+      next: (data) => {
+        Swal.fire({
+          title: 'Comentario publicado',
+          text: 'Su comentario se ha publicado con éxito. Estará visible cuando el administrador lo confirme.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+        });
+        this.texto = '';
+      },
+      error: (e) => {
+        Swal.fire('Error', e.error.mensaje, 'error');
+      },
+    });
   }
   /**
    * Este método sirve para volver a la página anterior de la vista
@@ -159,5 +144,13 @@ export class RecipeDetailsTemplateComponent implements OnInit {
    */
   back() {
     history.back();
+  }
+
+  /**
+   * Este método sirve para que no se puedan escribir comentarios si no hay usuario en la sesión en ese momento
+   * @returns token o null
+   */
+  showPostComment() {
+    return this.accessService.getToken();
   }
 }

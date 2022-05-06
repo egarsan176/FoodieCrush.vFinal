@@ -155,13 +155,21 @@
           <p>¡Vaya! Esta receta aún no tiene comentarios.</p>
         </div>
         <hr />
-        <label>¿Quieres comentar algo sobre esta receta? Hazlo aquí </label>
-        <br />
-        <textarea class="m-2" [(ngModel)]="texto"></textarea>
-        <br />
-        <button class="btn colorGreenP" (click)="addComment(recipe.id)">
-          ENVIAR
-        </button>
+        <div *ngIf="showPostComment() != null">
+          <label>¿Quieres comentar algo sobre esta receta? Hazlo aquí </label>
+          <br />
+          <textarea class="m-2" [(ngModel)]="texto"></textarea>
+          <br />
+          <button class="btn colorGreenP" (click)="addComment(recipe.id)">
+            ENVIAR
+          </button>
+        </div>
+        <div *ngIf="showPostComment() === null">
+          <div class="card text-center">
+            <p><i>¿Quieres publicar un comentario en esta receta?</i></p>
+            <p><a routerLink="/login">Inicia sesión</a> para poder comentar.</p>
+          </div>
+        </div>
       </div>
 
       <div class="row p-1 my-3 justify-content-center">
