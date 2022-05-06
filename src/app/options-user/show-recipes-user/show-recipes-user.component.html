@@ -93,7 +93,11 @@
             </button>
           </td>
           <td>
-            <button class="btn colorPinkP">
+            <button
+              class="btn colorPinkP"
+              [routerLink]="['edit', recipe.id]"
+              (click)="setID(recipe.id)"
+            >
               <i class="fas fa-edit"></i>
             </button>
           </td>

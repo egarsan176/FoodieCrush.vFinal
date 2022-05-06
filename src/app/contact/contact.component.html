@@ -1,0 +1,108 @@
+<div class="row p-1 my-3 justify-content-center">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">CONTACTO</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="m-5">
+      <div class="card">
+        <div class="card-header colorYellowP m-2">
+          <div class="card-heading text-center">Foodie Crush Contact</div>
+        </div>
+        <div class="card-body">
+          <h5 class="mb-2 text-center">¿Te ayudamos?</h5>
+          <p
+            class="text-muted text-sm mb-2 d-none d-md-block d-sm-block text-center"
+          >
+            Si tienes dudas o algún problema, no dudes en ponerte en contacto.
+            ¡Intentaremos responder lo antes posible!
+          </p>
+          <form
+            (ngSubmit)="contactUs()"
+            [formGroup]="miFormulario"
+            class="contact-form"
+          >
+            <div class="row">
+              <div class="col-md">
+                <!--CAMPO NOMBRE USUARIO-->
+                <div class="form-floating mb-3">
+                  <input
+                    class="form-control"
+                    formControlName="fullName"
+                    id="floatingName"
+                    type="text"
+                    placeholder="Nombre"
+                  />
+                  <span
+                    class="form-text text-danger"
+                    *ngIf="campoNoValido('fullName')"
+                  >
+                    {{ nameErrorMsg }}
+                  </span>
+                  <label for="floatingName">Nombre</label>
+                </div>
+              </div>
+              <div class="col-md">
+                <!--CAMPO EMAIL-->
+                <div class="form-floating mb-3">
+                  <input
+                    class="form-control"
+                    id="floatingInput"
+                    formControlName="email"
+                    type="email"
+                    placeholder="name@example.com"
+                  />
+                  <span
+                    class="form-text text-danger"
+                    *ngIf="campoNoValido('email')"
+                  >
+                    {{ emailErrorMsg }}
+                  </span>
+                  <label for="floatingInput">Email</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <!--CAMPO MENSAJE-->
+                <div class="form-floating mb-3">
+                  <input
+                    class="form-control"
+                    id="floatingInputMsg"
+                    formControlName="message"
+                    type="text"
+                    placeholder="Escribe aquí tu consulta"
+                  />
+                  <span
+                    class="form-text text-danger"
+                    *ngIf="campoNoValido('message')"
+                  >
+                    {{ messageErrorMsg }}
+                  </span>
+                  <label for="floatingInputMsg">Mensaje</label>
+                </div>
+              </div>
+            </div>
+
+            <!--BOTÓN ENVIAR-->
+            <div class="form-group text-center">
+              <button
+                class="btn colorPurpleP"
+                [disabled]="miFormulario.invalid"
+                type="submit"
+                type="submit"
+              >
+                ENVIAR
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

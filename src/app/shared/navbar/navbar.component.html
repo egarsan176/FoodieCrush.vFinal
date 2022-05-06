@@ -60,9 +60,16 @@
           <!-- <li class="nav-item">
                 <a class="nav-link" routerLinkActive="active" routerLink="/about"><i class="fas fa-smile"></i> Sobre mí</a>
               </li> 
-              <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link"  routerLink="/contacto"><i class="fas fa-address-card"></i> Contacto</a>
-              </li>-->
+     -->
+          <li class="nav-item" routerLinkActive="active">
+            <a
+              class="nav-link"
+              routerLink="/contact"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapsibleNavbar"
+              ><img src="assets/img/icons/mail.png" alt="" /> Contacto</a
+            >
+          </li>
           <li routerLinkActive="active" *ngIf="!userDetails">
             <a
               class="nav-link"

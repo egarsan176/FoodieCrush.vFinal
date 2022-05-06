@@ -11,7 +11,8 @@ const routes: Routes = [
   { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) }, 
   { path: 'recipes', loadChildren: () => import('./recipes/recipes.module').then(m => m.RecipesModule) },
   { path: 'optionsUser', loadChildren: () => import('./options-user/options-user.module').then(m => m.OptionsUserModule) },
-  { path: 'optionsADMIN', loadChildren: () => import('./options-admin/options-admin.module').then(m => m.OptionsADMINModule) }
+  { path: 'optionsADMIN', loadChildren: () => import('./options-admin/options-admin.module').then(m => m.OptionsADMINModule) },
+  { path: 'contact', loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule) }
 ];
 
 @NgModule({

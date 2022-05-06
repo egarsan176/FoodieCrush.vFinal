@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/interfaces/interface';
 import { RecipesService } from 'src/app/services/Recipes.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-details-recipe-from-user',
@@ -19,7 +20,7 @@ export class DetailsRecipeFromUserComponent implements OnInit {
         this.recipe = data;
       },
       error: (e) => {
-        console.log(e);
+        Swal.fire('Error', e.error.mensaje, 'error');
       },
     });
   }

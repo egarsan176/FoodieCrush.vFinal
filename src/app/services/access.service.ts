@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthResponse, User } from '../interfaces/interface';
+import { AuthResponse, ContactMsg, User } from '../interfaces/interface';
 import { Observable } from 'rxjs';
 
 /**
@@ -103,6 +103,12 @@ export class AccessService {
     return this.httpClient.get<AuthResponse>(url, { headers });
   }
 
+  /**
+   * A este método accede un usuario para eliminar una notificación de su lista de notificaciones
+   * a través de una petición DELETE con el id de la notificación a borrar
+   * @param id
+   * @returns noContent
+   */
   deleteNotification(id: number) {
     let token = this.getToken();
     const headers = new HttpHeaders({
@@ -111,5 +117,16 @@ export class AccessService {
     });
     const url = `${this.urlBase}/users/notifications/${id}`;
     return this.httpClient.delete<any>(url, { headers });
+  }
+
+  /**
+   * Este método sirve para enviar un correo con el formulario de contacto
+   * @param msj
+   * @returns void
+   */
+  sendMessage(msj: ContactMsg) {
+    const url = `${this.urlBase}/contactUs`;
+    const body = msj;
+    return this.httpClient.post<any>(url, body);
   }
 }

@@ -1,0 +1,282 @@
+<div class="row p-1 my-3 justify-content-center">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/optionsUser">ÁREA DE FOODIES</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="/optionsUser/myRecipes">MIS RECETAS</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">EDITAR RECETA</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="row p-1 my-3 justify-content-center" *ngIf="!pending">
+  <div class="text-center mb-2">
+    <h4>Editando tu receta <{{ recipe.recipeName.toUpperCase() }}></h4>
+
+    <h6>¡Adelante!</h6>
+  </div>
+</div>
+
+<div class="row my-2 justify-content-center" *ngIf="!pending">
+  <div class="col-12 m-1">
+    <div class="m-3">
+      <div class="card">
+        <form (ngSubmit)="editRecipe()">
+          <div class="row mt-2 mx-1">
+            <!-- NOMBRE receta -->
+            <div class="col-md">
+              <p>
+                NOMBRE DE TU RECETA
+                <button class="btn colorPinkP mx-1" (click)="showName()">
+                  EDITAR
+                </button>
+              </p>
+              <div *ngIf="showEditName">
+                <p>
+                  El título de tu receta actualmente es: {{ recipe.recipeName }}
+                </p>
+                <p>Si deseas cambiarlo, escribe el nuevo nombre abajo:</p>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="floatingInputGrid"
+                    placeholder="Título de la Receta"
+                    name="recipeName"
+                    [(ngModel)]="editedRecipe.recipeName"
+                    required
+                  />
+                  <label for="floatingInputGrid">Título</label>
+                </div>
+                <button class="btn colorGreenP mx-1" (click)="hideName()">
+                  GUARDAR
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="text-center mb-2">
+            <button class="btn colorPurpleP" type="submit">
+              GUARDAR CAMBIOS
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORÍA RECETA -->
+<!-- <div class="col-md">
+              <p>CATEGORÍA</p>
+              <p>
+                Pertenece a la categoría: <b>{{ recipe.category.name }}</b
+                >. Si deseas cambiarla escoge otra de la lista
+              </p>
+              <div class="form-floating mb-3">
+                <select
+                  class="form-select pb-1"
+                  id="floatingSelectGrid"
+                  placeholder="
+                  Categoría
+                  "
+                  name="category"
+                  [(ngModel)]="recipe.category"
+                  required
+                >
+                  <option selected>Escoger ...</option>
+                  <option value="1">Pasta</option>
+                  <option value="2">Arroz</option>
+                  <option value="3">Carne</option>
+                  <option value="4">Pescados</option>
+                  <option value="5">Postres</option>
+                  <option value="6">Otros</option>
+                </select>
+                <label for="floatingSelectGrid">Categoría</label>
+              </div>
+            </div> -->
+
+<!-- INGREDIENTES RECETA -->
+<!-- <div class="col-md">
+              <p>INGREDIENTES</p>
+              <div *ngFor="let item of recipe.ingredientLine">
+                <ul>
+                  <li>
+                    {{ item.ingredient.name }}, {{ item.amount }}
+                    <button class="btn colorPinkP mx-1">EDITAR</button>
+                    <button class="btn colorGreenP">ELIMINAR</button>
+                  </li>
+                </ul>
+              </div>
+            </div> -->
+<!-- 
+          <div class="mb-3 row">
+            <div class="col-md">
+              <p>INGREDIENTES</p>
+              <div *ngFor="let item of recipe.ingredientLine">
+                <p>{{ item.ingredient.name }}, {{ item.amount }}</p>
+              </div> -->
+<!-- <label class="col-form-label"
+                >¿Qué ingredientes necesitamos?</label
+              >
+              <div class="input-group">
+                <input
+                  class="form-control p-2"
+                  placeholder="Añadir ingrediente"
+                  [(ngModel)]="ingrediente"
+                  (keyup.enter)="agregarIngrediente()"
+                  name="ingredient"
+                />
+                <button
+                  class="btn colorPinkP"
+                  type="button"
+                  (click)="agregarIngrediente()"
+                >
+                  Añadir
+                </button>
+              </div> -->
+<!-- </div>
+            <div class="col-md">
+              <label class="col-form-label">¿Qué cantidad (en gramos)?</label>
+              <div class="input-group"> -->
+<!-- <input
+                  class="form-control p-2"
+                  placeholder="Añadir cantidad en gramos"
+                  [(ngModel)]="cantidad"
+                  (keyup.enter)="agregarCantidad()"
+                  name="amount"
+                />
+                <button
+                  class="btn colorPinkP"
+                  type="button"
+                  (click)="agregarCantidad()"
+                >
+                  Añadir
+                </button> -->
+<!-- </div> -->
+<!-- </div>
+          </div> -->
+
+<!-- Listado de ingredientes --
+          <div *ngIf="cantidades.length > 0">
+            <div class="mb-3 row">
+              <label class="col-sm-3 col-form-label"
+                >Ingredientes y Cantidades</label
+              >
+              <div class="col-sm-9">
+                <div
+                  class="input-group col-md"
+                  *ngFor="let cant of cantidades; let i = index"
+                >
+                  <input
+                    name="{{ cant }}"
+                    class="form-control"
+                    required
+                    [ngModel]="ingredientes[i].toUpperCase() + ' - ' + cant"
+                  />
+                  <button
+                    class="btn btn-outline-danger"
+                    type="button"
+                    (click)="eliminar(i)"
+                  >
+                    Eliminar este ingrediente
+                  </button>
+                </div>
+              </div>
+            </div>
+            <p>
+              Si has terminado de añadir ingredientes y estás seguro, pulsa
+              CONFIRMAR INGREDIENTES.
+            </p>
+            <button
+              class="btn colorGreenP"
+              type="button"
+              (click)="crearLinea()"
+            >
+              CONFIRMAR INGREDIENTES
+            </button>
+          </div>
+
+          <div class="mb-3 row">
+            <label class="col-form-label"
+              >Escribe a continuación los pasos a seguir en la receta:</label
+            >
+            <div class="input-group">
+              <input
+                class="form-control p-2"
+                placeholder="Añadir Paso"
+                [(ngModel)]="paso"
+                (keyup.enter)="agregarPaso()"
+                name="step"
+              />
+              <button
+                class="btn colorGreenP"
+                type="button"
+                (click)="agregarPaso()"
+              >
+                Añadir
+              </button>
+            </div>
+          </div>
+
+          <!-- Listado de pasos de la receta--
+          <div *ngIf="pasos.length > 0">
+            <div class="mb-3 row">
+              <label class="col-sm-3 col-form-label"
+                >Elaboración de la receta</label
+              >
+              <div class="col-sm-9">
+                <div
+                  class="input-group col-md"
+                  *ngFor="let paso of pasos; let i = index"
+                >
+                  <input
+                    name="{{ paso }}"
+                    class="form-control"
+                    required
+                    [ngModel]="i + '.  ' + paso.toUpperCase()"
+                  />
+                  <button
+                    class="btn btn-outline-danger"
+                    type="button"
+                    (click)="eliminarPaso(i)"
+                  >
+                    Eliminar este paso
+                  </button>
+                </div>
+              </div>
+            </div>
+            <p>
+              Si estás seguro que estos son los pasos a seguir en la receta,
+              pulsa CONFIRMAR PASOS.
+            </p>
+            <button
+              class="btn colorGreenP"
+              type="button"
+              (click)="confirmarPasos()"
+            >
+              CONFIRMAR PASOS
+            </button>
+          </div> -->
+
+<!-- <button class="btn colorPurpleP mt-2" type="submit">GUARDAR</button>
+        </form> -->
+<!-- </div> -->
+<!-- </div> -->
+<!-- </div> -->
+<!-- </div>
+          <div class="text-center mb-2">
+            <button
+              class="btn colorPurpleP"
+              routerLink="/optionsUser/myRecipes"
+            >
+              VOLVER
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> -->
