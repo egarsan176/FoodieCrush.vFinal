@@ -12,7 +12,8 @@ const routes: Routes = [
   { path: 'recipes', loadChildren: () => import('./recipes/recipes.module').then(m => m.RecipesModule) },
   { path: 'optionsUser', loadChildren: () => import('./options-user/options-user.module').then(m => m.OptionsUserModule) },
   { path: 'optionsADMIN', loadChildren: () => import('./options-admin/options-admin.module').then(m => m.OptionsADMINModule) },
-  { path: 'contact', loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule) }
+  { path: 'contact', loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule) },
+  { path: 'search', loadChildren: () => import('./search-recipe/search-recipe.module').then(m => m.SearchRecipeModule) }
 ];
 
 @NgModule({

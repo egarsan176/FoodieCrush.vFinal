@@ -209,4 +209,20 @@ export class RecipesService {
     const url = `${this.urlBase}/recipes/comments/${id}`;
     return this.httpClient.delete<any>(url, { headers });
   }
+
+  /////////////////////BUSCADOR
+
+  getRecipeByName(recipeName: string) {
+    const params = new HttpParams().set('recipeName', recipeName);
+    const url = `${this.urlBase}/mostrar/recipes/name?${params}`;
+
+    return this.httpClient.get<Recipe[]>(url);
+  }
+
+  getRecipeBySimilarName(recipeName: string) {
+    const params = new HttpParams().set('recipeName', recipeName);
+    const url = `${this.urlBase}/mostrar/recipes/similar?${params}`;
+
+    return this.httpClient.get<Recipe[]>(url);
+  }
 }
