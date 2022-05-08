@@ -57,6 +57,8 @@ export class SearchByNameComponent implements OnInit {
           Swal.fire('Error', e.error.mensaje, 'error');
         },
       });
+    } else {
+      Swal.fire('Error', 'Recuerda introducir un nombre.', 'error');
     }
   }
 

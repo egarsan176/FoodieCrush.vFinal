@@ -1,3 +1,4 @@
+<!-- BREADCRUMBS -->
 <div class="row p-1 my-3 justify-content-center">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -11,8 +12,9 @@
   </nav>
 </div>
 
+<!-- INPUT BUSCADOR -->
 <div class="row m-3">
-  <div class="col">
+  <div class="col text-center">
     <p>Escribe aquí abajo el nombre de la receta que estás buscando:</p>
     <input
       type="text"
@@ -27,6 +29,7 @@
   </div>
 </div>
 
+<!-- SE MUESTRAN LAS RECETAS CON NOMBRE EXACTO -->
 <div *ngIf="show">
   <div class="m-4" *ngIf="recipes1 != null">
     <p>
@@ -77,6 +80,7 @@
     </div>
   </div>
 
+  <!-- NO HAY RECETAS CON NOMBRE EXACTO Y SE MUESTRAN LAS RECETAS QUE CONTIENEN PARTE DEL NOMBRE -->
   <div class="m-4" *ngIf="recipes2 != null && recipes1 == null">
     <p>
       ¡Vaya! No tenemos ninguna receta con nombre:
@@ -127,6 +131,8 @@
       </div>
     </div>
   </div>
+
+  <!-- NO EXISTEN RECETAS CON ESE NOMBRE NI TAMPOCO CON NADA PARECIDO -->
   <div class="m-4 text-center" *ngIf="recipes2 == null && recipes1 == null">
     <p>
       ¡Vaya! No tenemos ninguna receta que coincida con el nombre:
@@ -140,6 +146,7 @@
   </div>
 </div>
 
+<!-- BOTÓN VOLVER ATRÁS -->
 <div class="row p-1 my-3 justify-content-center">
   <div class="text-center mb-2">
     <button class="btn colorPurpleP" routerLink="/search">

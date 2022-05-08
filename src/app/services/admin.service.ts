@@ -2,11 +2,12 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { User, UserBACK } from '../interfaces/interface';
+import { UserBACK } from '../interfaces/interface';
 import { AccessService } from './access.service';
 /**
  * AdminService
  * Este servicio gestiona todas las peticiones que tienen que ver con la gestión de tareas  del administrador
+ * Necesita token y que el rol del usuario sea ADMIN
  */
 @Injectable({
   providedIn: 'root',

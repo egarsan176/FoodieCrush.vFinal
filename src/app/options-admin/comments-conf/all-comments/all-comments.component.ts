@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
 import Swal from 'sweetalert2';
-
+/**
+ * Componente AllComments
+ * Este componente muestra todos los comentarios existentes en la BBDD.
+ * Se encuentra dentro del apartado Comentarios del Panel de Gestión del ADMIN
+ */
 @Component({
   selector: 'app-all-comments',
   templateUrl: './all-comments.component.html',
@@ -19,7 +23,11 @@ export class AllCommentsComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCommentsFromBD();
   }
-
+  /**
+   * Método para obtener todos los comentarios de la BBDD.
+   * Se suscribe al método getAllCommentsFromBD() del servicio adminService e iguala
+   * la respuesta a la variable allComentsBD del componente
+   */
   getAllCommentsFromBD() {
     this.adminService.getAllCommentsFromBD().subscribe({
       next: (data) => {
@@ -30,10 +38,6 @@ export class AllCommentsComponent implements OnInit {
         Swal.fire('Error', e.error.mensaje, 'error');
       },
     });
-  }
-
-  setID(id: any) {
-    localStorage.setItem('idComment', id);
   }
 
   /**

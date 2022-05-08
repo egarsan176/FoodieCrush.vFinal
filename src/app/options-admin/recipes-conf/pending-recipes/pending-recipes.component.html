@@ -1,3 +1,4 @@
+<!-- BREADCRUMBS -->
 <div class="row p-1 my-3 justify-content-center">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -9,27 +10,35 @@
     </ol>
   </nav>
 </div>
+
+<!-- SPINNER TIEMPO DE CARGA DE LA PETICIÓN -->
 <div *ngIf="pending">
   <app-spinner></app-spinner>
 </div>
 
+<!-- DATATABLE RECETAS PENDIENTES -->
 <div *ngIf="!pending">
   <div class="p-3 text-center my-3">
+    <!-- NO HAY RECETAS -->
     <div *ngIf="recipesPending == null">
       <p>¡Buen trabajo no hay ninguna receta pendiente de aprobar!</p>
     </div>
 
     <div *ngIf="recipesPending != null">
       <div *ngIf="recipesPending.length >= 1">
+        <!-- HAY UNA SOLA RECETA -->
         <p *ngIf="recipesPending.length == 1">
           Solo existe 1 receta que todavía no has aprobado y por lo tanto no se
           muestra en el Foodie recetario. Tenemos trabajo por hacer, ¡adelante!
         </p>
+        <!-- HAY MÁS DE UNA RECETA -->
         <p *ngIf="recipesPending.length > 1">
           Existen un total de {{ recipesPending.length }} recetas que todavía no
           has aprobado y por lo tanto no se muestran en el Foodie recetario.
           Tenemos trabajo por hacer, ¡adelante!
         </p>
+
+        <!-- DATATABLE -->
         <p-table
           [value]="recipesPending"
           [paginator]="true"
@@ -103,6 +112,7 @@
   </div>
 </div>
 
+<!-- BOTÓN PARA VOLVER ATRÁS -->
 <div class="row p-1 my-3 justify-content-center">
   <div class="text-center mb-2">
     <button class="btn colorPurpleP" routerLink="/optionsADMIN/recipesConf">

@@ -1,3 +1,4 @@
+<!-- BREADCRUMBS -->
 <div class="row p-1 my-3 justify-content-center">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -6,26 +7,34 @@
     </ol>
   </nav>
 </div>
+
+<!-- SPINNER TIEMPO DE CARGA DE LA PETICIÓN -->
 <div *ngIf="pending">
   <app-spinner></app-spinner>
 </div>
 
+<!-- DATATABLE TODOS LOS USUARIOS -->
 <div *ngIf="!pending">
   <div class="p-3 text-center my-3">
-    <!-- SI NO HAY COMENTARIOS -->
+    <!-- SI NO HAY USUARIOS-->
     <p *ngIf="users == null">
       ¡Vaya! Todavía no tenemos usuarios registrados en Foodie Crush.
     </p>
-    <!-- SI HAY COMENTARIOS -->
+    <!-- SI HAY USUARIOS -->
     <div *ngIf="users != null">
       <div *ngIf="users.length >= 1">
         <p *ngIf="users.length == 1">
+          <!-- SI SOLO HAY UN USUARIO -->
           De momento nuestro Foodie Crush blog solo tiene un único usuario.
         </p>
+
+        <!-- SI HAY MÁS DE UN USUARIO -->
         <p *ngIf="users.length > 1">
           Nuestro Foodie Crush blog cuenta ya con un total de
           {{ users.length }} usuarios registrados.
         </p>
+
+        <!-- DATATBLE -->
         <p-table
           [value]="users"
           [paginator]="true"
@@ -81,6 +90,7 @@
   </div>
 </div>
 
+<!-- BOTÓN PATA VOLVER ATRÁS -->
 <div class="row p-1 my-3 justify-content-center">
   <div class="text-center mb-2">
     <button class="btn colorPurpleP" routerLink="/optionsADMIN">VOLVER</button>

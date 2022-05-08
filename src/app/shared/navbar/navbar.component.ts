@@ -7,7 +7,8 @@ import Swal from 'sweetalert2';
 
 /**
  * Componente Navbar
- * Este componente sirve para mostrar y gestionar la barra de navegación de la aplicación
+ * Este componente sirve para mostrar y gestionar la barra de navegación de toda la aplicación
+ *  Pertenece al módulo Shared
  */
 @Component({
   selector: 'app-navbar',

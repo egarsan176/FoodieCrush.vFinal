@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Recipe } from 'src/app/interfaces/interface';
 import { RecipesService } from 'src/app/services/Recipes.service';
-
+import Swal from 'sweetalert2';
+/**
+ * Componente DetailsRecipeFromAdmin
+ * Este componente sirve para mostrar dentro de la ruta del panel de gestión del ADMIN, los detalles de una receta,
+ * sin perder la ruta del breadcrumbs
+ */
 @Component({
   selector: 'app-details-recipe-from-admin',
   templateUrl: './details-recipe-from-admin.component.html',
@@ -20,12 +25,15 @@ export class DetailsRecipeFromAdminComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    /**
+     * Este método muestra la receta que coincide con el id que se le pasa por parámetro
+     */
     this.recipeService.showRecipe(this.id).subscribe({
       next: (data) => {
         this.recipe = data;
       },
       error: (e) => {
-        console.log(e);
+        Swal.fire('Error', e.error.mensaje, 'error');
       },
     });
 
@@ -36,6 +44,9 @@ export class DetailsRecipeFromAdminComponent implements OnInit {
     });
   }
 
+  /**
+   * Para navegar hacia la ruta correcta en el breadcrumb dependiendo del origin del breadcrumb
+   */
   navigateTO() {
     if (this.originParam === 'pending') {
       this.route.navigateByUrl('optionsADMIN/recipesConf/pendingRecipes');
@@ -46,6 +57,9 @@ export class DetailsRecipeFromAdminComponent implements OnInit {
     }
   }
 
+  /**
+   * Para mostrar la ruta correcta en el breadcrumb dependiendo de cual sea la ruta que la precede
+   */
   get originBreadCrumb() {
     let origin: string = '';
 

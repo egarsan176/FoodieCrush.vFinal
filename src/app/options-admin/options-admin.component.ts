@@ -3,7 +3,9 @@ import { User } from '../interfaces/interface';
 import { AccessService } from '../services/access.service';
 import Swal from 'sweetalert2';
 /**
- * Componente de Opciones del Administrador
+ * Componente OptionsAdmin
+ * A este componente solo puede acceder un usuario con rol de ADMIN.
+ * El admin es dirigido a este componente tras iniciar sesión, mostrando el panel de opciones de gestión
  */
 @Component({
   selector: 'app-options-admin',

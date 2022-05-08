@@ -1,11 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FileDB, RecipeComment, User } from 'src/app/interfaces/interface';
 import { AccessService } from 'src/app/services/access.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
-
+/**
+ * Componente RecipeDetailsTemplate
+ * Este componente sirve de plantilla para mostrar los detalles de una receta
+ * Pertenece al módulo Shared
+ */
 @Component({
   selector: 'app-recipe-details-template',
   templateUrl: './recipe-details-template.component.html',
@@ -33,7 +37,6 @@ export class RecipeDetailsTemplateComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private recipeService: RecipesService,
     private fileService: FileUploadService,
-    private router: Router,
     private accessService: AccessService
   ) {}
 

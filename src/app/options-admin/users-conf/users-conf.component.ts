@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { User, UserBACK } from 'src/app/interfaces/interface';
 import { AdminService } from 'src/app/services/admin.service';
 import Swal from 'sweetalert2';
-
+/**
+ * Componente UsersConf
+ * Este componente muestra todos los usuarios existentes en la BBDD.
+ * Se encuentra dentro del apartado Usuarios del Panel de Gestión del ADMIN
+ */
 @Component({
   selector: 'app-users-conf',
   templateUrl: './users-conf.component.html',

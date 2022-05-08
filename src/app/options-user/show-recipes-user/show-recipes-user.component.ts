@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 /**
  * Componente ShowRecipesUser
  * Este componente sirve para que un usuario pueda gestionar sus recetas ya publicadas
+ * Se encuentra dentro del panel de opciones del usuario
  */
 @Component({
   selector: 'app-show-recipes-user',
@@ -29,11 +30,11 @@ export class ShowRecipesUserComponent implements OnInit {
 
   constructor(
     private recipesService: RecipesService,
-    private accessService: AccessService,
-    private route: Router
+    private accessService: AccessService
   ) {}
 
   ngOnInit(): void {
+    /** CAMPOS DE LA DATATABLE */
     this.cols = [
       { field: 'id', header: 'ORDEN' },
       { field: 'recipeName', header: 'NOMBRE' },
@@ -144,6 +145,11 @@ export class ShowRecipesUserComponent implements OnInit {
     });
   }
 
+  /**
+   * Este método almacena el id de la receta en el localStorage para poder
+   * recuperarlo al mostrar los detalles de una receta cuando se navega hacia la página /recipeDetail
+   * @param id
+   */
   setID(id: any) {
     localStorage.setItem('id', id);
   }

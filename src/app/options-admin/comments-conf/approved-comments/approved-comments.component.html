@@ -1,3 +1,4 @@
+<!-- BREADCRUMBS -->
 <div class="row p-1 my-3 justify-content-center">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -9,16 +10,20 @@
     </ol>
   </nav>
 </div>
+
+<!-- SPINNER TIEMPO DE CARGA DE LA PETICIÓN -->
 <div *ngIf="pending">
   <app-spinner></app-spinner>
 </div>
 
+<!-- DATATABLE COMENTARIOS APROBADOS-->
 <div *ngIf="!pending">
   <div class="p-3 text-center my-3">
     <!-- SI NO HAY COMENTARIOS -->
     <div *ngIf="commentsApproved == null">
       <p>¡Vaya! Aún no has aprobado ningún comentario. !Date prisa!</p>
     </div>
+
     <!-- SI HAY COMENTARIOS -->
     <div *ngIf="commentsApproved != null">
       <p *ngIf="commentsApproved.length == 1">
@@ -28,6 +33,7 @@
         Existen un total de {{ commentsApproved.length }} comentarios aprobados.
       </p>
 
+      <!-- DATATABLE -->
       <p-table
         [value]="commentsApproved"
         [paginator]="true"
@@ -73,6 +79,7 @@
   </div>
 </div>
 
+<!-- BOTÓN PATA VOLVER ATRÁS -->
 <div class="row p-1 my-3 justify-content-center">
   <div class="text-center mb-2">
     <button class="btn colorPurpleP" routerLink="/optionsADMIN/commentsConf">

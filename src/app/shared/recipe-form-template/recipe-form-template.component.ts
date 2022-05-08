@@ -10,7 +10,11 @@ import {
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
-
+/**
+ * Componente RecipeFormTemplate
+ * Este componente contiene el formulario que se usa de plantilla en otros componentes para publicar una receta
+ * Pertenece al módulo Shared
+ */
 @Component({
   selector: 'app-recipe-form-template',
   templateUrl: './recipe-form-template.component.html',
@@ -165,6 +169,7 @@ export class RecipeFormTemplateComponent implements OnInit {
         ) {
           this.recipe.file = this.file;
           //console.log(this.recipe.file)
+          this.recipe.recipeName.toUpperCase();
 
           this.recipeService.publicar(this.recipe).subscribe({
             next: (data) => {

@@ -1,3 +1,4 @@
+<!-- BREADCRUMBS -->
 <div class="row p-1 my-3 justify-content-center">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -8,6 +9,8 @@
     </ol>
   </nav>
 </div>
+
+<!-- INICIO FORMULARIO PARA PUBLICAR UNA RECETA -->
 <div class="row my-2 justify-content-center">
   <div class="col-12 m-1">
     <div class="m-3">
@@ -25,8 +28,10 @@
             con la información que se detalla en cada uno de ellos.
           </p>
 
+          <!-- FORMULARIO PARA SUBIR UN ARCHIVO -->
           <app-upload-recipe-file></app-upload-recipe-file>
 
+          <!-- FORMULARIO PARA SUBIR LOS DATOS DE UNA RECETA -->
           <app-recipe-form-template></app-recipe-form-template>
 
           <div class="card-footer colorYellowP m-2 text-center">
@@ -40,6 +45,7 @@
   </div>
 </div>
 
+<!-- BOTÓN PARA VOLVER ATRÁS -->
 <div class="row p-1 my-3 justify-content-center">
   <div class="text-center mb-2">
     <button class="btn colorPurpleP" routerLink="/optionsUser">VOLVER</button>

@@ -1,4 +1,5 @@
 <div *ngIf="recipe != null">
+  <!-- BREADCRUMBS -->
   <div class="row p-1 my-3 justify-content-center">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
@@ -14,5 +15,6 @@
       </ol>
     </nav>
   </div>
+  <!-- COMPONENTE PLANTILLA DETALLES DE RECETA -->
   <app-recipe-details-template [id]="id"></app-recipe-details-template>
 </div>
