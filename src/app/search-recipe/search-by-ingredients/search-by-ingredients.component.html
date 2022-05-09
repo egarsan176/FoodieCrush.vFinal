@@ -23,6 +23,11 @@
   </div>
 </div>
 
+<!-- SPINNER TIEMPO DE CARGA DE LA PETICIÓN -->
+<!-- <div *ngIf="pending">
+  <app-spinner></app-spinner>
+</div> -->
+
 <!-- BOTONES PARA MOSTRAR LOS INPUTS SEGÚN EL NÚMERO DE INGREDIENTES -->
 <div class="row m-4 text-center">
   <div class="col-4 mb-2">
@@ -66,7 +71,7 @@
   <div class="m-4 text-center" *ngIf="showPic && !okRecipes1">
     <p>
       ¡Vaya! No tenemos ninguna receta que contenga el ingrediente:
-      <b>{{ name1.toUpperCase() }}</b>
+      <b>{{ nameInput.toUpperCase() }}</b>
     </p>
     <img
       src="assets/img/404-error.png"
@@ -78,13 +83,13 @@
   <!-- RECETAS CON 1 INGREDIENTE SELECCIONADO-->
   <div class="m-3" *ngIf="okRecipes1">
     <p>
-      Mostrando recetas con el ingrediente: <b>{{ name1.toUpperCase() }}</b>
+      Mostrando recetas con el ingrediente: <b>{{ nameInput.toUpperCase() }}</b>
     </p>
     <div
       class="row row-cols-1 row-cols-sm-3 row-cols-lg-4 justify-content-center"
     >
       <div class="col" *ngFor="let item of recipes1; let i = index">
-        <div class="card text-center mt-2">
+        <div class="card text-center h-100 my-2">
           <div *ngIf="item.file == null">
             <img
               src="assets/img/logo.svg"
@@ -110,7 +115,7 @@
               data-bs-toggle="tooltip"
               title="{{ item.recipeName.toUpperCase() }}"
             >
-              {{ item.recipeName.toUpperCase().substr(0, 15) + " ..." }}
+              {{ item.recipeName.toUpperCase().substr(0, 20) + " ..." }}
             </h5>
           </div>
           <div class="card-footer">
@@ -168,7 +173,8 @@
   <div class="m-4 text-center" *ngIf="showPic && !okRecipes2">
     <p>
       ¡Vaya! No tenemos ninguna receta que contenga los ingredientes:
-      <b>{{ name1.toUpperCase() }}</b> y <b>{{ name2.toUpperCase() }}</b>
+      <b>{{ nameInput.toUpperCase() }}</b> y
+      <b>{{ nameInput2.toUpperCase() }}</b>
     </p>
     <img
       src="assets/img/404-error.png"
@@ -180,14 +186,15 @@
   <!-- RECETAS CON 2 INGREDIENTES SELECCIONADOS -->
   <div class="m-3" *ngIf="okRecipes2">
     <p>
-      Mostrando recetas con los ingredientes: <b>{{ name1.toUpperCase() }}</b> y
-      <b>{{ name2.toUpperCase() }}</b>
+      Mostrando recetas con los ingredientes:
+      <b>{{ nameInput.toUpperCase() }}</b> y
+      <b>{{ nameInput2.toUpperCase() }}</b>
     </p>
     <div
       class="row row-cols-1 row-cols-sm-3 row-cols-lg-4 justify-content-center"
     >
       <div class="col" *ngFor="let item of recipes2; let i = index">
-        <div class="card text-center mt-2">
+        <div class="card text-center mt-2 h-100">
           <div *ngIf="item.file == null">
             <img
               src="assets/img/logo.svg"
@@ -284,8 +291,9 @@
   <div class="m-4 text-center" *ngIf="showPic && !okRecipes3">
     <p>
       ¡Vaya! No tenemos ninguna receta que contenga los ingredientes:
-      <b>{{ name1.toUpperCase() }}</b
-      >, <b>{{ name2.toUpperCase() }}</b> y <b>{{ name3.toUpperCase() }}</b>
+      <b>{{ nameInput.toUpperCase() }}</b
+      >, <b>{{ nameInput2.toUpperCase() }}</b> y
+      <b>{{ nameInput3.toUpperCase() }}</b>
     </p>
     <img
       src="assets/img/404-error.png"
@@ -296,14 +304,16 @@
   <!-- RECETAS CON 3 INGREDIENTES SELECCIONADOS -->
   <div class="m-3" *ngIf="okRecipes3">
     <p>
-      Mostrando recetas con los ingredientes: <b>{{ name1.toUpperCase() }}</b
-      >, <b>{{ name2.toUpperCase() }}</b> y <b>{{ name3.toUpperCase() }}</b>
+      Mostrando recetas con los ingredientes:
+      <b>{{ nameInput.toUpperCase() }}</b
+      >, <b>{{ nameInput2.toUpperCase() }}</b> y
+      <b>{{ nameInput3.toUpperCase() }}</b>
     </p>
     <div
-      class="row row-cols-1 row-cols-sm-3 row-cols-lg-4 justify-content-center"
+      class="row row-cols-1 row-cols-sm-3 row-cols-lg-4 justify-content-center my-2"
     >
       <div class="col" *ngFor="let item of recipes3; let i = index">
-        <div class="card text-center mt-2">
+        <div class="card text-center h-100">
           <div *ngIf="item.file == null">
             <img
               src="assets/img/logo.svg"

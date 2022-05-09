@@ -260,8 +260,10 @@ export class RecipesService {
    * @returns lista de recetas que contienen los dos ingredientes que se le pasan por parámetro
    */
   getRecipesByTwoIngredients(name1: string, name2: string) {
-    const params = new HttpParams().set('ingredientName1', name1);
-    params.append('ingredientName2', name2);
+    let params = new HttpParams();
+    params = params.append('ingredientName1', name1);
+    params = params.append('ingredientName2', name2);
+
     const url = `${this.urlBase}/mostrar/recipes/ingredients?${params}`;
 
     return this.httpClient.get<Recipe[]>(url);
@@ -276,9 +278,10 @@ export class RecipesService {
    * @returns lista de recetas que contienen los tres ingredientes que se le pasan por parámetro
    */
   getRecipesByThreeIngredients(name1: string, name2: string, name3: string) {
-    const params = new HttpParams().set('ingredientName1', name1);
-    params.append('ingredientName2', name2);
-    params.append('ingredientName3', name3);
+    let params = new HttpParams();
+    params = params.append('ingredientName1', name1);
+    params = params.append('ingredientName2', name2);
+    params = params.append('ingredientName3', name3);
     const url = `${this.urlBase}/mostrar/recipes/ingredients?${params}`;
 
     return this.httpClient.get<Recipe[]>(url);

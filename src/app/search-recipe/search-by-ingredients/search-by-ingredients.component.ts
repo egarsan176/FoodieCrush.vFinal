@@ -28,6 +28,10 @@ export class SearchByIngredientsComponent implements OnInit {
   recipes1: Recipe[] = [];
   recipes2: Recipe[] = [];
   recipes3: Recipe[] = [];
+  pending: boolean = false;
+  nameInput: string = '';
+  nameInput2: string = '';
+  nameInput3: string = '';
 
   constructor(private recipeService: RecipesService) {}
 
@@ -50,6 +54,10 @@ export class SearchByIngredientsComponent implements OnInit {
     this.show1 = true;
     this.show2 = false;
     this.show3 = false;
+    this.showPic = false;
+    this.name1 = '';
+    this.name2 = '';
+    this.name3 = '';
   }
   /**
    * MÉTODO PARA QUE SE MUESTRE EL INPUT DE DOS INGREDIENTES
@@ -58,6 +66,10 @@ export class SearchByIngredientsComponent implements OnInit {
     this.show2 = true;
     this.show1 = false;
     this.show3 = false;
+    this.showPic = false;
+    this.name1 = '';
+    this.name2 = '';
+    this.name3 = '';
   }
   /**
    * MÉTODO PARA QUE SE MUESTRE EL INPUT DE TRES INGREDIENTES
@@ -66,6 +78,10 @@ export class SearchByIngredientsComponent implements OnInit {
     this.show3 = true;
     this.show2 = false;
     this.show1 = false;
+    this.showPic = false;
+    this.name1 = '';
+    this.name2 = '';
+    this.name3 = '';
   }
 
   /**
@@ -79,13 +95,19 @@ export class SearchByIngredientsComponent implements OnInit {
         next: (data) => {
           this.recipes1 = data;
           this.okRecipes1 = true;
+          this.okRecipes2 = false;
+          this.okRecipes3 = false;
+          this.nameInput = name1;
+
           if (this.recipes1 == null) {
             this.showPic = true;
             this.okRecipes1 = false;
           }
           //console.log(data);
         },
+
         error: (e) => {
+          this.pending = true;
           Swal.fire('Error', e.error.mensaje, 'error');
         },
       });
@@ -108,14 +130,19 @@ export class SearchByIngredientsComponent implements OnInit {
       this.recipeService.getRecipesByTwoIngredients(name1, name2).subscribe({
         next: (data) => {
           this.recipes2 = data;
-          //console.log(data);
           this.okRecipes2 = true;
+          this.okRecipes1 = false;
+          this.okRecipes3 = false;
+          this.nameInput = name1;
+          this.nameInput2 = name2;
           if (this.recipes2 == null) {
             this.showPic = true;
             this.okRecipes2 = false;
           }
+          this.pending = false;
         },
         error: (e) => {
+          this.pending = true;
           Swal.fire('Error', e.error.mensaje, 'error');
         },
       });
@@ -142,6 +169,12 @@ export class SearchByIngredientsComponent implements OnInit {
             this.recipes3 = data;
             //console.log(data);
             this.okRecipes3 = true;
+            this.okRecipes2 = false;
+            this.okRecipes1 = false;
+
+            this.nameInput = name1;
+            this.nameInput2 = name2;
+            this.nameInput3 = name3;
             if (this.recipes3 == null) {
               this.showPic = true;
               this.okRecipes3 = false;

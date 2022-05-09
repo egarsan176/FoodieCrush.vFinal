@@ -33,13 +33,13 @@
 <div *ngIf="show">
   <div class="m-4" *ngIf="recipes1 != null">
     <p>
-      Estas son las recetas con nombre: <b>{{ name.toUpperCase() }}</b>
+      Estas son las recetas con nombre: <b>{{ nameInput.toUpperCase() }}</b>
     </p>
     <div
-      class="row row-cols-1 row-cols-sm-3 row-cols-lg-4 justify-content-center"
+      class="row row-cols-1 row-cols-sm-3 row-cols-lg-4 justify-content-center my-2"
     >
       <div class="col" *ngFor="let item of recipes1; let i = index">
-        <div class="card text-center mt-2">
+        <div class="card text-center h-100">
           <div *ngIf="item.file == null">
             <img
               src="assets/img/logo.svg"
@@ -65,7 +65,7 @@
               data-bs-toggle="tooltip"
               title="{{ item.recipeName.toUpperCase() }}"
             >
-              {{ item.recipeName.toUpperCase().substr(0, 15) + " ..." }}
+              {{ item.recipeName.toUpperCase().substr(0, 20) + " ..." }}
             </h5>
           </div>
           <div class="card-footer">
@@ -84,14 +84,14 @@
   <div class="m-4" *ngIf="recipes2 != null && recipes1 == null">
     <p>
       ¡Vaya! No tenemos ninguna receta con nombre:
-      <b>{{ name.toUpperCase() }}</b>
+      <b>{{ nameInput.toUpperCase() }}</b>
     </p>
     <p>Pero quizás lo que buscas esté por aquí:</p>
     <div
       class="row row-cols-1 row-cols-sm-3 row-cols-lg-4 justify-content-center"
     >
       <div class="col" *ngFor="let item of recipes2; let i = index">
-        <div class="card text-center mt-2">
+        <div class="card text-center mt-2 h-100">
           <div *ngIf="item.file == null">
             <img
               src="assets/img/logo.svg"
@@ -117,7 +117,7 @@
               data-bs-toggle="tooltip"
               title="{{ item.recipeName.toUpperCase() }}"
             >
-              {{ item.recipeName.toUpperCase().substr(0, 15) + " ..." }}
+              {{ item.recipeName.toUpperCase().substr(0, 20) + " ..." }}
             </h5>
           </div>
           <div class="card-footer">

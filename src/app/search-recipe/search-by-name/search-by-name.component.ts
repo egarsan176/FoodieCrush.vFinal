@@ -18,6 +18,7 @@ export class SearchByNameComponent implements OnInit {
    */
 
   name!: string;
+  nameInput: string = '';
   show: boolean = false;
 
   recipes1: Recipe[] = [];
@@ -41,6 +42,7 @@ export class SearchByNameComponent implements OnInit {
       this.recipeService.getRecipeByName(name).subscribe({
         next: (data) => {
           this.recipes1 = data;
+          this.nameInput = name;
           //console.log(this.recipes1);
         },
         error: (e) => {
