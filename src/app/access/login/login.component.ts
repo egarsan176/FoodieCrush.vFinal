@@ -72,10 +72,16 @@ export class LoginComponent implements OnInit {
             confirmButtonText: 'Acceder',
           }).then((result) => {
             if (result.isConfirmed) {
-              if (this.userDetails?.role === 'ADMIN')
-                this.router.navigateByUrl('optionsADMIN');
-              else {
-                this.router.navigateByUrl('optionsUser');
+              let cIDr = localStorage.getItem('cIDr');
+
+              if (cIDr != null) {
+                this.router.navigate(['/recipes/details', cIDr]);
+              } else {
+                if (this.userDetails?.role === 'ADMIN')
+                  this.router.navigateByUrl('optionsADMIN');
+                else {
+                  this.router.navigateByUrl('optionsUser');
+                }
               }
             }
           });

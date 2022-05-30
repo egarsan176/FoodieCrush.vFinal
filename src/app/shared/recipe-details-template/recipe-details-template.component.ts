@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FileDB, RecipeComment, User } from 'src/app/interfaces/interface';
 import { AccessService } from 'src/app/services/access.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
@@ -37,7 +37,8 @@ export class RecipeDetailsTemplateComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private recipeService: RecipesService,
     private fileService: FileUploadService,
-    private accessService: AccessService
+    private accessService: AccessService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -155,5 +156,12 @@ export class RecipeDetailsTemplateComponent implements OnInit {
    */
   showPostComment() {
     return this.accessService.getToken();
+  }
+
+  saveIDtoComment() {
+    let idRecipe = this.activeRoute.snapshot.params['id'];
+
+    localStorage.setItem('cIDr', idRecipe);
+    this.router.navigateByUrl('/login');
   }
 }

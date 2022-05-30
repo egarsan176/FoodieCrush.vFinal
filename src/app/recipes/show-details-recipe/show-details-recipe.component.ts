@@ -37,7 +37,7 @@ export class ShowDetailsRecipeComponent implements OnInit {
     private recipeService: RecipesService,
     private fileService: FileUploadService,
     private accessService: AccessService,
-    public router: Router
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +61,7 @@ export class ShowDetailsRecipeComponent implements OnInit {
           this.recipe = data;
           this.mostrar = true;
           //console.log(this.recipe);
+          localStorage.removeItem('cIDr');
         },
         error: (e) => {
           Swal.fire('Error', e.error.mensaje, 'error');
@@ -159,5 +160,12 @@ export class ShowDetailsRecipeComponent implements OnInit {
    */
   showPostComment() {
     return this.accessService.getToken();
+  }
+
+  saveIDtoComment() {
+    let idRecipe = this.activeRoute.snapshot.params['id'];
+
+    localStorage.setItem('cIDr', idRecipe);
+    this.router.navigateByUrl('/login');
   }
 }
