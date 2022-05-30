@@ -24,9 +24,9 @@
 </div>
 
 <!-- SPINNER TIEMPO DE CARGA DE LA PETICIÓN -->
-<!-- <div *ngIf="pending">
+<div *ngIf="pending">
   <app-spinner></app-spinner>
-</div> -->
+</div>
 
 <!-- BOTONES PARA MOSTRAR LOS INPUTS SEGÚN EL NÚMERO DE INGREDIENTES -->
 <div class="row m-4 text-center">
@@ -42,7 +42,7 @@
 </div>
 
 <!-- INPUT 1 INGREDIENTE -->
-<div *ngIf="show1">
+<div *ngIf="show1 && !pending">
   <div class="row m-3">
     <div class="col">
       <div class="form-floating mb-3">
@@ -131,7 +131,7 @@
   </div>
 </div>
 <!-- INPUT 2 INGREDIENTES -->
-<div *ngIf="show2">
+<div *ngIf="show2 && !pending">
   <div class="row m-3">
     <div class="col">
       <div class="form-floating mb-3">
@@ -236,7 +236,7 @@
   </div>
 </div>
 <!-- INPUT 3 INGREDIENTES -->
-<div *ngIf="show3">
+<div *ngIf="show3 && !pending">
   <div class="row m-3">
     <div class="col">
       <div class="form-floating mb-3">

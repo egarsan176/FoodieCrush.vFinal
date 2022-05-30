@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { FileDB, Recipe } from 'src/app/interfaces/interface';
 import { RecipesService } from 'src/app/services/Recipes.service';
@@ -28,14 +29,47 @@ export class SearchByIngredientsComponent implements OnInit {
   recipes1: Recipe[] = [];
   recipes2: Recipe[] = [];
   recipes3: Recipe[] = [];
-  pending: boolean = false;
+  pending!: boolean;
   nameInput: string = '';
   nameInput2: string = '';
   nameInput3: string = '';
 
   constructor(private recipeService: RecipesService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let option = localStorage.getItem('option');
+
+    if (option === '1') {
+      this.show1Input();
+      let nameBusqueda = localStorage.getItem('i1');
+      if (nameBusqueda != null) {
+        this.getRecipeFrom1ingredient(nameBusqueda);
+      }
+    } else if (option === '2') {
+      this.show2Input();
+      let nameBusqueda = localStorage.getItem('i1');
+      let nameBusqueda2 = localStorage.getItem('i2');
+      if (nameBusqueda != null && nameBusqueda2 != null) {
+        this.getRecipeFrom2ingredients(nameBusqueda, nameBusqueda2);
+      }
+    } else if (option === '3') {
+      this.show3Input();
+      let nameBusqueda = localStorage.getItem('i1');
+      let nameBusqueda2 = localStorage.getItem('i2');
+      let nameBusqueda3 = localStorage.getItem('i3');
+      if (
+        nameBusqueda != null &&
+        nameBusqueda2 != null &&
+        nameBusqueda3 != null
+      ) {
+        this.getRecipeFrom3ingredients(
+          nameBusqueda,
+          nameBusqueda2,
+          nameBusqueda3
+        );
+      }
+    }
+  }
 
   /**
    * Este método a través del servicio RecipeService nos devuelve la imagen asociada a un fichero para
@@ -90,6 +124,7 @@ export class SearchByIngredientsComponent implements OnInit {
    * e iguala la respuesta a la variable recipes1
    */
   getRecipeFrom1ingredient(name1: string) {
+    this.pending = true;
     if (name1 != null) {
       this.recipeService.getRecipesByIngredient(name1).subscribe({
         next: (data) => {
@@ -98,16 +133,19 @@ export class SearchByIngredientsComponent implements OnInit {
           this.okRecipes2 = false;
           this.okRecipes3 = false;
           this.nameInput = name1;
+          this.pending = false;
 
           if (this.recipes1 == null) {
             this.showPic = true;
             this.okRecipes1 = false;
           }
           //console.log(data);
+          localStorage.setItem('i1', this.nameInput);
+          localStorage.setItem('option', '1');
         },
 
         error: (e) => {
-          this.pending = true;
+          this.pending = false;
           Swal.fire('Error', e.error.mensaje, 'error');
         },
       });
@@ -126,6 +164,7 @@ export class SearchByIngredientsComponent implements OnInit {
    * e iguala la respuesta a la variable recipes2
    */
   getRecipeFrom2ingredients(name1: string, name2: string) {
+    this.pending = true;
     if (name1 != null && name2 != null) {
       this.recipeService.getRecipesByTwoIngredients(name1, name2).subscribe({
         next: (data) => {
@@ -140,9 +179,12 @@ export class SearchByIngredientsComponent implements OnInit {
             this.okRecipes2 = false;
           }
           this.pending = false;
+          localStorage.setItem('i1', this.nameInput);
+          localStorage.setItem('i2', this.nameInput2);
+          localStorage.setItem('option', '2');
         },
         error: (e) => {
-          this.pending = true;
+          this.pending = false;
           Swal.fire('Error', e.error.mensaje, 'error');
         },
       });
@@ -161,6 +203,7 @@ export class SearchByIngredientsComponent implements OnInit {
    * e iguala la respuesta a la variable recipes3
    */
   getRecipeFrom3ingredients(name1: string, name2: string, name3: string) {
+    this.pending = true;
     if (name1 != null && name2 != null && name3 != null) {
       this.recipeService
         .getRecipesByThreeIngredients(name1, name2, name3)
@@ -175,12 +218,19 @@ export class SearchByIngredientsComponent implements OnInit {
             this.nameInput = name1;
             this.nameInput2 = name2;
             this.nameInput3 = name3;
+            this.pending = false;
             if (this.recipes3 == null) {
               this.showPic = true;
               this.okRecipes3 = false;
             }
+
+            localStorage.setItem('i1', this.nameInput);
+            localStorage.setItem('i2', this.nameInput2);
+            localStorage.setItem('i3', this.nameInput3);
+            localStorage.setItem('option', '3');
           },
           error: (e) => {
+            this.pending = false;
             Swal.fire('Error', e.error.mensaje, 'error');
           },
         });

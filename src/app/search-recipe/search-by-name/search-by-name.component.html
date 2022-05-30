@@ -12,6 +12,11 @@
   </nav>
 </div>
 
+<!-- SPINNER TIEMPO DE CARGA DE LA PETICIÓN -->
+<div *ngIf="pending">
+  <app-spinner></app-spinner>
+</div>
+
 <!-- INPUT BUSCADOR -->
 <div class="row m-3">
   <div class="col text-center">

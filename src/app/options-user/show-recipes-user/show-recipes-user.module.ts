@@ -9,7 +9,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DetailsRecipeFromUserComponent } from './details-recipe-from-user/details-recipe-from-user.component';
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,6 +25,7 @@ import { FormsModule } from '@angular/forms';
     PaginatorModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
 })
 export class ShowRecipesUserModule {}

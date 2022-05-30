@@ -286,4 +286,9 @@ export class RecipesService {
 
     return this.httpClient.get<Recipe[]>(url);
   }
+
+  getIngredientsFromBD() {
+    const url = `${this.urlBase}/mostrar/ingredients`;
+    return this.httpClient.get<any[]>(url);
+  }
 }
