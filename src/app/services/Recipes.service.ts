@@ -164,6 +164,24 @@ export class RecipesService {
     return this.httpClient.delete<any>(url, { headers });
   }
 
+  /**
+   * A este método se accede para editar una receta
+   * @param id
+   * @param recipe
+   * @returns Receta editada
+   */
+  editRecipe(id: number, recipe: Recipe) {
+    let token = this.accessService.getToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const body = recipe;
+    const url = `${this.urlBase}/recipes/${id}`;
+
+    return this.httpClient.put<Recipe>(url, body, { headers });
+  }
+
   /////////////////////COMENTARIOS
 
   /**

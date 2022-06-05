@@ -11,6 +11,8 @@ import { DetailsRecipeFromUserComponent } from './details-recipe-from-user/detai
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { StepsModule } from 'primeng/steps';
+
 @NgModule({
   declarations: [
     ShowRecipesUserComponent,
@@ -26,6 +28,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    StepsModule,
   ],
 })
 export class ShowRecipesUserModule {}

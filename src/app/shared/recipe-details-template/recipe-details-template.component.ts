@@ -158,6 +158,10 @@ export class RecipeDetailsTemplateComponent implements OnInit {
     return this.accessService.getToken();
   }
 
+  /**
+   * Este método guarda en el localStorage el id de la receta cuando se quiere publicar un comentario y no se ha iniciado sesión.
+   * Te dirije al login
+   */
   saveIDtoComment() {
     let idRecipe = this.activeRoute.snapshot.params['id'];
 
