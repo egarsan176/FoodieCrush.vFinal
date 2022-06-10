@@ -5,6 +5,13 @@ import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { Router } from '@angular/router';
+import {
+  BehaviorSubject,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  Observable,
+} from 'rxjs';
 
 @Component({
   selector: 'app-edit-recipe',
@@ -33,6 +40,10 @@ export class EditRecipeComponent implements OnInit {
 
   img: string = '';
 
+  searchTerm$ = new BehaviorSubject<string>(''); //mantiene un estado inicial que en este caso es un string vacío
+  listFiltered$!: Observable<string[]>; //la declaro como un observable para usar el async pipe en lugar de un subscribe
+  private ingredients: string[] = []; //contiene los nombres de todos los ingredientes de la bbdd
+
   constructor(
     private recipeService: RecipesService,
     private fb: FormBuilder,
@@ -46,7 +57,7 @@ export class EditRecipeComponent implements OnInit {
       next: (data) => {
         this.recipe = data;
         this.getFileByRecipe(data.id);
-        console.log(data);
+
         this.title = data.recipeName;
 
         this.pending = false;
@@ -56,6 +67,9 @@ export class EditRecipeComponent implements OnInit {
       },
     });
 
+    /**
+     * Se crean los FormGroups para los distintos formularios
+     */
     this.recipeDetails = this.fb.group({
       recipeName: [''],
       category: [''],
@@ -67,8 +81,39 @@ export class EditRecipeComponent implements OnInit {
     this.recipeMethod = this.fb.group({
       method: this.fb.array([]),
     });
+
+    /** Para cargar la lista de ingredientes */
+    this.recipeService.getIngredientsFromBD().subscribe({
+      next: (data) => {
+        this.ingredients = data;
+        /** para eliminar los items repetidos */
+        this.deleteItemDuplicate();
+      },
+      error: (e) => {
+        console.log(e);
+      },
+    });
+
+    /** Método para mostrar buscador de ingredientes */
+    this.filterList();
   }
 
+  /**
+   * Método provisional para no mostrar los ingredientes repetidos hasta que se arregle en el back el añadido de ingredientes
+   */
+  deleteItemDuplicate() {
+    let aux: string[] = [];
+
+    for (var i = 0; i < this.ingredients.length; i++) {
+      const elemento = this.ingredients[i].toLocaleUpperCase();
+
+      if (!aux.includes(elemento)) {
+        aux.push(elemento);
+      }
+    }
+
+    this.ingredients = aux;
+  }
   /**
    * Este método nos sirve para obtener el fichero asociado a una receta
    * A través del servicio recipeService, si la suscripción tiene éxito nos
@@ -223,10 +268,6 @@ export class EditRecipeComponent implements OnInit {
       } else {
         ingredientLineNew = this.recipe.ingredientLine;
       }
-      console.log(newName);
-      console.log(newCategory);
-      console.log(methodNew);
-      console.log(ingredientLineNew);
 
       const editedRecipe: Recipe = {
         id: this.recipe.id,
@@ -239,11 +280,8 @@ export class EditRecipeComponent implements OnInit {
         isPending: true,
       };
 
-      console.log(editedRecipe);
-
       this.recipeService.editRecipe(this.recipe.id, editedRecipe).subscribe({
         next: (data) => {
-          console.log(data);
           Swal.fire({
             title: 'Receta editada',
             text: 'Su receta ha sido editada satisfactoriamente.',
@@ -260,5 +298,24 @@ export class EditRecipeComponent implements OnInit {
         },
       });
     }
+  }
+
+  /**
+   * Como el term inicial que pasa al buscador es un string vacío, al ejecutar este método hace que se carguen los ingredintes en la variable listFiltered
+   * Con el debounceTime() se consigue esperar un tiempo para luego emitir un valor (en este caso 200ms).
+   * Cuando se escriba en el input, transcurridos los 200 ms, nos devuelve un valor. Si pongo la palabra piña, después de colocar la "a" se va a ejecutar
+   * 4 veces que es la cantidad de letras que se han escrito; pero con el distinctUntilChange() solo va a llegar hasta dentro del susbcribe una sola vez.
+   * Para usar la data y que se continue regresando un observable, use usa el .map de RxJS.
+   * Como el resultado es un string se usa toLowerCase() para que no haya problema de mayúsculas/minúsculas
+   * Si el indexOf() encuentra una coincidencia en la lista de ingredientes, devuelve un index >= 0 y esto se usa para mostrar la lista
+   */
+  filterList(): void {
+    this.listFiltered$ = this.searchTerm$.pipe(
+      map((term) => {
+        return this.ingredients.filter(
+          (item) => item.toLowerCase().indexOf(term.toLowerCase()) >= 0
+        );
+      })
+    );
   }
 }

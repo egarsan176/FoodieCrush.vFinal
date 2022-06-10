@@ -180,8 +180,28 @@
                   class="form-control"
                   formControlName="ingredient"
                   placeholder="Ingrediente"
+                  list="ingredients"
+                  (keyup)="searchTerm$.next($any($event.target).value)"
                 />
+                <!-- Con keyup se dispara el evento cada vez que se pulse una tecla.
+                Mientras esté el input seleccionado, se usa la variable searchTerm$ con su método .next que dispara un evento
+                que espera un string como parámetro (porque el BehaviorSubject se declaró de tipo String). A esto se le pasa la variable
+                que se genera al realizar alguna acción dentro del input ($event) y se envía el valor que está dentro de su target -->
               </div>
+
+              <span *ngIf="searchTerm$.getValue() != ''">
+                <!-- El autocompletado de inputs con datalist permite que el usuario pueda escribir un valor distinto a los de la lista -->
+                <datalist id="ingredients">
+                  <option
+                    value="{{ item }}"
+                    *ngFor="let item of listFiltered$ | async"
+                  >
+                    {{ item }}
+                  </option>
+                  <!-- Con el asyn pipe me suscribo directamente a un observable (desde el template) y se retorna el último valor que éste haya emitido.
+                  Con los async no hay que preocuparse de los unsuscribe (fugas de memoria que afectan al rendimiento de la app y la hacen más lenta) -->
+                </datalist>
+              </span>
 
               <div class="col">
                 <input
