@@ -305,6 +305,12 @@ export class RecipesService {
     return this.httpClient.get<Recipe[]>(url);
   }
 
+  /////////////////////INGREDIENTES
+
+  /**
+   * A este método se accede para obtener los nombres de los ingredientes existentes en la bbdd
+   * @returns string[] con los nombres de todos los ingredientes de la bbdd
+   */
   getIngredientsFromBD() {
     const url = `${this.urlBase}/mostrar/ingredients`;
     return this.httpClient.get<any[]>(url);

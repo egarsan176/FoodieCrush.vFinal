@@ -6,7 +6,63 @@
     </ol>
   </nav>
 </div>
-<p>ingredients-conf works!</p>
+<!-- INTRO -->
+<div class="row p-1 mt-2 justify-content-center">
+  <div class="text-center">
+    <p>
+      En esta sección puedes gestionar todo lo relacionado con los ingredientes.
+    </p>
+    <p>¡Manos a la obra!</p>
+  </div>
+</div>
+
+<!-- MOSTRANDO PANEL DE OPCIONES DE INGREDIENTES -->
+<div class="row m-2">
+  <!-- VER INGREDIENTES PENDIENTES -->
+  <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-xs-12">
+    <div class="card mb-4">
+      <div class="card-header colorYellowP"></div>
+      <div class="card-body text-center">
+        <img src="assets/img/icons/question.png" alt="" />
+        <h5 class="my-2">PENDIENTES</h5>
+        <button class="btn colorGreenP" routerLink="pendingIngredients">
+          MÁS
+        </button>
+      </div>
+      <div class="card-footer colorYellowP"></div>
+    </div>
+  </div>
+
+  <!-- VER INGREDIENTES APROBADOS -->
+  <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-xs-12">
+    <div class="card mb-4">
+      <div class="card-header colorYellowP"></div>
+      <div class="card-body text-center">
+        <img src="assets/img/icons/stamp.png" alt="" />
+        <h5 class="my-2">APROBADOS</h5>
+        <button class="btn colorGreenP" routerLink="approvedIngredients">
+          MÁS
+        </button>
+      </div>
+      <div class="card-footer colorYellowP"></div>
+    </div>
+  </div>
+
+  <!-- VER TODOS LOS INGREDIENTES  -->
+  <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-xs-12">
+    <div class="card mb-4">
+      <div class="card-header colorYellowP"></div>
+      <div class="card-body text-center">
+        <img src="assets/img/icons/ingredients.png" alt="" />
+        <h5 class="my-2">TODOS</h5>
+        <button class="btn colorGreenP" routerLink="allIngredients">MÁS</button>
+      </div>
+      <div class="card-footer colorYellowP"></div>
+    </div>
+  </div>
+</div>
+<!-- end row-->
+
 <div class="row p-1 my-3 justify-content-center">
   <div class="text-center mb-2">
     <button class="btn colorPurpleP" routerLink="/optionsADMIN">VOLVER</button>

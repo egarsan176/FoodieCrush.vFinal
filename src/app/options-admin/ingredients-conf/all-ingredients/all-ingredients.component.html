@@ -1,0 +1,82 @@
+<!-- BREADCRUMBS -->
+<div class="row p-1 my-3 justify-content-center">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/optionsADMIN">GESTIÓN</a></li>
+      <li class="breadcrumb-item active">
+        <a routerLink="/optionsADMIN/commentsConf"> COMENTARIOS </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">TODOS</li>
+    </ol>
+  </nav>
+</div>
+<!-- SPINNER TIEMPO DE CARGA DE LA PETICIÓN -->
+<div *ngIf="pending">
+  <app-spinner></app-spinner>
+</div>
+
+<!-- DATATABLE TODOS INGREDIENTES -->
+<div *ngIf="!pending">
+  <div class="p-3 text-center my-3">
+    <!-- SI NO HAY INGREDIENTES -->
+    <p *ngIf="allIngredientsBD == null">
+      ¡Vaya! Todavía no existe ningún ingrediente en nuestro Foodie Crush blog.
+    </p>
+
+    <!-- SI HAY INGREDIENTES -->
+    <div *ngIf="allIngredientsBD != null">
+      <div *ngIf="allIngredientsBD.length >= 1">
+        <p *ngIf="allIngredientsBD.length == 1">
+          De momento nuestro Foodie Crush blog solo tiene un único ingrediente.
+        </p>
+        <p *ngIf="allIngredientsBD.length > 1">
+          Nuestro Foodie Crush blog cuenta ya con un total de
+          {{ allIngredientsBD.length }} ingredientes publicados en la base de
+          datos.
+        </p>
+        <!-- DATATABLE -->
+        <p-table
+          [value]="allIngredientsBD"
+          [paginator]="true"
+          [rows]="10"
+          [showCurrentPageReport]="true"
+          styleClass="p-datatable-striped"
+          responsiveLayout="scroll"
+          currentPageReportTemplate="Mostrando {first} de {last} de un total de {totalRecords} entradas"
+          [rowsPerPageOptions]="[10, 25, 50]"
+        >
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th pSortableColumn="id" class="encab">
+                ID <p-sortIcon field="id"></p-sortIcon>
+              </th>
+
+              <th pSortableColumn="name" class="encab">
+                NOMBRE <p-sortIcon field="name"></p-sortIcon>
+              </th>
+              <th pSortableColumn="is_pending" class="encab">
+                ESTADO <p-sortIcon field="is_pending"></p-sortIcon>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-ingredient let-columns="ingredient">
+            <tr class="text-center">
+              <td>{{ ingredient.id }}</td>
+              <td>{{ ingredient.name }}</td>
+              <td>{{ getStatus(ingredient) }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTÓN PATA VOLVER ATRÁS -->
+<div class="row p-1 my-3 justify-content-center">
+  <div class="text-center mb-2">
+    <button class="btn colorPurpleP" routerLink="/optionsADMIN/ingredientsConf">
+      ATRÁS
+    </button>
+  </div>
+</div>
