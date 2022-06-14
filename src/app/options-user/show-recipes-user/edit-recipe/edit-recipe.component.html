@@ -85,23 +85,28 @@
 
           <h5>Introduce a continuación los nuevos datos:</h5>
           <!-- recipe name-->
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-1">
             <input
               type="text"
-              class="form-control"
+              class="form-control pb-1"
               id="floatingInputGrid"
               placeholder="Título de la Receta"
               name="recipeName"
               formControlName="recipeName"
-              [ngClass]="{
-                'is-invalid': reInfo_step && reInfo['recipeName'].errors
-              }"
             />
             <label for="floatingInputGrid">Título de la receta</label>
           </div>
+          <div
+            class="mb-2"
+            *ngIf="reInfo_step && recipeDetails.controls['recipeName'].errors"
+          >
+            <div *ngIf="reInfo['recipeName'].errors?.['required']" class="err">
+              Es obligatorio introducir un título para la Receta
+            </div>
+          </div>
 
           <!-- recipe category-->
-          <div class="form-floating mb-2">
+          <div class="form-floating mb-1">
             <select
               class="form-select pb-1 recipeCategory"
               id="floatingSelectGrid"
@@ -120,6 +125,14 @@
             <label for="floatingSelectGrid"
               >Selecciona una categoría para tu receta</label
             >
+          </div>
+          <div
+            *ngIf="reInfo_step && recipeDetails.controls['category'].errors"
+            class="mb-2"
+          >
+            <div *ngIf="reInfo['category'].errors?.['required']" class="err">
+              Es obligatorio seleccionar una categoría
+            </div>
           </div>
 
           <button
@@ -189,7 +202,7 @@
                 que se genera al realizar alguna acción dentro del input ($event) y se envía el valor que está dentro de su target -->
               </div>
 
-              <span *ngIf="searchTerm$.getValue() != ''">
+              <span *ngIf="searchTerm$.getValue() != null">
                 <!-- El autocompletado de inputs con datalist permite que el usuario pueda escribir un valor distinto a los de la lista -->
                 <datalist id="ingredients">
                   <option
@@ -198,8 +211,7 @@
                   >
                     {{ item }}
                   </option>
-                  <!-- Con el asyn pipe me suscribo directamente a un observable (desde el template) y se retorna el último valor que éste haya emitido.
-                  Con los async no hay que preocuparse de los unsuscribe (fugas de memoria que afectan al rendimiento de la app y la hacen más lenta) -->
+                  <!-- Con el async pipe me suscribo directamente a un observable (desde el template) y se retorna el último valor que éste haya emitido.-->
                 </datalist>
               </span>
 
@@ -232,6 +244,17 @@
           </button>
 
           <p class="my-2">Cuando hayas finalizado, pulsa <b>SIGUIENTE</b> .</p>
+
+          <span *ngIf="showLine">
+            <div
+              *ngIf="line && ingredientLine.controls['line'].errors"
+              class="mb-2"
+            >
+              <div *ngIf="line.errors?.['required']" class="err">
+                Es obligatorio seleccionar los nuevos ingredientes.
+              </div>
+            </div>
+          </span>
 
           <div class="mt-2">
             <button
@@ -318,6 +341,17 @@
             Agregar paso
           </button>
           <p>Cuando hayas finalizado, pulsa <b>FINALIZAR</b> .</p>
+
+          <span *ngIf="showMethod">
+            <div
+              *ngIf="method && recipeMethod.controls['method'].errors"
+              class="mb-2"
+            >
+              <div *ngIf="method.errors?.['required']" class="err">
+                Es obligatorio seleccionar los nuevos ingredientes.
+              </div>
+            </div>
+          </span>
 
           <div class="mt-2">
             <button

@@ -19,7 +19,7 @@
 #msform fieldset:not(:first-of-type) {
     display: none;
 }
-/*inputs*/
+/* inputs */
 #msform input, #msform textarea {
     padding: 15px;
     border: 1px solid #ccc;
@@ -29,47 +29,8 @@
     box-sizing: border-box;
     color: #2C3E50;
     font-size: 18px;
-}
-#msform input:focus, #msform textarea:focus {
-    -moz-box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-    border: 1px solid #ee0979;
-    outline-width: 0;
-    transition: All 0.5s ease-in;
-    -webkit-transition: All 0.5s ease-in;
-    -moz-transition: All 0.5s ease-in;
-    -o-transition: All 0.5s ease-in;
-}
-/*buttons*/
-#msform .action-button {
-    width: 100px;
-    background: #ee0979;
-    font-weight: bold;
-    color: white;
-    border: 0 none;
-    border-radius: 25px;
-    cursor: pointer;
-    padding: 10px 5px;
-    margin: 10px 5px;
-}
-#msform .action-button:hover, #msform .action-button:focus {
-    box-shadow: 0 0 0 2px white, 0 0 0 3px #ee0979;
-}
-#msform .action-button-previous {
-    width: 100px;
-    background: #C5C5F1;
-    font-weight: bold;
-    color: white;
-    border: 0 none;
-    border-radius: 25px;
-    cursor: pointer;
-    padding: 10px 5px;
-    margin: 10px 5px;
-}
-#msform .action-button-previous:hover, #msform .action-button-previous:focus {
-    box-shadow: 0 0 0 2px white, 0 0 0 3px #C5C5F1;
-}
+} 
+
 /*headings*/
 .fs-title {
     font-size: 18px;
@@ -177,4 +138,8 @@ fieldset {
            to {
                margin-left: 0%;width: 100%;
            }
+  }
+
+  .err{
+      color: #ff0000;
   }

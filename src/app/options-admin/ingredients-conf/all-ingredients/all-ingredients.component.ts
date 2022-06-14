@@ -30,6 +30,7 @@ export class AllIngredientsComponent implements OnInit {
     this.adminService.getAllIngredients().subscribe({
       next: (data) => {
         this.allIngredientsBD = data;
+
         this.pending = false;
       },
       error: (e) => {
@@ -47,40 +48,5 @@ export class AllIngredientsComponent implements OnInit {
    */
   getStatus(ingredient: Ingredient) {
     return ingredient.pending ? 'pendiente' : 'aprobado';
-  }
-
-  /**
-   * Método provisional para no mostrar los ingredientes repetidos hasta que se arregle en el back el añadido de ingredientes
-   */
-  deleteItemDuplicate() {
-    let aux: String[] = [];
-    let contador: number = 0;
-
-    this.allIngredientsBD.forEach((element) => {
-      aux.push(element.name);
-    });
-    let aux2: string[] = [];
-
-    console.log(aux);
-
-    for (var i = 0; i < aux.length; i++) {
-      const elemento = aux[i].toLocaleUpperCase();
-
-      if (!aux2.includes(elemento)) {
-        aux2.push(elemento);
-      }
-
-      contador = contador + 1;
-      if (contador === 1) {
-        this.allIngredientsBD.splice(i);
-      }
-    }
-
-    console.log(aux2);
-    console.log(this.allIngredientsBD);
-
-    let ingredients: Ingredient[] = [];
-
-    this.allIngredientsBD = ingredients;
   }
 }

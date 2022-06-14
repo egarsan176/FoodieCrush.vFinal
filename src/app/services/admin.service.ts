@@ -223,4 +223,21 @@ export class AdminService {
     const url = `${this.urlBase}/admin/ingredients`;
     return this.httpClient.get<Ingredient[]>(url, { headers });
   }
+
+  /**
+   * Este método sirve para cambiar el estado pendiente de un ingrediente.
+   * @param id
+   * @returns ingrediente
+   */
+  changeStatusIngredient(id: number) {
+    let token = this.accessService.getToken();
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.urlBase}/admin/ingredients/${id}`;
+
+    return this.httpClient.get<Ingredient>(url, { headers });
+  }
 }
