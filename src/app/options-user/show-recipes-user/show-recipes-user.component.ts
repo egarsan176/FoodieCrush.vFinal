@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { Table } from 'primeng/table';
 import { Recipe, User } from 'src/app/interfaces/interface';
 import { AccessService } from 'src/app/services/access.service';
@@ -7,6 +8,7 @@ import Swal from 'sweetalert2';
 /**
  * Componente ShowRecipesUser
  * Este componente sirve para que un usuario pueda gestionar sus recetas ya publicadas
+ * Se encuentra dentro del panel de opciones del usuario
  */
 @Component({
   selector: 'app-show-recipes-user',
@@ -32,6 +34,7 @@ export class ShowRecipesUserComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    /** CAMPOS DE LA DATATABLE */
     this.cols = [
       { field: 'id', header: 'ORDEN' },
       { field: 'recipeName', header: 'NOMBRE' },
@@ -142,6 +145,11 @@ export class ShowRecipesUserComponent implements OnInit {
     });
   }
 
+  /**
+   * Este método almacena el id de la receta en el localStorage para poder
+   * recuperarlo al mostrar los detalles de una receta cuando se navega hacia la página /recipeDetail
+   * @param id
+   */
   setID(id: any) {
     localStorage.setItem('id', id);
   }

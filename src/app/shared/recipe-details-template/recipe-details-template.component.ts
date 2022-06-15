@@ -5,7 +5,11 @@ import { AccessService } from 'src/app/services/access.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
-
+/**
+ * Componente RecipeDetailsTemplate
+ * Este componente sirve de plantilla para mostrar los detalles de una receta
+ * Pertenece al módulo Shared
+ */
 @Component({
   selector: 'app-recipe-details-template',
   templateUrl: './recipe-details-template.component.html',
@@ -33,8 +37,8 @@ export class RecipeDetailsTemplateComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private recipeService: RecipesService,
     private fileService: FileUploadService,
-    private router: Router,
-    private accessService: AccessService
+    private accessService: AccessService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -122,36 +126,21 @@ export class RecipeDetailsTemplateComponent implements OnInit {
    * @param id
    */
   addComment(id: number) {
-    //primero hay que controlar que el usuario está logueado para publicar
-    let token = this.accessService.getToken();
-    if (token != null) {
-      this.commentRecipe.message = this.texto;
-      this.recipeService.addCommentToRecipe(id, this.commentRecipe).subscribe({
-        next: (data) => {
-          Swal.fire({
-            title: 'Comentario publicado',
-            text: 'Su comentario se ha publicado con éxito. Estará visible cuando el administrador lo confirme.',
-            icon: 'success',
-            confirmButtonText: 'Aceptar',
-          });
-          this.texto = '';
-        },
-        error: (e) => {
-          Swal.fire('Error', e.error.mensaje, 'error');
-        },
-      });
-    } else {
-      Swal.fire({
-        title: 'Inicia Sesión',
-        text: 'Recuerda que para publicar comentarios debes haber iniciado sesión.',
-        icon: 'error',
-        confirmButtonText: 'Acceder',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.router.navigateByUrl('login');
-        }
-      });
-    }
+    this.commentRecipe.message = this.texto;
+    this.recipeService.addCommentToRecipe(id, this.commentRecipe).subscribe({
+      next: (data) => {
+        Swal.fire({
+          title: 'Comentario publicado',
+          text: 'Su comentario se ha publicado con éxito. Estará visible cuando el administrador lo confirme.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+        });
+        this.texto = '';
+      },
+      error: (e) => {
+        Swal.fire('Error', e.error.mensaje, 'error');
+      },
+    });
   }
   /**
    * Este método sirve para volver a la página anterior de la vista
@@ -159,5 +148,24 @@ export class RecipeDetailsTemplateComponent implements OnInit {
    */
   back() {
     history.back();
+  }
+
+  /**
+   * Este método sirve para que no se puedan escribir comentarios si no hay usuario en la sesión en ese momento
+   * @returns token o null
+   */
+  showPostComment() {
+    return this.accessService.getToken();
+  }
+
+  /**
+   * Este método guarda en el localStorage el id de la receta cuando se quiere publicar un comentario y no se ha iniciado sesión.
+   * Te dirije al login
+   */
+  saveIDtoComment() {
+    let idRecipe = this.activeRoute.snapshot.params['id'];
+
+    localStorage.setItem('cIDr', idRecipe);
+    this.router.navigateByUrl('/login');
   }
 }

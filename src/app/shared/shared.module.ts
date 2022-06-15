@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { RecipeFormTemplateComponent } from './recipe-form-template/recipe-form-template.component';
 import { RecipeDetailsTemplateComponent } from './recipe-details-template/recipe-details-template.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { SearchIngredientsComponent } from './search-ingredients/search-ingredients.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     RecipeFormTemplateComponent,
     RecipeDetailsTemplateComponent,
     SpinnerComponent,
+    SearchIngredientsComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +32,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     RecipeFormTemplateComponent,
     RecipeDetailsTemplateComponent,
     SpinnerComponent,
+    SearchIngredientsComponent,
   ],
 })
 export class SharedModule {}

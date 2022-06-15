@@ -1,0 +1,365 @@
+<!-- BREADCRUMBS -->
+<div class="row p-1 my-3 justify-content-center">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/search">BUSCADOR</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        BUSCAR RECETA POR INGREDIENTES
+      </li>
+    </ol>
+  </nav>
+</div>
+
+<!-- INTRO -->
+<div class="row m-3">
+  <div class="col text-center">
+    <p>
+      Aquí podrás encontrar recetas para esos ingredientes que te miran desde
+      hace semanas en la nevera.
+    </p>
+    <p>Selecciona el número de ingredientes aquí abajo.</p>
+  </div>
+</div>
+
+<!-- SPINNER TIEMPO DE CARGA DE LA PETICIÓN -->
+<div *ngIf="pending">
+  <app-spinner></app-spinner>
+</div>
+
+<!-- BOTONES PARA MOSTRAR LOS INPUTS SEGÚN EL NÚMERO DE INGREDIENTES -->
+<div class="row m-4 text-center">
+  <div class="col-4 mb-2">
+    <button class="btn colorGreenP" (click)="show1Input()"><b>1</b></button>
+  </div>
+  <div class="col-4 mb-2">
+    <button class="btn colorGreenP" (click)="show2Input()"><b>2</b></button>
+  </div>
+  <div class="col-4 mb-2">
+    <button class="btn colorGreenP" (click)="show3Input()"><b>3</b></button>
+  </div>
+</div>
+
+<!-- INPUT 1 INGREDIENTE -->
+<div *ngIf="show1 && !pending">
+  <div class="row m-3">
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          class="form-control"
+          id="floatingInput"
+          type="text"
+          [(ngModel)]="name1"
+          placeholder="Nombre"
+          name="Nombre"
+          email
+          aria-required="true"
+        />
+        <label for="floatingInput">Ingrediente: </label>
+        <button
+          class="btn colorYellowP m-1"
+          (click)="getRecipeFrom1ingredient(name1)"
+        >
+          BUSCAR
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NO HAY RECETAS CON ESE INGREDIENTE -->
+  <div class="m-4 text-center" *ngIf="showPic && !okRecipes1">
+    <p>
+      ¡Vaya! No tenemos ninguna receta que contenga el ingrediente:
+      <b>{{ nameInput.toUpperCase() }}</b>
+    </p>
+    <img
+      src="assets/img/404-error.png"
+      alt="No se encuentran resultados"
+      id="notFound"
+    />
+  </div>
+
+  <!-- RECETAS CON 1 INGREDIENTE SELECCIONADO-->
+  <div class="m-3" *ngIf="okRecipes1">
+    <p>
+      Mostrando recetas con el ingrediente: <b>{{ nameInput.toUpperCase() }}</b>
+    </p>
+    <div
+      class="row row-cols-1 row-cols-sm-3 row-cols-lg-4 justify-content-center"
+    >
+      <div class="col" *ngFor="let item of recipes1; let i = index">
+        <div class="card text-center h-100 my-2">
+          <div *ngIf="item.file == null">
+            <img
+              src="assets/img/logo.svg"
+              class="card-img-top"
+              id="fileNotFound"
+              alt="Imagen no encontrada"
+            />
+          </div>
+          <div *ngIf="item.file != null">
+            <img
+              src="{{ obtenerImagenReceta(item.file) }}"
+              class="card-img-top pic"
+              alt="{{ item.recipeName }}"
+            />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title" *ngIf="item.recipeName.length <= 25">
+              {{ item.recipeName.toUpperCase() }}
+            </h5>
+            <h5
+              class="card-title"
+              *ngIf="item.recipeName.length > 25"
+              data-bs-toggle="tooltip"
+              title="{{ item.recipeName.toUpperCase() }}"
+            >
+              {{ item.recipeName.toUpperCase().substr(0, 20) + " ..." }}
+            </h5>
+          </div>
+          <div class="card-footer">
+            <a
+              [routerLink]="['/recipes/details', item.id]"
+              class="btn colorGreenP"
+              >Ver más</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- INPUT 2 INGREDIENTES -->
+<div *ngIf="show2 && !pending">
+  <div class="row m-3">
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          class="form-control"
+          id="floatingInput1"
+          type="text"
+          [(ngModel)]="name1"
+          placeholder="Nombre"
+          name="Nombre"
+          email
+          aria-required="true"
+        />
+        <label for="floatingInput1">Ingrediente 1: </label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          class="form-control"
+          id="floatingInput2"
+          type="text"
+          [(ngModel)]="name2"
+          placeholder="Nombre"
+          name="Nombre"
+          email
+          aria-required="true"
+        />
+        <label for="floatingInput2">Ingrediente 2: </label>
+      </div>
+      <button
+        class="btn colorYellowP m-1"
+        (click)="getRecipeFrom2ingredients(name1, name2)"
+      >
+        BUSCAR
+      </button>
+    </div>
+  </div>
+
+  <!-- NO HAY RECETAS CON ESOS INGREDIENTES -->
+  <div class="m-4 text-center" *ngIf="showPic && !okRecipes2">
+    <p>
+      ¡Vaya! No tenemos ninguna receta que contenga los ingredientes:
+      <b>{{ nameInput.toUpperCase() }}</b> y
+      <b>{{ nameInput2.toUpperCase() }}</b>
+    </p>
+    <img
+      src="assets/img/404-error.png"
+      alt="No se encuentran resultados"
+      id="notFound"
+    />
+  </div>
+
+  <!-- RECETAS CON 2 INGREDIENTES SELECCIONADOS -->
+  <div class="m-3" *ngIf="okRecipes2">
+    <p>
+      Mostrando recetas con los ingredientes:
+      <b>{{ nameInput.toUpperCase() }}</b> y
+      <b>{{ nameInput2.toUpperCase() }}</b>
+    </p>
+    <div
+      class="row row-cols-1 row-cols-sm-3 row-cols-lg-4 justify-content-center"
+    >
+      <div class="col" *ngFor="let item of recipes2; let i = index">
+        <div class="card text-center mt-2 h-100">
+          <div *ngIf="item.file == null">
+            <img
+              src="assets/img/logo.svg"
+              class="card-img-top"
+              id="fileNotFound"
+              alt="Imagen no encontrada"
+            />
+          </div>
+          <div *ngIf="item.file != null">
+            <img
+              src="{{ obtenerImagenReceta(item.file) }}"
+              class="card-img-top pic"
+              alt="{{ item.recipeName }}"
+            />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title" *ngIf="item.recipeName.length <= 25">
+              {{ item.recipeName.toUpperCase() }}
+            </h5>
+            <h5
+              class="card-title"
+              *ngIf="item.recipeName.length > 25"
+              data-bs-toggle="tooltip"
+              title="{{ item.recipeName.toUpperCase() }}"
+            >
+              {{ item.recipeName.toUpperCase().substr(0, 15) + " ..." }}
+            </h5>
+          </div>
+          <div class="card-footer">
+            <a
+              [routerLink]="['/recipes/details', item.id]"
+              class="btn colorGreenP"
+              >Ver más</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- INPUT 3 INGREDIENTES -->
+<div *ngIf="show3 && !pending">
+  <div class="row m-3">
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          class="form-control"
+          id="floatingInput1"
+          type="text"
+          [(ngModel)]="name1"
+          placeholder="Nombre"
+          name="Nombre"
+          email
+          aria-required="true"
+        />
+        <label for="floatingInput1">Ingrediente 1: </label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          class="form-control"
+          id="floatingInput2"
+          type="text"
+          [(ngModel)]="name2"
+          placeholder="Nombre"
+          name="Nombre"
+          email
+          aria-required="true"
+        />
+        <label for="floatingInput3">Ingrediente 2: </label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          class="form-control"
+          id="floatingInput2"
+          type="text"
+          [(ngModel)]="name3"
+          placeholder="Nombre"
+          name="Nombre"
+          email
+          aria-required="true"
+        />
+        <label for="floatingInput3">Ingrediente 3: </label>
+      </div>
+      <button
+        class="btn colorYellowP m-1"
+        (click)="getRecipeFrom3ingredients(name1, name2, name3)"
+      >
+        BUSCAR
+      </button>
+    </div>
+  </div>
+
+  <!-- NO HAY RECETAS CON ESOS INGREDIENTES -->
+  <div class="m-4 text-center" *ngIf="showPic && !okRecipes3">
+    <p>
+      ¡Vaya! No tenemos ninguna receta que contenga los ingredientes:
+      <b>{{ nameInput.toUpperCase() }}</b
+      >, <b>{{ nameInput2.toUpperCase() }}</b> y
+      <b>{{ nameInput3.toUpperCase() }}</b>
+    </p>
+    <img
+      src="assets/img/404-error.png"
+      alt="No se encuentran resultados"
+      id="notFound"
+    />
+  </div>
+  <!-- RECETAS CON 3 INGREDIENTES SELECCIONADOS -->
+  <div class="m-3" *ngIf="okRecipes3">
+    <p>
+      Mostrando recetas con los ingredientes:
+      <b>{{ nameInput.toUpperCase() }}</b
+      >, <b>{{ nameInput2.toUpperCase() }}</b> y
+      <b>{{ nameInput3.toUpperCase() }}</b>
+    </p>
+    <div
+      class="row row-cols-1 row-cols-sm-3 row-cols-lg-4 justify-content-center my-2"
+    >
+      <div class="col" *ngFor="let item of recipes3; let i = index">
+        <div class="card text-center h-100">
+          <div *ngIf="item.file == null">
+            <img
+              src="assets/img/logo.svg"
+              class="card-img-top"
+              id="fileNotFound"
+              alt="Imagen no encontrada"
+            />
+          </div>
+          <div *ngIf="item.file != null">
+            <img
+              src="{{ obtenerImagenReceta(item.file) }}"
+              class="card-img-top pic"
+              alt="{{ item.recipeName }}"
+            />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title" *ngIf="item.recipeName.length <= 25">
+              {{ item.recipeName.toUpperCase() }}
+            </h5>
+            <h5
+              class="card-title"
+              *ngIf="item.recipeName.length > 25"
+              data-bs-toggle="tooltip"
+              title="{{ item.recipeName.toUpperCase() }}"
+            >
+              {{ item.recipeName.toUpperCase().substr(0, 15) + " ..." }}
+            </h5>
+          </div>
+          <div class="card-footer">
+            <a
+              [routerLink]="['/recipes/details', item.id]"
+              class="btn colorGreenP"
+              >Ver más</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTÓN VOLVER ATRÁS -->
+<div class="row p-1 my-3 justify-content-center">
+  <div class="text-center mb-2">
+    <button class="btn colorPurpleP" routerLink="/search">
+      VOLVER AL BUSCADOR
+    </button>
+  </div>
+</div>

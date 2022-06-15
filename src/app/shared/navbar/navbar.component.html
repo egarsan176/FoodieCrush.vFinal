@@ -20,7 +20,9 @@
         class="collapse navbar-collapse justify-content-end"
         id="collapsibleNavbar"
       >
+        <!-- COMIENZO DEL CONTENIDO DE LA NAVBAR -->
         <ul class="nav navbar-nav mr-auto">
+          <!-- INICIO -->
           <li
             class="nav-item"
             routerLinkActive="active"
@@ -34,6 +36,8 @@
               ><img src="assets/img/icons/home.png" alt="" /> Inicio</a
             >
           </li>
+
+          <!-- RECETARIO -->
           <li class="nav-item" routerLinkActive="active">
             <a
               class="nav-link"
@@ -44,6 +48,8 @@
               Recetario</a
             >
           </li>
+
+          <!-- ÁREA DE FOODIES (SOLO PUEDE ACCEDER USER.ROLE == USER) -->
           <li
             class="nav-item"
             routerLinkActive="active"
@@ -57,12 +63,30 @@
               ><img src="assets/img/icons/chef.png" alt="" /> Área de Foodies</a
             >
           </li>
-          <!-- <li class="nav-item">
-                <a class="nav-link" routerLinkActive="active" routerLink="/about"><i class="fas fa-smile"></i> Sobre mí</a>
-              </li> 
-              <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link"  routerLink="/contacto"><i class="fas fa-address-card"></i> Contacto</a>
-              </li>-->
+
+          <!-- CONTACTO -->
+          <li class="nav-item" routerLinkActive="active">
+            <a
+              class="nav-link"
+              routerLink="/contact"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapsibleNavbar"
+              ><img src="assets/img/icons/mail.png" alt="" /> Contacto</a
+            >
+          </li>
+
+          <!-- BUSCADOR -->
+          <li class="nav-item" routerLinkActive="active">
+            <a
+              class="nav-link"
+              routerLink="/search"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapsibleNavbar"
+              ><img src="assets/img/icons/loupe.png" alt="" /> Buscador</a
+            >
+          </li>
+
+          <!-- ACCEDER (LOGIN) -->
           <li routerLinkActive="active" *ngIf="!userDetails">
             <a
               class="nav-link"
@@ -72,6 +96,8 @@
               ><img src="assets/img/icons/sign-in.png" alt="" /> Acceder</a
             >
           </li>
+
+          <!-- GESTIÓN (SOLO APARECE SI EL QUIEN INICIA SESIÓN TIENE ROLE = ADMIN) -->
           <li
             routerLinkActive="active"
             *ngIf="userDetails?.role === 'ADMIN'"
@@ -85,6 +111,8 @@
               ><img src="assets/img/icons/settings.png" alt="" /> Gestión</a
             >
           </li>
+
+          <!-- SALIR (SOLO APARECE SI EXISTE ALGÚN USUARIO EN LA SESIÓN) -->
           <li
             class="nav-item"
             routerLinkActive="active"

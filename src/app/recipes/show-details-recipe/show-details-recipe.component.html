@@ -1,4 +1,5 @@
 <div *ngIf="mostrar == true">
+  <!-- BREADCRUMBS -->
   <div class="row p-1 my-3 justify-content-center">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
@@ -14,12 +15,15 @@
       </ol>
     </nav>
   </div>
+
+  <!-- MOSTRANDO DETALLES DE LA RECETA -->
   <div
     class="card mb-3 mt-4 mx-auto border-0 text-center colorPinkP"
     style="width: 70%"
     *ngIf="recipe != null && user != null"
   >
     <div class="row g-0">
+      <!-- IMAGEN POR DEFECTO SI LA RECETA NO TIENE IMAGEN -->
       <div class="col-md-5" *ngIf="recipe.file == null">
         <img
           src="assets/img/logo.svg"
@@ -27,6 +31,7 @@
           alt="Imagen no encontrada"
         />
       </div>
+      <!-- IMAGEN DE LA RECETA -->
       <div class="col-md-5" *ngIf="recipe.file != null">
         <img
           src="{{ img }}"
@@ -34,6 +39,7 @@
           alt="{{ recipe.recipeName }}"
         />
       </div>
+      <!-- DATOS QUE APARECEN AL LADO DE LA IMAGEN (NOMBRE, CATEGORÍA, FECHA Y USUARIO) -->
       <div class="col-md-7 my-auto">
         <div class="card-body px-auto">
           <p class="card-text">
@@ -57,6 +63,7 @@
     class="container mt-4 col-lg-12 col-md-12 col-sm-12 col-xs-12"
     *ngIf="recipe != null"
   >
+    <!-- TITULOS DE LAS DISTINTAS PESTAÑAS INFERIORES (INGREDIENTES, ELABORACIÓN, COMENTARIOS) -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
         <button
@@ -101,7 +108,8 @@
         </button>
       </li>
     </ul>
-    <!-- PESTAÑA INGREDIENTES-->
+
+    <!-- CONTENIDO PESTAÑA INGREDIENTES-->
     <div class="tab-content" id="myTabContent">
       <div
         class="tab-pane fade show active"
@@ -119,7 +127,8 @@
           </li>
         </ul>
       </div>
-      <!-- PESTAÑA ELABORACIÓN RECETA-->
+
+      <!-- CONTENIDO PESTAÑA ELABORACIÓN RECETA-->
       <div
         class="tab-pane fade"
         id="elaboracion"
@@ -133,7 +142,8 @@
           <li>{{ indice + 1 }}. {{ ingredient.step.toUpperCase() }}</li>
         </ul>
       </div>
-      <!-- PESTAÑA COMENTARIOS-->
+
+      <!-- CONTENIDO PESTAÑA COMENTARIOS-->
       <div
         class="tab-pane fade"
         id="comentarios"
@@ -155,15 +165,26 @@
           <p>¡Vaya! Esta receta aún no tiene comentarios.</p>
         </div>
         <hr />
-        <label>¿Quieres comentar algo sobre esta receta? Hazlo aquí </label>
-        <br />
-        <textarea class="m-2" [(ngModel)]="texto"></textarea>
-        <br />
-        <button class="btn colorGreenP" (click)="addComment(recipe.id)">
-          ENVIAR
-        </button>
+        <div *ngIf="showPostComment() != null">
+          <label>¿Quieres comentar algo sobre esta receta? Hazlo aquí </label>
+          <br />
+          <textarea class="m-2" [(ngModel)]="texto"></textarea>
+          <br />
+          <button class="btn colorGreenP" (click)="addComment(recipe.id)">
+            ENVIAR
+          </button>
+        </div>
+        <div *ngIf="showPostComment() === null">
+          <div class="card text-center">
+            <p><i>¿Quieres publicar un comentario en esta receta?</i></p>
+            <p (click)="saveIDtoComment()">
+              Haz click <b><u>AQUÍ</u></b> para iniciar sesión.
+            </p>
+          </div>
+        </div>
       </div>
 
+      <!-- BOTÓN PARA VOLVER ATRÁS -->
       <div class="row p-1 my-3 justify-content-center">
         <div class="text-center mb-2">
           <!-- PARA GESTIONAR QUE EL VOLVER SEA DIFERENTE DEPENDIENDO DE LA RUTA QUE SE HAYA SEGUIDO PARA LLEGAR HASTA AQUÍ -->

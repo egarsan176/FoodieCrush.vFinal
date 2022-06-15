@@ -1,3 +1,4 @@
+<!-- BREADCRUMBS -->
 <div class="row p-1 my-3 justify-content-center">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -10,26 +11,32 @@
   </nav>
 </div>
 
+<!-- SPINNER TIEMPO DE CARGA DE LA PETICIÓN -->
 <div *ngIf="pending">
   <app-spinner></app-spinner>
 </div>
 
+<!-- DATATABLE RECETAS APROBADAS -->
 <div *ngIf="!pending">
   <div class="p-3 text-center my-3">
+    <!-- NO HAY RECETAS -->
     <p *ngIf="recipesApproved == null">
       ¡Vaya! Aún no has aprobado ninguna receta. !Date prisa que el recetario
       Foodie está vacío!
     </p>
     <div *ngIf="recipesApproved != null">
       <div *ngIf="recipesApproved.length >= 1">
+        <!-- HAY UNA SOLA RECETA -->
         <p *ngIf="recipesApproved.length == 1">
           De momento nuestro Foodie recetario solo cuenta con una única receta
           aprobada.
         </p>
+        <!-- HAY MÁS DE UNA RECETA -->
         <p *ngIf="recipesApproved.length > 1">
           Nuestro Foodie Recetario cuenta ya con un total de
           {{ recipesApproved.length }} recetas aprobadas.
         </p>
+        <!-- DATATABLE -->
         <p-table
           [value]="recipesApproved"
           [paginator]="true"
@@ -95,6 +102,7 @@
   </div>
 </div>
 
+<!-- BOTÓN PARA VOLVER ATRÁS -->
 <div class="row p-1 my-3 justify-content-center">
   <div class="text-center mb-2">
     <button class="btn colorPurpleP" routerLink="/optionsADMIN/recipesConf">

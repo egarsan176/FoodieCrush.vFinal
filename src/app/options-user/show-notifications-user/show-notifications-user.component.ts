@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/interfaces/interface';
 import { AccessService } from 'src/app/services/access.service';
 import Swal from 'sweetalert2';
-
+/**
+ * Componente ShowNotificationsUser
+ * Este componente le muestra al usuario el panel de notificaciones que le pueden llegar cuando publica una receta o un comentario
+ * Se encuentra dentro del panel de opciones del usuario
+ */
 @Component({
   selector: 'app-show-notifications-user',
   templateUrl: './show-notifications-user.component.html',

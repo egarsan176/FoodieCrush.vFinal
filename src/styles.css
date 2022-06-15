@@ -102,3 +102,11 @@
 .encab {
   background-color: #a9dfbf !important;
 }
+
+/* PARA LAS IMÁGENES DE LAS CARDS */
+.pic{
+  height: 15em;
+}
+#fileNotFound {
+  width: 30%;
+}

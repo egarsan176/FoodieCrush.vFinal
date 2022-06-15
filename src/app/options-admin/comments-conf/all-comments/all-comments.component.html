@@ -1,3 +1,4 @@
+<!-- BREADCRUMBS -->
 <div class="row p-1 my-3 justify-content-center">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -10,16 +11,19 @@
   </nav>
 </div>
 
+<!-- SPINNER TIEMPO DE CARGA DE LA PETICIÓN -->
 <div *ngIf="pending">
   <app-spinner></app-spinner>
 </div>
 
+<!-- DATATABLE TODOS COMENTARIOS -->
 <div *ngIf="!pending">
   <div class="p-3 text-center my-3">
     <!-- SI NO HAY COMENTARIOS -->
     <p *ngIf="allCommentsBD == null">
       ¡Vaya! Todavía no existe ningún comentario en nuestro Foodie Crush blog.
     </p>
+
     <!-- SI HAY COMENTARIOS -->
     <div *ngIf="allCommentsBD != null">
       <div *ngIf="allCommentsBD.length >= 1">
@@ -30,6 +34,7 @@
           Nuestro Foodie Crush blog cuenta ya con un total de
           {{ allCommentsBD.length }} comentarios publicados en la base de datos.
         </p>
+        <!-- DATATABLE -->
         <p-table
           [value]="allCommentsBD"
           [paginator]="true"
@@ -78,6 +83,7 @@
   </div>
 </div>
 
+<!-- BOTÓN PATA VOLVER ATRÁS -->
 <div class="row p-1 my-3 justify-content-center">
   <div class="text-center mb-2">
     <button class="btn colorPurpleP" routerLink="/optionsADMIN/commentsConf">

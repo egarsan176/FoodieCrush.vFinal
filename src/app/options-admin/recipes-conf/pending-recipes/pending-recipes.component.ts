@@ -4,6 +4,11 @@ import { AdminService } from 'src/app/services/admin.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
 
+/**
+ * Componente PendingRecipes
+ * Este componente muestra todas las recetas pendientes en la BBDD, (isPending = true)
+ * Se encuentra dentro del apartado Recetas del Panel de Gestión del ADMIN
+ */
 @Component({
   selector: 'app-pending-recipes',
   templateUrl: './pending-recipes.component.html',
@@ -110,6 +115,11 @@ export class PendingRecipesComponent implements OnInit {
     });
   }
 
+  /**
+   * Este método almacena el id de la receta en el localStorage para poder
+   * recuperarlo al mostrar los detalles de una receta cuando se navega hacia la página /recipeDetail
+   * @param id
+   */
   setID(id: any) {
     localStorage.setItem('id', id);
   }

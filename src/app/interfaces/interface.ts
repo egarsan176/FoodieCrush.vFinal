@@ -65,3 +65,11 @@ export interface UserDetails {
 export interface RecipeComment {
   message: string;
 }
+
+export interface ContactMsg {
+  id: number;
+  fecha: string;
+  email: string;
+  message: string;
+  fullName: string;
+}

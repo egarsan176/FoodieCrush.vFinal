@@ -8,9 +8,17 @@ import { ButtonModule } from 'primeng/button';
 import { PaginatorModule } from 'primeng/paginator';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DetailsRecipeFromUserComponent } from './details-recipe-from-user/details-recipe-from-user.component';
+import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { StepsModule } from 'primeng/steps';
 
 @NgModule({
-  declarations: [ShowRecipesUserComponent, DetailsRecipeFromUserComponent],
+  declarations: [
+    ShowRecipesUserComponent,
+    DetailsRecipeFromUserComponent,
+    EditRecipeComponent,
+  ],
   imports: [
     CommonModule,
     ShowRecipesUserRoutingModule,
@@ -18,6 +26,9 @@ import { DetailsRecipeFromUserComponent } from './details-recipe-from-user/detai
     ButtonModule,
     PaginatorModule,
     SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    StepsModule,
   ],
 })
 export class ShowRecipesUserModule {}

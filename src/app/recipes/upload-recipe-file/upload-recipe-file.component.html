@@ -1,3 +1,4 @@
+<!-- FORMULARIO PARA SUBIR LA IMAGEN DE UNA RECETA -->
 <div class="row mb-3">
   <label class="col-form-label">
     Sube aquí una imagen de tu receta <br /><input
@@ -17,6 +18,8 @@
     </button>
   </div>
 </div>
+
+<!-- BARRA DE PROGRESO Y MENSAJE DE SUBIDA -->
 <div *ngIf="currentFile" class="progress my-3">
   <div
     class="progress-bar progress-bar-info progress-bar-striped colorGreenP text-black"
@@ -32,13 +35,3 @@
 <div *ngIf="message" class="alert alert-secondary" role="alert">
   {{ message }}
 </div>
-<!-- <div class="card my-3" *ngIf="mostrar">
-    <div class="card-header">Aquí están tus archivos subidos</div>
-    <ul class="list-group list-group-flush" *ngFor="let file of fileInfos | async">
-      <li class="list-group-item">
-        <a href="{{ file.url }}">{{ file.name }}</a>
-        <button class="btn colorPurpleP" (click)="deleteFile(file)">ELIMINAR</button> 
-      </li>
-    </ul>
-</div>
-   -->

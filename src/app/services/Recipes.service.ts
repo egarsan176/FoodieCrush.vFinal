@@ -9,6 +9,7 @@ import { AccessService } from './access.service';
  * Este servicio gestiona todas las tareas que tienen que ver con las recetas.
  * Todas las peticiones a /recipes, necesitan tener el token
  * Todas las peticiones a /admin, necesitan token y rol de administrador
+ * Todas las peticiones a /mostrar/**  no necesitan token
  */
 @Injectable({
   providedIn: 'root',
@@ -163,6 +164,24 @@ export class RecipesService {
     return this.httpClient.delete<any>(url, { headers });
   }
 
+  /**
+   * A este método se accede para editar una receta
+   * @param id
+   * @param recipe
+   * @returns Receta editada
+   */
+  editRecipe(id: number, recipe: Recipe) {
+    let token = this.accessService.getToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const body = recipe;
+    const url = `${this.urlBase}/recipes/${id}`;
+
+    return this.httpClient.put<Recipe>(url, body, { headers });
+  }
+
   /////////////////////COMENTARIOS
 
   /**
@@ -208,5 +227,86 @@ export class RecipesService {
     });
     const url = `${this.urlBase}/recipes/comments/${id}`;
     return this.httpClient.delete<any>(url, { headers });
+  }
+
+  /////////////////////BUSCADOR
+
+  /**
+   * A este método se accede para encontrar las recetas que coinciden con un nombre exacto
+   * A través de una petición GET
+   * @param recipeName
+   * @returns lista de recetas que se llaman igual que el nombre pasado por parámetro
+   */
+  getRecipeByName(recipeName: string) {
+    const params = new HttpParams().set('recipeName', recipeName);
+    const url = `${this.urlBase}/mostrar/recipes/name?${params}`;
+
+    return this.httpClient.get<Recipe[]>(url);
+  }
+
+  /**
+   * A este método se accede para encontrar las recetas cuyo nombre coincide en parte con el pasado por parámetro
+   * A través de una petición GET
+   * @param recipeName
+   * @returns lista de recetas cuyo nombre contiene una parte del nombre pasado por parámetro
+   */
+  getRecipeBySimilarName(recipeName: string) {
+    const params = new HttpParams().set('recipeName', recipeName);
+    const url = `${this.urlBase}/mostrar/recipes/similar?${params}`;
+
+    return this.httpClient.get<Recipe[]>(url);
+  }
+
+  /**
+   * A este método se accede para encontrar las recetas que contienen ese ingrediente
+   * A través de una petición GET
+   * @param name1
+   * @returns lista de recetas que contienen el ingrediente que se le pasa por parámetro
+   */
+  getRecipesByIngredient(name1: string) {
+    const params = new HttpParams().set('ingredientName1', name1);
+    const url = `${this.urlBase}/mostrar/recipes/ingredients?${params}`;
+
+    return this.httpClient.get<Recipe[]>(url);
+  }
+
+  /**
+   * A este método se accede para encontrar las recetas que contienen esos ingredientes
+   * A través de una petición GET
+   * @param name1
+   * @param name2
+   * @returns lista de recetas que contienen los dos ingredientes que se le pasan por parámetro
+   */
+  getRecipesByTwoIngredients(name1: string, name2: string) {
+    let params = new HttpParams();
+    params = params.append('ingredientName1', name1);
+    params = params.append('ingredientName2', name2);
+
+    const url = `${this.urlBase}/mostrar/recipes/ingredients?${params}`;
+
+    return this.httpClient.get<Recipe[]>(url);
+  }
+
+  /**
+   * A este método se accede para encontrar las recetas que contienen esos ingredientes
+   * A través de una petición GET
+   * @param name1
+   * @param name2
+   * @param name3
+   * @returns lista de recetas que contienen los tres ingredientes que se le pasan por parámetro
+   */
+  getRecipesByThreeIngredients(name1: string, name2: string, name3: string) {
+    let params = new HttpParams();
+    params = params.append('ingredientName1', name1);
+    params = params.append('ingredientName2', name2);
+    params = params.append('ingredientName3', name3);
+    const url = `${this.urlBase}/mostrar/recipes/ingredients?${params}`;
+
+    return this.httpClient.get<Recipe[]>(url);
+  }
+
+  getIngredientsFromBD() {
+    const url = `${this.urlBase}/mostrar/ingredients`;
+    return this.httpClient.get<any[]>(url);
   }
 }

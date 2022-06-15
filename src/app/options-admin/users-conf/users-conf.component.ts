@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { User, UserBACK } from 'src/app/interfaces/interface';
 import { AdminService } from 'src/app/services/admin.service';
 import Swal from 'sweetalert2';
-
+/**
+ * Componente UsersConf
+ * Este componente muestra todos los usuarios existentes en la BBDD.
+ * Se encuentra dentro del apartado Usuarios del Panel de Gestión del ADMIN
+ */
 @Component({
   selector: 'app-users-conf',
   templateUrl: './users-conf.component.html',
@@ -19,6 +23,10 @@ export class UsersConfComponent implements OnInit {
     this.getAllUsers();
   }
 
+  /**
+   * Este método sirve para cargar todos los usuarios registrados en el sistema y los alamacena en la
+   * propiedad users del componente
+   */
   getAllUsers() {
     this.adminService.getAllUsersFromBD().subscribe({
       next: (data) => {
@@ -31,6 +39,11 @@ export class UsersConfComponent implements OnInit {
     });
   }
 
+  /**
+   * Este método hace una petición al adminService para eliminar a un usuario
+   * de la base de datos
+   * @param id del usuario a borrar
+   */
   deleteUser(id: number) {
     Swal.fire({
       title: 'Eliminación de Usuario',

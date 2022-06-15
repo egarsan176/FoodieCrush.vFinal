@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
-
+/**
+ * Componente PendingComments
+ * Este componente muestra todos los comentarios pendientes en la BBDD (estado isPending=true).
+ * Se encuentra dentro del apartado Comentarios del Panel de Gestión del ADMIN
+ */
 @Component({
   selector: 'app-pending-comments',
   templateUrl: './pending-comments.component.html',
@@ -57,6 +61,12 @@ export class PendingCommentsComponent implements OnInit {
     );
   }
 
+  /**
+   * A este método accede el ADMIN para cambiar el estado de un comentario pendiente, es decir,
+   * cambia la propiedad del comentario isPending = true por isPending = false. El comentario es aprobado
+   * y desaparece de la lista de comentarios pendientes.
+   * @param id
+   */
   changeStatusComment(id: number) {
     this.adminService.changeStatusComment(id).subscribe({
       next: (data) => {
@@ -74,10 +84,14 @@ export class PendingCommentsComponent implements OnInit {
     });
   }
 
+  /**
+   * A este método accede el ADMIN para eliminar un comentario de la BBDD
+   * @param id
+   */
   deleteComment(id: number) {
     Swal.fire({
       title: 'Eliminación de comentario',
-      text: 'A continuación vas a eliminar este comentario. ¿Seguro que deseas eliminar esta receta?',
+      text: 'A continuación vas a eliminar este comentario. ¿Seguro que deseas eliminar esta comentario?',
       icon: 'warning',
       showDenyButton: true,
       confirmButtonText: 'Sí, quiero borrar el comentario.',

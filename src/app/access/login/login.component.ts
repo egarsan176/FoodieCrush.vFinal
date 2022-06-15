@@ -65,20 +65,39 @@ export class LoginComponent implements OnInit {
           //console.log(this.userDetails)
           this.userSubject.changeNavBar(this.userDetails);
 
-          Swal.fire({
-            title: 'Sesión Iniciada',
-            text: 'Ha iniciado sesión como ' + this.userDetails?.username + '.',
-            icon: 'success',
-            confirmButtonText: 'Acceder',
-          }).then((result) => {
-            if (result.isConfirmed) {
-              if (this.userDetails?.role === 'ADMIN')
-                this.router.navigateByUrl('optionsADMIN');
-              else {
-                this.router.navigateByUrl('optionsUser');
+          //se comprueba si ha accedido al login desde publicar un comentario
+          let cIDr = localStorage.getItem('cIDr');
+
+          if (cIDr != null) {
+            Swal.fire({
+              title: 'Sesión Iniciada',
+              text:
+                this.userDetails?.username +
+                ', ahora ya puedes publicar tu comentario. ¡Adelante!',
+              icon: 'success',
+              confirmButtonText: 'Acceder',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.router.navigate(['/recipes/details', cIDr]);
               }
-            }
-          });
+            });
+          } else {
+            Swal.fire({
+              title: 'Sesión Iniciada',
+              text:
+                'Ha iniciado sesión como ' + this.userDetails?.username + '.',
+              icon: 'success',
+              confirmButtonText: 'Acceder',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                if (this.userDetails?.role === 'ADMIN')
+                  this.router.navigateByUrl('optionsADMIN');
+                else {
+                  this.router.navigateByUrl('optionsUser');
+                }
+              }
+            });
+          }
         },
         error: (e) => {
           Swal.fire('Error', e.error.mensaje, 'error');

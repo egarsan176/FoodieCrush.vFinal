@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
 import Swal from 'sweetalert2';
-
+/**
+ * Componente ApprovedComments
+ * Este componente muestra todos los comentarios aprobados en la BBDD (estado isPending=false).
+ * Se encuentra dentro del apartado Comentarios del Panel de Gestión del ADMIN
+ */
 @Component({
   selector: 'app-approved-comments',
   templateUrl: './approved-comments.component.html',
