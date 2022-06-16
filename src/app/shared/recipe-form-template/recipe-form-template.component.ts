@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import {
-  FileDB,
-  IngredientLine,
-  Recipe,
-  UserDetails,
-} from 'src/app/interfaces/interface';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { FileDB, Recipe, UserDetails } from 'src/app/interfaces/interface';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
@@ -24,154 +21,243 @@ export class RecipeFormTemplateComponent implements OnInit {
   /**
    * PROPIEDADES
    */
-  ingrediente: string = '';
-  cantidad!: number;
-  paso: string = '';
-  pasos: string[] = [];
-  ingredientes: string[] = [];
-  cantidades: number[] = [];
-  category: number = 0;
+  pending: boolean = true;
+  id: any = localStorage.getItem('id');
+  //recipe!: any; //dejo tipo any porque al no estar la categoría definida en receta como una interfaz aparte no me deja obtener el nombre
+
+  title: string = '';
+
+  recipeDetails!: FormGroup;
+  ingredientLine!: FormGroup;
+  recipeMethod!: FormGroup;
+
+  reInfo_step = false;
+  inLine_step = false;
+  meth_step = false;
+
+  step = 1;
+
+  img: string = '';
+  showLine: boolean = false;
+  showMethod: boolean = false;
+
+  showIng: boolean = false;
+
+  searchTerm$ = new BehaviorSubject<string>(''); //mantiene un estado inicial que en este caso es un string vacío
+  listFiltered$!: Observable<string[]>; //la declaro como un observable para usar el async pipe en lugar de un subscribe
+  ingredients: string[] = []; //contiene los nombres de todos los ingredientes de la bbdd
+
   userDetails!: UserDetails | null;
 
   file!: FileDB;
 
-  recipe: Recipe = {
-    id: 0,
-    recipeName: '',
-    method: [],
-    category: 0,
-    ingredientLine: [],
-    file: this.file,
-    comments: [],
-    isPending: true,
-  };
-
   constructor(
     private recipeService: RecipesService,
-    private uploadService: FileUploadService,
+    private fb: FormBuilder,
+    private fileService: FileUploadService,
     private route: Router,
-    private decodificarToken: JwtHelperService
+    private decodificarToken: JwtHelperService,
+    private uploadService: FileUploadService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    /**
+     * Se crean los FormGroups para los distintos formularios
+     */
+    this.recipeDetails = this.fb.group({
+      recipeName: ['', Validators.required],
+      category: ['', Validators.required],
+    });
 
-  ///////////////////////////GESTIÓN DE LA LÍNEA DE INGREDIENTES
+    this.ingredientLine = this.fb.group({
+      line: this.fb.array([], Validators.required),
+    });
 
-  /**
-   * Este método sirve para agregar un ingrediente al auxiliar ingredientes[]
-   * del componente siempre que éste ingrediente no se encuentre ya en el []
-   */
-  agregarIngrediente() {
-    if (!this.ingredientes.includes(this.ingrediente)) {
-      this.ingredientes.push(this.ingrediente);
-    }
+    this.recipeMethod = this.fb.group({
+      method: this.fb.array([], Validators.required),
+    });
+
+    /** Para cargar la lista de ingredientes */
+    this.recipeService.getIngredientsFromBD().subscribe({
+      next: (data) => {
+        this.showIng = true;
+        this.ingredients = data;
+
+        /** para eliminar los items repetidos */
+        // this.deleteItemDuplicate();
+      },
+      error: (e) => {
+        console.log(e);
+      },
+    });
+
+    /** Método para mostrar buscador de ingredientes */
+    this.filterList();
   }
 
   /**
-   * Este método sirve para agregar la cantidad de ingrediente necesaria al auxiliar
-   * de cantidades[] del componente. Una vez que la añade, resetea los campos
-   * ingrediente y cantidad del formulario
+   * Método provisional para no mostrar los ingredientes repetidos hasta que se arregle en el back el añadido de ingredientes
    */
-  agregarCantidad() {
-    this.cantidades.push(this.cantidad);
-    this.ingrediente = '';
-    this.cantidad = 0;
+  // deleteItemDuplicate() {
+  //   let aux: string[] = [];
+
+  //   for (var i = 0; i < this.ingredients.length; i++) {
+  //     const elemento = this.ingredients[i].toLocaleUpperCase();
+
+  //     if (!aux.includes(elemento)) {
+  //       aux.push(elemento);
+  //     }
+  //   }
+
+  //   this.ingredients = aux;
+  // }
+  /**
+   * Este método nos sirve para obtener el fichero asociado a una receta
+   * A través del servicio recipeService, si la suscripción tiene éxito nos
+   * devuelve el fichero asociado a la receta que coincide con el id que le pasamos,
+   * si no, devuelve error
+   * @param id de la receta de la que queremos obtener su fichero
+   */
+  getFileByRecipe(id: number) {
+    this.fileService.getFileByRecipeID(id).subscribe({
+      next: (data) => {
+        if (data != null) {
+          this.img = this.recipeService.getImage(data);
+        }
+      },
+      error: (e) => {
+        Swal.fire('Error', e.error.message, 'error');
+      },
+    });
   }
 
   /**
-   * Este método sirve para eliminar un ingrediente y su correspondiente cantidad
-   * de los auxilares ingredientes[] y cantidades[] del componente
-   * @param index del ingrediente y cantidad que se quiere eliminar
+   * MÉTODO para añadir nuevas líneas de ingredientes (ingredientes y cantidades)
    */
-  eliminar(index: number) {
-    this.ingredientes.splice(index, 1);
-    this.cantidades.splice(index, 1);
+  addNewIngredientLine() {
+    const line = this.ingredientLine.get('line') as FormArray;
+
+    const group = this.fb.group({
+      ingredient: [null],
+      amount: [null],
+    });
+
+    line.push(group);
   }
 
-  //MÉTODO para crear la línea de ingredientes de la receta a través de los auxiliares ingredientes[] y cantidades[]
-  //creando el recipe.ingredientLine[] cuando confirmamos los ingredientes
   /**
-   * Este método sirve para crear la línea de ingredientes de una receta a través
-   * de los auxiliares ingredientes[] y cantidades[] del componente.
-   * Cuando se confirman los ingredientes en el formulario, se crea
-   * el recipe.ingredientLine[] del objeto recipe del componente
+   * MËTODO para eliminar una línea de ingredientes
+   * @param i index de la línea que se quiere eliminar
    */
-  crearLinea() {
-    if (this.ingredientes.length == this.cantidades.length) {
-      for (let index = 0; index < this.ingredientes.length; index++) {
-        const nuevaLinea: IngredientLine = {
-          ingredient: this.ingredientes[index],
-          amount: this.cantidades[index],
-        };
-        this.recipe.ingredientLine.push(nuevaLinea);
+  deleteGroup(i: number) {
+    const line = this.ingredientLine.get('line') as FormArray;
+    line.removeAt(i);
+  }
+
+  /**
+   * MÉTODO para añadir los pasos de elaboración de la receta
+   */
+  addNewStep() {
+    const method = this.recipeMethod.get('method') as FormArray;
+
+    const steps = this.fb.group({
+      step: [null],
+    });
+
+    method.push(steps);
+  }
+  /**
+   * MËTODO para eliminar un paso de elaboración de la receta
+   * @param i index del paso que se quiere eliminar
+   */
+  deleteStep(i: number) {
+    const method = this.recipeMethod.get('method') as FormArray;
+    method.removeAt(i);
+  }
+
+  /**
+   * MÉTODOS GETTER PARA ACCEDER EN LA VISTA
+   */
+  get reInfo() {
+    return this.recipeDetails.controls;
+  }
+
+  get line() {
+    return this.ingredientLine.controls['line'] as FormArray;
+  }
+
+  get method() {
+    return this.recipeMethod.controls['method'] as FormArray;
+  }
+
+  /**
+   * A este método se accede para ir al siguiente formulario
+   * @returns
+   */
+  next() {
+    if (this.step == 1) {
+      this.reInfo_step = true;
+      if (this.recipeDetails.invalid) {
+        return;
       }
-    } else {
-      Swal.fire(
-        'Error',
-        'Recuerda que debes añadir una cantidad para cada ingrediente',
-        'error'
-      );
-      this.ingredientes = [];
-      this.cantidades = [];
-    }
-  }
-
-  ///////////////////////////GESTIÓN DE LOS PASOS DE LA RECETA
-
-  /**
-   * Este método sirve para agregar un nuevo paso de la receta al auxiliar
-   * de pasos[] del componente
-   */
-  agregarPaso() {
-    if (!this.pasos.includes(this.paso)) {
-      this.pasos.push(this.paso);
+      this.step++;
+    } else if (this.step == 2) {
+      this.inLine_step = true;
+      if (this.ingredientLine.invalid) {
+        this.showLine = true;
+        return;
+      }
+      this.step++;
     }
   }
 
   /**
-   * Este método sirve para eliminar un paso que ha sido añadido al auxiliar
-   * de pasos[] del componente
-   * @param index del paso que se quiere eliminar
+   * A este método se accede para volver al formulario anterior
    */
-  eliminarPaso(index: number) {
-    this.pasos.splice(index, 1);
+  previous() {
+    this.step--;
+
+    if (this.step == 1) {
+      this.inLine_step = false;
+    }
+    if (this.step == 2) {
+      this.meth_step = false;
+    }
   }
 
   /**
-   * Este método sirve para confirmar en el formulario los pasos de la receta
-   * y cuando se confirma se iguala el auxiliar de pasos[] del componente
-   * al recipe.method del objeto recipe del componente
-   */
-  confirmarPasos() {
-    this.recipe.method = this.pasos;
-  }
-
-  /**
-   * Este método sirve para publciar una receta en la base de datos
-   * Primero, se suscribe al servicio uploadService para obtener el fichero que
-   * corresponde a la receta que se va a publicar, si la respuesta tiene éxito,
-   * se iguala al recipe.file del objeto recipe del componente.
-   * A través del servicio recipeService, se suscribe para publicar el objeto
-   * recipe del componente en la base de datos.
+   * MÉTODO para editar una receta
+   * Se suscribe al servicio recipeService y edita la receta que coincide con el id que se le pasa por parámetro
+   * con los nuevos valores introducidos en los formularios
+   * Si existen campos que no se han editado, se conservan los de la receta original
+   * @returns receta editada
    */
   publicar() {
-    let token = JSON.stringify(localStorage.getItem('token'));
-    this.userDetails = this.decodificarToken.decodeToken(token);
-    this.uploadService.getFileByName().subscribe({
-      next: (data) => {
-        this.file = data;
-        //console.log(this.file)
-        if (
-          this.recipe.recipeName != '' &&
-          this.recipe.method.length > 0 &&
-          this.recipe.category != 0 &&
-          this.recipe.ingredientLine.length > 0
-        ) {
-          this.recipe.file = this.file;
-          //console.log(this.recipe.file)
-          this.recipe.recipeName.toUpperCase();
+    if (this.step == 3) {
+      this.meth_step = true;
+      if (this.recipeMethod.invalid) {
+        this.showMethod = true;
+        return;
+      }
 
-          this.recipeService.publicar(this.recipe).subscribe({
+      let token = JSON.stringify(localStorage.getItem('token'));
+      this.userDetails = this.decodificarToken.decodeToken(token);
+      this.uploadService.getFileByName().subscribe({
+        next: (data) => {
+          this.file = data;
+          const newRecipe: Recipe = {
+            id: 0,
+            recipeName:
+              this.recipeDetails.controls['recipeName'].value.toUpperCase(),
+            method: this.recipeMethod.controls['method'].value,
+            category: this.recipeDetails.controls['category'].value,
+            ingredientLine: this.ingredientLine.controls['line'].value,
+            file: this.file,
+            comments: [],
+            isPending: true,
+          };
+
+          this.recipeService.publicar(newRecipe).subscribe({
             next: (data) => {
               Swal.fire({
                 title: 'Receta publicada',
@@ -196,17 +282,28 @@ export class RecipeFormTemplateComponent implements OnInit {
               );
             },
           });
-        } else {
-          Swal.fire(
-            'Error',
-            'Todos los campos de la receta deben estar rellenos.',
-            'error'
-          );
-        }
-      },
-      error: (e) => {
-        Swal.fire('Error', e.error.mensaje, 'error');
-      },
-    });
+        },
+        error: (e) => {
+          Swal.fire('Error', e.error.mensaje, 'error');
+        },
+      });
+    }
+  }
+
+  /**
+   * Como el term inicial que pasa al buscador es un string vacío, al ejecutar este método hace que se carguen los ingredintes en la variable listFiltered
+   
+   * Para usar la data y que se continue regresando un observable, use usa el .map de RxJS.
+   * Como el resultado es un string se usa toLowerCase() para que no haya problema de mayúsculas/minúsculas
+   * Si el indexOf() encuentra una coincidencia en la lista de ingredientes, devuelve un index >= 0 y esto se usa para mostrar la lista
+   */
+  filterList(): void {
+    this.listFiltered$ = this.searchTerm$.pipe(
+      map((term) => {
+        return this.ingredients.filter(
+          (item) => item.toLowerCase().indexOf(term.toLowerCase()) >= 0
+        );
+      })
+    );
   }
 }

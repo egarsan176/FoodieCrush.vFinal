@@ -1,170 +1,292 @@
-<form (ngSubmit)="publicar()">
-  <div class="row">
-    <div class="col-md">
-      <div class="form-floating mb-3">
-        <input
-          type="text"
-          class="form-control"
-          id="floatingInputGrid"
-          placeholder="Título de la Receta"
-          name="recipeName"
-          [(ngModel)]="recipe.recipeName"
-          required
-        />
-        <label for="floatingInputGrid">Título de la receta</label>
-      </div>
-    </div>
-    <div class="col-md">
-      <div class="form-floating mb-3">
-        <select
-          class="form-select pb-1"
-          id="floatingSelectGrid"
-          placeholder="Categoría"
-          name="category"
-          [(ngModel)]="recipe.category"
-          required
-        >
-          <option selected>Escoger...</option>
-          <option value="1">Pasta</option>
-          <option value="2">Arroz</option>
-          <option value="3">Carne</option>
-          <option value="4">Pescados</option>
-          <option value="5">Postres</option>
-          <option value="6">Otros</option>
-        </select>
-        <label for="floatingSelectGrid"
-          >Selecciona una categoría para tu receta</label
-        >
-      </div>
-    </div>
-  </div>
+<div class="container py-2">
+  <div class="row" *ngIf="showIng">
+    <div class="col-md-12 col-md-offset-3">
+      <form [formGroup]="recipeDetails" id="msform">
+        <!-- progressbar -->
+        <ul id="progressbar">
+          <li [ngClass]="step >= 1 ? 'active ' : 'inactive'">
+            Detalles de la Receta
+          </li>
+          <li [ngClass]="step >= 2 ? 'active' : 'inactive'">
+            Ingredientes y Cantidades
+          </li>
+          <li [ngClass]="step == 3 ? 'active' : 'inactive'">Elaboración</li>
+        </ul>
+        <!-- fieldsets -->
 
-  <div class="mb-3 row">
-    <div class="col-md">
-      <label class="col-form-label">¿Qué ingredientes necesitamos?</label>
-      <div class="input-group">
-        <input
-          class="form-control p-2"
-          placeholder="Añadir ingrediente"
-          [(ngModel)]="ingrediente"
-          (keyup.enter)="agregarIngrediente()"
-          name="ingredient"
-        />
-        <button
-          class="btn colorPinkP"
-          type="button"
-          (click)="agregarIngrediente()"
-        >
-          Añadir
-        </button>
-      </div>
-    </div>
-    <div class="col-md">
-      <label class="col-form-label">¿Qué cantidad (en gramos)?</label>
-      <div class="input-group">
-        <input
-          class="form-control p-2"
-          placeholder="Añadir cantidad en gramos"
-          [(ngModel)]="cantidad"
-          (keyup.enter)="agregarCantidad()"
-          name="amount"
-        />
-        <button
-          class="btn colorPinkP"
-          type="button"
-          (click)="agregarCantidad()"
-        >
-          Añadir
-        </button>
-      </div>
-    </div>
-  </div>
+        <fieldset *ngIf="step == 1">
+          <h2 class="colorYellowP">INFO BÁSICA</h2>
+          <hr />
+          <div class="izq">
+            <p>
+              En este apartado podrás introducir el título de la receta, una
+              imagen de ésta y la categoría a la que pertenece.
+            </p>
+            <p class="text-center">¡Comencemos!</p>
+          </div>
 
-  <!-- Listado de ingredientes -->
-  <div *ngIf="cantidades.length > 0">
-    <div class="mb-3 row">
-      <label class="col-sm-3 col-form-label">Ingredientes y Cantidades</label>
-      <div class="col-sm-9">
-        <div
-          class="input-group col-md"
-          *ngFor="let cant of cantidades; let i = index"
-        >
-          <input
-            name="{{ cant }}"
-            class="form-control"
-            required
-            [ngModel]="ingredientes[i].toUpperCase() + ' - ' + cant"
-          />
-          <button
-            class="btn btn-outline-danger"
-            type="button"
-            (click)="eliminar(i)"
+          <div class="izq">
+            <!-- FORMULARIO PARA SUBIR UN ARCHIVO -->
+            <app-upload-recipe-file></app-upload-recipe-file>
+          </div>
+
+          <!-- recipe name-->
+          <div class="form-floating mb-1">
+            <input
+              type="text"
+              class="form-control pb-1"
+              id="floatingInputGrid"
+              placeholder="Título de la Receta"
+              name="recipeName"
+              formControlName="recipeName"
+            />
+            <label for="floatingInputGrid">Título de la receta</label>
+          </div>
+          <div
+            class="mb-2"
+            *ngIf="reInfo_step && recipeDetails.controls['recipeName'].errors"
           >
-            Eliminar este ingrediente
-          </button>
-        </div>
-      </div>
-    </div>
-    <p>
-      Si has terminado de añadir ingredientes y estás seguro, pulsa CONFIRMAR
-      INGREDIENTES.
-    </p>
-    <button class="btn colorGreenP" type="button" (click)="crearLinea()">
-      CONFIRMAR INGREDIENTES
-    </button>
-  </div>
+            <div *ngIf="reInfo['recipeName'].errors?.['required']" class="err">
+              Es obligatorio introducir un título para la Receta
+            </div>
+          </div>
 
-  <div class="mb-3 row">
-    <label class="col-form-label"
-      >Escribe a continuación los pasos a seguir en la receta:</label
-    >
-    <div class="input-group">
-      <input
-        class="form-control p-2"
-        placeholder="Añadir Paso"
-        [(ngModel)]="paso"
-        (keyup.enter)="agregarPaso()"
-        name="step"
-      />
-      <button class="btn colorGreenP" type="button" (click)="agregarPaso()">
-        Añadir
-      </button>
-    </div>
-  </div>
-
-  <!-- Listado de pasos de la receta-->
-  <div *ngIf="pasos.length > 0">
-    <div class="mb-3 row">
-      <label class="col-sm-3 col-form-label">Elaboración de la receta</label>
-      <div class="col-sm-9">
-        <div
-          class="input-group col-md"
-          *ngFor="let paso of pasos; let i = index"
-        >
-          <input
-            name="{{ paso }}"
-            class="form-control"
-            required
-            [ngModel]="i + '.  ' + paso.toUpperCase()"
-          />
-          <button
-            class="btn btn-outline-danger"
-            type="button"
-            (click)="eliminarPaso(i)"
+          <!-- recipe category-->
+          <div class="form-floating mb-1">
+            <select
+              class="form-select pb-1 recipeCategory"
+              id="floatingSelectGrid"
+              placeholder="Categoría"
+              name="category"
+              formControlName="category"
+            >
+              <option selected>Escoger...</option>
+              <option value="1">Pasta</option>
+              <option value="2">Arroz</option>
+              <option value="3">Carne</option>
+              <option value="4">Pescados</option>
+              <option value="5">Postres</option>
+              <option value="6">Otros</option>
+            </select>
+            <label for="floatingSelectGrid"
+              >Selecciona una categoría para tu receta</label
+            >
+          </div>
+          <div
+            *ngIf="reInfo_step && recipeDetails.controls['category'].errors"
+            class="mb-2"
           >
-            Eliminar este paso
-          </button>
-        </div>
-      </div>
-    </div>
-    <p>
-      Si estás seguro que estos son los pasos a seguir en la receta, pulsa
-      CONFIRMAR PASOS.
-    </p>
-    <button class="btn colorGreenP" type="button" (click)="confirmarPasos()">
-      CONFIRMAR PASOS
-    </button>
-  </div>
+            <div *ngIf="reInfo['category'].errors?.['required']" class="err">
+              Es obligatorio seleccionar una categoría
+            </div>
+          </div>
 
-  <button class="btn colorPurpleP mt-2" type="submit">PUBLICAR</button>
-</form>
+          <button
+            (click)="next()"
+            type="button"
+            name="next"
+            class="btn colorPinkP"
+            value="Next"
+          >
+            SIGUIENTE
+          </button>
+        </fieldset>
+      </form>
+
+      <!-- segundo form- ingredientes -->
+
+      <form [formGroup]="ingredientLine" id="msform">
+        <fieldset *ngIf="step == 2">
+          <h2 class="colorYellowP">INGREDIENTES Y CANTIDADES</h2>
+          <hr />
+
+          <div class="izq">
+            <p>
+              Pulsa el botón <b>Añadir Ingrediente</b> para introducir los pasos
+              a seguir en tu receta.
+            </p>
+          </div>
+
+          <ng-container formArrayName="line" *ngIf="line.controls.length > 0">
+            <div
+              class="row mb-2 col-12"
+              *ngFor="let item of line.controls; index as i"
+              [formGroupName]="i"
+            >
+              <div class="col">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="ingredient"
+                  placeholder="Ingrediente"
+                  list="ingredients"
+                  (keyup)="searchTerm$.next($any($event.target).value)"
+                />
+                <!-- Con keyup se dispara el evento cada vez que se pulse una tecla.
+                Mientras esté el input seleccionado, se usa la variable searchTerm$ con su método .next que dispara un evento
+                que espera un string como parámetro (porque el BehaviorSubject se declaró de tipo String). A esto se le pasa la variable
+                que se genera al realizar alguna acción dentro del input ($event) y se envía el valor que está dentro de su target -->
+              </div>
+
+              <span *ngIf="searchTerm$.getValue() != null">
+                <!-- El autocompletado de inputs con datalist permite que el usuario pueda escribir un valor distinto a los de la lista -->
+                <datalist id="ingredients">
+                  <option
+                    value="{{ item }}"
+                    *ngFor="let item of listFiltered$ | async"
+                  >
+                    {{ item }}
+                  </option>
+                  <!-- Con el async pipe me suscribo directamente a un observable (desde el template) y se retorna el último valor que éste haya emitido.-->
+                </datalist>
+              </span>
+
+              <div class="col">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="amount"
+                  placeholder="Cantidad"
+                />
+              </div>
+
+              <div class="col">
+                <button
+                  class="btn btn-outline-danger"
+                  type="button"
+                  (click)="deleteGroup(i)"
+                >
+                  Borrar
+                </button>
+              </div>
+            </div>
+          </ng-container>
+
+          <button
+            class="btn colorPurpleP mt-2"
+            (click)="addNewIngredientLine()"
+          >
+            Añadir Ingrediente
+          </button>
+
+          <p class="my-2">Cuando hayas finalizado, pulsa <b>SIGUIENTE</b> .</p>
+
+          <span *ngIf="showLine">
+            <div
+              *ngIf="line && ingredientLine.controls['line'].errors"
+              class="mb-2"
+            >
+              <div *ngIf="line.errors?.['required']" class="err">
+                Es obligatorio seleccionar los nuevos ingredientes.
+              </div>
+            </div>
+          </span>
+
+          <div class="mt-2">
+            <button
+              (click)="previous()"
+              type="button"
+              name="previous"
+              class="btn colorGreenP m-1"
+              value="Previous"
+            >
+              ANTERIOR
+            </button>
+            <button
+              (click)="next()"
+              type="button"
+              name="next"
+              class="btn colorPinkP"
+              value="Next"
+            >
+              SIGUIENTE
+            </button>
+          </div>
+        </fieldset>
+      </form>
+
+      <!-- tercer form - pasos-->
+
+      <form [formGroup]="recipeMethod" id="msform">
+        <fieldset *ngIf="step == 3">
+          <h2 class="colorYellowP">ELABORACIÓN</h2>
+          <hr />
+
+          <div class="izq">
+            <p>
+              Pulsa el botón <b>Agregar Paso</b> para introducir los pasos a
+              seguir en tu receta.
+            </p>
+          </div>
+
+          <ng-container
+            formArrayName="method"
+            *ngIf="method.controls.length > 0"
+          >
+            <div
+              class="row mb-2 col-12"
+              *ngFor="let item of method.controls; index as i"
+              [formGroupName]="i"
+            >
+              <div class="col">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="step"
+                  placeholder="Pasos"
+                />
+              </div>
+
+              <div class="col">
+                <button
+                  class="btn btn-outline-danger"
+                  type="button"
+                  (click)="deleteStep(i)"
+                >
+                  Borrar
+                </button>
+              </div>
+            </div>
+          </ng-container>
+
+          <button class="btn colorPurpleP mt-2" (click)="addNewStep()">
+            Agregar paso
+          </button>
+          <p>Cuando hayas finalizado, pulsa <b>FINALIZAR</b> .</p>
+
+          <span *ngIf="showMethod">
+            <div
+              *ngIf="method && recipeMethod.controls['method'].errors"
+              class="mb-2"
+            >
+              <div *ngIf="method.errors?.['required']" class="err">
+                Es obligatorio seleccionar los nuevos ingredientes.
+              </div>
+            </div>
+          </span>
+
+          <div class="mt-2">
+            <button
+              (click)="previous()"
+              type="button"
+              name="previous"
+              class="btn colorGreenP m-1"
+              value="Previous"
+            >
+              ANTERIOR
+            </button>
+            <button
+              (click)="publicar()"
+              type="submit"
+              name="submit"
+              class="btn colorPinkP"
+              value="Submit"
+            >
+              FINALIZAR
+            </button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
