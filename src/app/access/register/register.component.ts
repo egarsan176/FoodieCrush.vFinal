@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/interfaces/interface';
 import { AccessService } from 'src/app/services/access.service';
@@ -30,7 +30,7 @@ export class RegisterComponent implements OnInit {
     role: '',
   };
 
-  miFormulario: UntypedFormGroup = this.fb.group(
+  miFormulario: FormGroup = this.fb.group(
     {
       //formGroup (un grupo de controles) realiza un seguimiento del valor y estado de cambio y validez de los datos
 
@@ -81,7 +81,7 @@ export class RegisterComponent implements OnInit {
   );
 
   constructor(
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private accessService: AccessService,
     private validatorService: ValidatorService,
     private emailValidator: EmailValidatorService,
@@ -173,16 +173,16 @@ export class RegisterComponent implements OnInit {
    * @returns
    */
   public findInvalidControlsRecursive(
-    formToInvestigate: UntypedFormGroup | UntypedFormArray
+    formToInvestigate: FormGroup | FormArray
   ): string[] {
     var invalidControls: string[] = [];
-    let recursiveFunc = (form: UntypedFormGroup | UntypedFormArray) => {
+    let recursiveFunc = (form: FormGroup | FormArray) => {
       Object.keys(form.controls).forEach((field) => {
         const control = form.get(field);
         if (control?.invalid) invalidControls.push(field);
-        if (control instanceof UntypedFormGroup) {
+        if (control instanceof FormGroup) {
           recursiveFunc(control);
-        } else if (control instanceof UntypedFormArray) {
+        } else if (control instanceof FormArray) {
           recursiveFunc(control);
         }
       });

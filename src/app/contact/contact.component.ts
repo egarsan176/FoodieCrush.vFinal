@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ContactMsg } from '../interfaces/interface';
 import { AccessService } from '../services/access.service';
@@ -18,7 +18,7 @@ export class ContactComponent implements OnInit {
   /**
    * PROPIEDADES
    */
-  miFormulario: UntypedFormGroup = this.fb.group({
+  miFormulario: FormGroup = this.fb.group({
     fullName: ['', [Validators.required]],
     /** el email tiene que concordar con el patrón de email del validator-service*/
     email: [
@@ -32,7 +32,7 @@ export class ContactComponent implements OnInit {
   });
 
   constructor(
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private validatorService: ValidatorService,
     private accesService: AccessService
   ) {}
