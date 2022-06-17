@@ -5,13 +5,7 @@ import { RecipesService } from 'src/app/services/Recipes.service';
 import Swal from 'sweetalert2';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { Router } from '@angular/router';
-import {
-  BehaviorSubject,
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  Observable,
-} from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-edit-recipe',
@@ -39,6 +33,8 @@ export class EditRecipeComponent implements OnInit {
   step = 1;
 
   img: string = '';
+  showLine: boolean = false;
+  showMethod: boolean = false;
 
   searchTerm$ = new BehaviorSubject<string>(''); //mantiene un estado inicial que en este caso es un string vacío
   listFiltered$!: Observable<string[]>; //la declaro como un observable para usar el async pipe en lugar de un subscribe
@@ -71,15 +67,16 @@ export class EditRecipeComponent implements OnInit {
      * Se crean los FormGroups para los distintos formularios
      */
     this.recipeDetails = this.fb.group({
-      recipeName: [''],
-      category: [''],
+      recipeName: ['', Validators.required],
+      category: ['', Validators.required],
     });
 
     this.ingredientLine = this.fb.group({
-      line: this.fb.array([]),
+      line: this.fb.array([], Validators.required),
     });
+
     this.recipeMethod = this.fb.group({
-      method: this.fb.array([]),
+      method: this.fb.array([], Validators.required),
     });
 
     /** Para cargar la lista de ingredientes */
@@ -207,6 +204,7 @@ export class EditRecipeComponent implements OnInit {
     } else if (this.step == 2) {
       this.inLine_step = true;
       if (this.ingredientLine.invalid) {
+        this.showLine = true;
         return;
       }
       this.step++;
@@ -238,6 +236,7 @@ export class EditRecipeComponent implements OnInit {
     if (this.step == 3) {
       this.meth_step = true;
       if (this.recipeMethod.invalid) {
+        this.showMethod = true;
         return;
       }
 
@@ -302,9 +301,7 @@ export class EditRecipeComponent implements OnInit {
 
   /**
    * Como el term inicial que pasa al buscador es un string vacío, al ejecutar este método hace que se carguen los ingredintes en la variable listFiltered
-   * Con el debounceTime() se consigue esperar un tiempo para luego emitir un valor (en este caso 200ms).
-   * Cuando se escriba en el input, transcurridos los 200 ms, nos devuelve un valor. Si pongo la palabra piña, después de colocar la "a" se va a ejecutar
-   * 4 veces que es la cantidad de letras que se han escrito; pero con el distinctUntilChange() solo va a llegar hasta dentro del susbcribe una sola vez.
+   
    * Para usar la data y que se continue regresando un observable, use usa el .map de RxJS.
    * Como el resultado es un string se usa toLowerCase() para que no haya problema de mayúsculas/minúsculas
    * Si el indexOf() encuentra una coincidencia en la lista de ingredientes, devuelve un index >= 0 y esto se usa para mostrar la lista

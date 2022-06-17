@@ -73,3 +73,9 @@ export interface ContactMsg {
   message: string;
   fullName: string;
 }
+
+export interface Ingredient {
+  id: number;
+  pending: boolean;
+  name: string;
+}

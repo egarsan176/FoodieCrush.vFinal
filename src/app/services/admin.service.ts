@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { UserBACK } from '../interfaces/interface';
+import { Ingredient, UserBACK } from '../interfaces/interface';
 import { AccessService } from './access.service';
 /**
  * AdminService
@@ -173,5 +173,71 @@ export class AdminService {
     });
     const url = `${this.urlBase}/admin/users/${id}`;
     return this.httpClient.delete<any>(url, { headers });
+  }
+
+  ////////////////////////////////////INGREDIENTES
+
+  /**
+   * Este método obtiene todos los ingredientes pendientes (no aprobados por el admin)
+   * @returns lista de ingredientes pendientes (estado is_pending = true)
+   */
+  getIngredientsPending() {
+    let token = this.accessService.getToken();
+    const params = new HttpParams().set('isPending', 'true');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.urlBase}/admin/ingredients?${params}`;
+    return this.httpClient.get<Ingredient[]>(url, { headers });
+  }
+
+  /**
+   * Este método obtiene todos los ingredientes aprobados (aprobados por el admin)
+   * @returns lista de ingredientes pendientes (estado is_pending = false)
+   */
+  getIngredientsApproved() {
+    let token = this.accessService.getToken();
+    const params = new HttpParams().set('isPending', 'false');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.urlBase}/admin/ingredients?${params}`;
+    return this.httpClient.get<Ingredient[]>(url, { headers });
+  }
+
+  /**
+   * Este método obtiene todos los ingredientes existentes en la base de datos
+   * @returns lista de todos los ingredientes de la base de datos
+   */
+  getAllIngredients() {
+    let token = this.accessService.getToken();
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.urlBase}/admin/ingredients`;
+    return this.httpClient.get<Ingredient[]>(url, { headers });
+  }
+
+  /**
+   * Este método sirve para cambiar el estado pendiente de un ingrediente.
+   * @param id
+   * @returns ingrediente
+   */
+  changeStatusIngredient(id: number) {
+    let token = this.accessService.getToken();
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const url = `${this.urlBase}/admin/ingredients/${id}`;
+
+    return this.httpClient.get<Ingredient>(url, { headers });
   }
 }

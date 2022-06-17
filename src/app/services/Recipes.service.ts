@@ -258,53 +258,25 @@ export class RecipesService {
   }
 
   /**
-   * A este método se accede para encontrar las recetas que contienen ese ingrediente
-   * A través de una petición GET
-   * @param name1
-   * @returns lista de recetas que contienen el ingrediente que se le pasa por parámetro
+   * A este método se accede para conocer las recetas que contienen x ingredientes
+   * @param ingredients
+   * @returns listado de recetas con los ingredientes introducidos
    */
-  getRecipesByIngredient(name1: string) {
-    const params = new HttpParams().set('ingredientName1', name1);
-    const url = `${this.urlBase}/mostrar/recipes/ingredients?${params}`;
+  getRecipesFromIngredients(ingredients: string) {
+    let params = new HttpParams();
 
-    return this.httpClient.get<Recipe[]>(url);
+    params = params.append('ingredientList', ingredients);
+    const url = `${this.urlBase}/mostrar/recipes/ingredients`;
+
+    return this.httpClient.get<Recipe[]>(url, { params: params });
   }
+
+  /////////////////////INGREDIENTES
 
   /**
-   * A este método se accede para encontrar las recetas que contienen esos ingredientes
-   * A través de una petición GET
-   * @param name1
-   * @param name2
-   * @returns lista de recetas que contienen los dos ingredientes que se le pasan por parámetro
+   * A este método se accede para obtener los nombres de los ingredientes existentes en la bbdd
+   * @returns string[] con los nombres de todos los ingredientes de la bbdd no repetidos
    */
-  getRecipesByTwoIngredients(name1: string, name2: string) {
-    let params = new HttpParams();
-    params = params.append('ingredientName1', name1);
-    params = params.append('ingredientName2', name2);
-
-    const url = `${this.urlBase}/mostrar/recipes/ingredients?${params}`;
-
-    return this.httpClient.get<Recipe[]>(url);
-  }
-
-  /**
-   * A este método se accede para encontrar las recetas que contienen esos ingredientes
-   * A través de una petición GET
-   * @param name1
-   * @param name2
-   * @param name3
-   * @returns lista de recetas que contienen los tres ingredientes que se le pasan por parámetro
-   */
-  getRecipesByThreeIngredients(name1: string, name2: string, name3: string) {
-    let params = new HttpParams();
-    params = params.append('ingredientName1', name1);
-    params = params.append('ingredientName2', name2);
-    params = params.append('ingredientName3', name3);
-    const url = `${this.urlBase}/mostrar/recipes/ingredients?${params}`;
-
-    return this.httpClient.get<Recipe[]>(url);
-  }
-
   getIngredientsFromBD() {
     const url = `${this.urlBase}/mostrar/ingredients`;
     return this.httpClient.get<any[]>(url);
