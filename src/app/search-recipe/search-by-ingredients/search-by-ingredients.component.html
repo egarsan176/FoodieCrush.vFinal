@@ -64,7 +64,7 @@
     <div
       class="row row-cols-1 row-cols-sm-3 row-cols-lg-4 justify-content-center"
     >
-      <div class="col" *ngFor="let item of recipes; let i = index">
+      <div class="col mb-2" *ngFor="let item of recipes; let i = index">
         <div class="card text-center h-100 my-2">
           <div *ngIf="item.file == null">
             <img
@@ -108,14 +108,17 @@
 </div>
 
 <!-- SI NO HAY RECETAS CON ESOS INGREDIENTES -->
-<div *ngIf="recipes == null">
-  <div class="m-3">
-    <p>
-      No tenemos recetas que contengan exactamente los ingredientes:
-      <b>{{ search }}</b
-      >.
-    </p>
-  </div>
+<div class="m-4 text-center" *ngIf="recipes == null">
+  <p>
+    ¡Vaya !No tenemos recetas que contengan exactamente los ingredientes:
+    <b>{{ search }}</b
+    >.
+  </p>
+  <img
+    src="assets/img/404-error.png"
+    alt="No se encuentran resultados"
+    id="notFound"
+  />
 </div>
 <!-- BOTÓN VOLVER ATRÁS -->
 <div class="row p-1 my-3 justify-content-center">
