@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, map, Observable } from 'rxjs';
@@ -27,9 +27,9 @@ export class RecipeFormTemplateComponent implements OnInit {
 
   title: string = '';
 
-  recipeDetails!: FormGroup;
-  ingredientLine!: FormGroup;
-  recipeMethod!: FormGroup;
+  recipeDetails!: UntypedFormGroup;
+  ingredientLine!: UntypedFormGroup;
+  recipeMethod!: UntypedFormGroup;
 
   reInfo_step = false;
   inLine_step = false;
@@ -53,7 +53,7 @@ export class RecipeFormTemplateComponent implements OnInit {
 
   constructor(
     private recipeService: RecipesService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private fileService: FileUploadService,
     private route: Router,
     private decodificarToken: JwtHelperService,
@@ -135,7 +135,7 @@ export class RecipeFormTemplateComponent implements OnInit {
    * MÉTODO para añadir nuevas líneas de ingredientes (ingredientes y cantidades)
    */
   addNewIngredientLine() {
-    const line = this.ingredientLine.get('line') as FormArray;
+    const line = this.ingredientLine.get('line') as UntypedFormArray;
 
     const group = this.fb.group({
       ingredient: [null],
@@ -150,7 +150,7 @@ export class RecipeFormTemplateComponent implements OnInit {
    * @param i index de la línea que se quiere eliminar
    */
   deleteGroup(i: number) {
-    const line = this.ingredientLine.get('line') as FormArray;
+    const line = this.ingredientLine.get('line') as UntypedFormArray;
     line.removeAt(i);
   }
 
@@ -158,7 +158,7 @@ export class RecipeFormTemplateComponent implements OnInit {
    * MÉTODO para añadir los pasos de elaboración de la receta
    */
   addNewStep() {
-    const method = this.recipeMethod.get('method') as FormArray;
+    const method = this.recipeMethod.get('method') as UntypedFormArray;
 
     const steps = this.fb.group({
       step: [null],
@@ -171,7 +171,7 @@ export class RecipeFormTemplateComponent implements OnInit {
    * @param i index del paso que se quiere eliminar
    */
   deleteStep(i: number) {
-    const method = this.recipeMethod.get('method') as FormArray;
+    const method = this.recipeMethod.get('method') as UntypedFormArray;
     method.removeAt(i);
   }
 
@@ -183,11 +183,11 @@ export class RecipeFormTemplateComponent implements OnInit {
   }
 
   get line() {
-    return this.ingredientLine.controls['line'] as FormArray;
+    return this.ingredientLine.controls['line'] as UntypedFormArray;
   }
 
   get method() {
-    return this.recipeMethod.controls['method'] as FormArray;
+    return this.recipeMethod.controls['method'] as UntypedFormArray;
   }
 
   /**
