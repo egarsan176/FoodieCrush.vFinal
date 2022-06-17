@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-   urlBase: 'https://foodiecrush.herokuapp.com'
+  urlBase: 'https://foodiecrushweb.herokuapp.com',
 };
