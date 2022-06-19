@@ -58,7 +58,7 @@
   <!-- MOSTRANDO RECETAS-->
   <div class="m-3" *ngIf="recipes.length > 0">
     <p>
-      Mostrando recetas con los ingredientes: <b>{{ search }}</b
+      Mostrando recetas con los ingredientes: <b>{{ searchTemplate }}</b
       >.
     </p>
     <div
@@ -111,7 +111,7 @@
 <div class="m-4 text-center" *ngIf="recipes == null">
   <p>
     ¡Vaya !No tenemos recetas que contengan exactamente los ingredientes:
-    <b>{{ search }}</b
+    <b>{{ searchTemplate }}</b
     >.
   </p>
   <img

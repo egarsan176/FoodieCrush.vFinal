@@ -16,6 +16,7 @@ export class SearchByIngredientsComponent implements OnInit {
    * PROPIEDADES
    */
   search: string = '';
+  searchTemplate: string = '';
 
   recipes: Recipe[] = [];
   pending!: boolean;
@@ -41,7 +42,9 @@ export class SearchByIngredientsComponent implements OnInit {
    */
   getRecipe(search: string) {
     this.pending = true;
-    let listIngredients: string[] = search.split(',');
+    let listIngredients: string[] = search.toUpperCase().split(',');
+
+    this.searchTemplate = search.toUpperCase();
 
     this.recipeService
       .getRecipesFromIngredients(JSON.parse(JSON.stringify(listIngredients)))

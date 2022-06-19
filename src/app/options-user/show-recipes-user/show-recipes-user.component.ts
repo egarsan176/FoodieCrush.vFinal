@@ -153,4 +153,13 @@ export class ShowRecipesUserComponent implements OnInit {
   setID(id: any) {
     localStorage.setItem('id', id);
   }
+
+  /** Hasta que se arregle el método de editar en Heroku */
+  showPopUP() {
+    Swal.fire(
+      '🚧​ En Construcción 🚧​',
+      'Esta sección está en construcción. Disculpen las molestias.',
+      'info'
+    );
+  }
 }

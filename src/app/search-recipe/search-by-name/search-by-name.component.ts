@@ -22,7 +22,7 @@ export class SearchByNameComponent implements OnInit {
   nameInput: string = '';
   show: boolean = false;
   pending!: boolean;
-
+  showRecipeNameInput: string = '';
   recipes1: Recipe[] = [];
   recipes2: Recipe[] = [];
 
@@ -47,10 +47,11 @@ export class SearchByNameComponent implements OnInit {
     this.pending = true;
     if (name != null) {
       this.show = true;
-      this.recipeService.getRecipeByName(name).subscribe({
+      this.recipeService.getRecipeByName(name.toUpperCase()).subscribe({
         next: (data) => {
           this.recipes1 = data;
-          this.nameInput = name;
+          this.nameInput = name.toUpperCase();
+          this.showRecipeNameInput = this.nameInput;
           this.pending = false;
           //console.log(this.recipes1);
           localStorage.setItem('busqueda', this.nameInput);
@@ -61,7 +62,7 @@ export class SearchByNameComponent implements OnInit {
         },
       });
 
-      this.recipeService.getRecipeBySimilarName(name).subscribe({
+      this.recipeService.getRecipeBySimilarName(name.toUpperCase()).subscribe({
         next: (data) => {
           this.recipes2 = data;
           //console.log(this.recipes2);

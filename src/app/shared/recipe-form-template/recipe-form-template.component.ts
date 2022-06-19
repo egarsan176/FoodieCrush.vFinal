@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, map, Observable } from 'rxjs';
@@ -95,22 +100,6 @@ export class RecipeFormTemplateComponent implements OnInit {
     this.filterList();
   }
 
-  /**
-   * Método provisional para no mostrar los ingredientes repetidos hasta que se arregle en el back el añadido de ingredientes
-   */
-  // deleteItemDuplicate() {
-  //   let aux: string[] = [];
-
-  //   for (var i = 0; i < this.ingredients.length; i++) {
-  //     const elemento = this.ingredients[i].toLocaleUpperCase();
-
-  //     if (!aux.includes(elemento)) {
-  //       aux.push(elemento);
-  //     }
-  //   }
-
-  //   this.ingredients = aux;
-  // }
   /**
    * Este método nos sirve para obtener el fichero asociado a una receta
    * A través del servicio recipeService, si la suscripción tiene éxito nos
@@ -242,6 +231,7 @@ export class RecipeFormTemplateComponent implements OnInit {
 
       let token = JSON.stringify(localStorage.getItem('token'));
       this.userDetails = this.decodificarToken.decodeToken(token);
+
       this.uploadService.getFileByName().subscribe({
         next: (data) => {
           this.file = data;
@@ -256,6 +246,8 @@ export class RecipeFormTemplateComponent implements OnInit {
             comments: [],
             isPending: true,
           };
+
+          newRecipe.recipeName.toUpperCase();
 
           this.recipeService.publicar(newRecipe).subscribe({
             next: (data) => {
@@ -301,7 +293,7 @@ export class RecipeFormTemplateComponent implements OnInit {
     this.listFiltered$ = this.searchTerm$.pipe(
       map((term) => {
         return this.ingredients.filter(
-          (item) => item.toLowerCase().indexOf(term.toLowerCase()) >= 0
+          (item) => item.toUpperCase().indexOf(term.toUpperCase()) >= 0
         );
       })
     );

@@ -38,7 +38,8 @@
 <div *ngIf="show">
   <div class="m-4" *ngIf="recipes1 != null">
     <p>
-      Estas son las recetas con nombre: <b>{{ nameInput.toUpperCase() }}</b>
+      Estas son las recetas con nombre:
+      <b>{{ showRecipeNameInput.toUpperCase() }}</b>
     </p>
     <div
       class="row row-cols-1 row-cols-sm-3 row-cols-lg-4 justify-content-center my-2"
@@ -89,7 +90,7 @@
   <div class="m-4" *ngIf="recipes2 != null && recipes1 == null">
     <p>
       ¡Vaya! No tenemos ninguna receta con nombre exacto:
-      <b>{{ nameInput.toUpperCase() }}</b>
+      <b>{{ showRecipeNameInput.toUpperCase() }}</b>
     </p>
     <p>Pero quizás lo que buscas esté por aquí:</p>
     <div
@@ -141,7 +142,7 @@
   <div class="m-4 text-center" *ngIf="recipes2 == null && recipes1 == null">
     <p>
       ¡Vaya! No tenemos ninguna receta que coincida con el nombre:
-      <b>{{ name.toUpperCase() }}</b>
+      <b>{{ showRecipeNameInput.toUpperCase() }}</b>
     </p>
     <img
       src="assets/img/404-error.png"
